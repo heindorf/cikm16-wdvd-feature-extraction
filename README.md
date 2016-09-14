@@ -30,8 +30,7 @@ Given a REVISIONS file (in bz2 format), extracts features and stores them in the
 
 Required Data
 ------------
-- [Wikidata Vandalism Corpus 2015](http://www.uni-weimar.de/medien/webis/corpora/
-2)
+- [Wikidata Vandalism Corpus 2015](http://www.uni-weimar.de/en/media/chairs/webis/corpora/corpus-wdvc-15/)
 - [Tags](http://groups.uni-paderborn.de/wdqa/tags_201501181252.csv.bz2)
 - Geolocation Data (will be provided later)
 
