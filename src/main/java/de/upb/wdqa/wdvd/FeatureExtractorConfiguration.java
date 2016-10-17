@@ -42,7 +42,8 @@ public class FeatureExtractorConfiguration {
 	
 	private static final String OPTION_LABEL_FILE = "labels";
 	private static final String OPTION_REVISION_TAG_FILE = "revisiontags";
-	private static final String OPTION_GEOLOCATION_FILE = "geodb";
+	private static final String OPTION_GEOLOCATION_DB_FILE = "geodb";
+	private static final String OPTION_GEOLOCATION_FEATURE_FILE = "geofeatures";
 
 	private static final String ARGUMENT_REVISION_FILE = "REVISIONS";
 	private static final String ARGUMENT_FEATURE_FILE = "FEATURES";
@@ -52,7 +53,8 @@ public class FeatureExtractorConfiguration {
 			+ "          "
 			+ "[--" + OPTION_LABEL_FILE + " <FILE>] "
 			+ "[--" + OPTION_REVISION_TAG_FILE + " <FILE>] "
-			+ "[--" + OPTION_GEOLOCATION_FILE + " <FILE>] \n"
+			+ "[--" + OPTION_GEOLOCATION_DB_FILE + " <FILE>] \n"
+			+ "[--" + OPTION_GEOLOCATION_FEATURE_FILE + " <FILE>] \n"
 			+ "          "
 			+ ARGUMENT_REVISION_FILE + " "
 			+ ARGUMENT_FEATURE_FILE + "\n\n";
@@ -69,7 +71,8 @@ public class FeatureExtractorConfiguration {
 	
 	private File labelFile;
 	private File revisionTagFile;	
-	private File geolocationFile;
+	private File geolocationDbFile;
+	private File geolocationFeatureFile;
 	
 	private File revisionFile;
 	private File featureFile;
@@ -90,8 +93,12 @@ public class FeatureExtractorConfiguration {
 		return this.labelFile;
 	}
 	
-	public File getGeolocationFile(){
-		return this.geolocationFile;
+	public File getGeolocationDbFile(){
+		return this.geolocationDbFile;
+	}
+	
+	public File getGeolocationFeatureFile(){
+		return this.geolocationFeatureFile;
 	}
 	
 	public File getRevisionTagFile(){
@@ -115,7 +122,8 @@ public class FeatureExtractorConfiguration {
 			CommandLine cmd = parser.parse( options, args);
 			
 			labelFile = getFileFromOption(cmd, OPTION_LABEL_FILE);
-			geolocationFile = getFileFromOption(cmd, OPTION_GEOLOCATION_FILE);
+			geolocationDbFile = getFileFromOption(cmd, OPTION_GEOLOCATION_DB_FILE);
+			geolocationFeatureFile = getFileFromOption(cmd, OPTION_GEOLOCATION_FEATURE_FILE);
 			revisionTagFile = getFileFromOption(cmd, OPTION_REVISION_TAG_FILE);
 			
 			List<String> argList = cmd.getArgList();
@@ -147,21 +155,28 @@ public class FeatureExtractorConfiguration {
 	static {
 		options = new Options();
 			
-		Option labelfile = Option.builder()
+		Option labelFile = Option.builder()
 				.longOpt(OPTION_LABEL_FILE)
 				.argName("FILE")
                 .hasArg()
                 .desc("use given labels (bz2 format)")
                 .build();
 		
-		Option geolocationfile = Option.builder()
-				.longOpt(OPTION_GEOLOCATION_FILE)
+		Option geolocationDbFile = Option.builder()
+				.longOpt(OPTION_GEOLOCATION_DB_FILE)
 				.argName("FILE")
                 .hasArg()
                 .desc("use given IP geolocation database (bz2 format)")
                 .build();
 		
-		Option revisiontagfile = Option.builder()
+		Option geolocationFeatureFile = Option.builder()
+				.longOpt(OPTION_GEOLOCATION_FEATURE_FILE)
+				.argName("FILE")
+                .hasArg()
+                .desc("use given geolocation feature file (bz2 format)")
+                .build();
+		
+		Option revisionTagFile = Option.builder()
 				.longOpt(OPTION_REVISION_TAG_FILE)
 				.argName("FILE")
                 .hasArg()
@@ -171,9 +186,11 @@ public class FeatureExtractorConfiguration {
 		
 		final List<Option> optionList = new LinkedList<Option>();
 		
-		optionList.add(labelfile);
-		optionList.add(geolocationfile);
-		optionList.add(revisiontagfile);
+		optionList.add(labelFile);
+		optionList.add(geolocationDbFile);
+		optionList.add(geolocationFeatureFile);
+		optionList.add(revisionTagFile);
+		
 		
 		for (Option option: optionList){
 			options.addOption(option);

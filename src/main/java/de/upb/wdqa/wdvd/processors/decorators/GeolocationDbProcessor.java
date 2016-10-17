@@ -34,14 +34,14 @@ import de.upb.wdqa.wdvd.geolocation.GeoInformation;
 import de.upb.wdqa.wdvd.geolocation.GeolocationDatabase;
 import de.upb.wdqa.wdvd.processors.RevisionProcessor;
 
-public class GeolocationProcessor implements RevisionProcessor {
+public class GeolocationDbProcessor implements RevisionProcessor {
 	
-	static final Logger logger = LoggerFactory.getLogger(GeolocationProcessor.class);
+	static final Logger logger = LoggerFactory.getLogger(GeolocationDbProcessor.class);
 	
 	RevisionProcessor processor;
 	File geolocationFile;
 	
-	public GeolocationProcessor(RevisionProcessor processor, File geolocationFile){
+	public GeolocationDbProcessor(RevisionProcessor processor, File geolocationFile){
 		this.processor = processor;
 		this.geolocationFile = geolocationFile;
 	}

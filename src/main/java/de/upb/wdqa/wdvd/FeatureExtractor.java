@@ -66,7 +66,8 @@ import de.upb.wdqa.wdvd.processors.controlflow.ParallelProcessor;
 import de.upb.wdqa.wdvd.processors.controlflow.TeeProcessor;
 import de.upb.wdqa.wdvd.processors.decorators.CorpusLabelProcessor;
 import de.upb.wdqa.wdvd.processors.decorators.FeatureProcessor;
-import de.upb.wdqa.wdvd.processors.decorators.GeolocationProcessor;
+import de.upb.wdqa.wdvd.processors.decorators.GeolocationDbProcessor;
+import de.upb.wdqa.wdvd.processors.decorators.GeolocationFeatureProcessor;
 import de.upb.wdqa.wdvd.processors.decorators.GroupProcessor;
 import de.upb.wdqa.wdvd.processors.decorators.JsonProcessor;
 import de.upb.wdqa.wdvd.processors.decorators.JsonProcessorReducer;
@@ -226,8 +227,13 @@ public class FeatureExtractor {
 				logger.info("Revision tags are disabled.");
 			}
 			
-			if(PROCESSOR_GEOLOCATION_ENABLED && (config.getGeolocationFile() != null)){
-				nextProcessor = new GeolocationProcessor(nextProcessor, config.getGeolocationFile());
+			if(PROCESSOR_GEOLOCATION_ENABLED){
+				if (config.getGeolocationDbFile() != null){
+					nextProcessor = new GeolocationDbProcessor(nextProcessor, config.getGeolocationDbFile());
+				}
+				else if (config.getGeolocationFeatureFile() != null){
+					nextProcessor = new GeolocationFeatureProcessor(nextProcessor, config.getGeolocationFeatureFile());
+				}
 			}
 			else{
 				logger.info("Geolocation database is disabled.");
@@ -400,7 +406,8 @@ public class FeatureExtractor {
 		    logger.info("Label file: " + config.getLabelFile());
 		    logger.info("Feature file: " + config.getFeatureFile());
 		    logger.info("Revision tag file: " + config.getRevisionTagFile());
-		    logger.info("Geolocation file: " + config.getGeolocationFile());
+		    logger.info("Geolocation database file: " + config.getGeolocationDbFile());
+		    logger.info("Geolocation feature file: " + config.getGeolocationFeatureFile());
 		    logger.info("Geolocation enabled: " + PROCESSOR_GEOLOCATION_ENABLED);
 		    logger.info("TagDownloader enabled: " + PROCESSOR_REVISION_TAGS_ENABLED);
 		    logger.info("Feature languageProportion enabled: " + PROCESSOR_FEATURE_LANGUAGE_PROPORTION_ENABLED);
