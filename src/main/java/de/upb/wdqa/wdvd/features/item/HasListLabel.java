@@ -40,7 +40,7 @@ public class HasListLabel extends FeatureImpl {
 	
 	static final Logger logger = LoggerFactory.getLogger(HasListLabel.class);
 	
-	private final static Pattern pattern;
+	private static final Pattern pattern;
 
 	static {
 		// Label starts with "List"
@@ -58,7 +58,7 @@ public class HasListLabel extends FeatureImpl {
 		
 		ItemDocument itemDocument = revision.getItemDocument();		
 			
-		if(itemDocument != null){
+		if (itemDocument != null) {
 			ItemDocumentDbItem item = new ItemDocumentDbItem(itemDocument);
 			
 			String label = item.getLabel();

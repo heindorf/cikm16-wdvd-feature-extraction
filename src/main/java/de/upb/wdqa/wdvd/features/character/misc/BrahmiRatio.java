@@ -42,4 +42,5 @@ public class BrahmiRatio extends FeatureImpl {
 		
 		return new FeatureFloatValue(result);
 	}
+
 }

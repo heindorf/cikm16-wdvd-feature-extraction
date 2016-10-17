@@ -38,7 +38,7 @@ public class NumberOfAliasesAdded extends FeatureImpl {
 		
 		ItemDiff itemDiff = ItemDiff.getItemDiffFromRevision(revision);
 		
-		if (itemDiff != null){
+		if (itemDiff != null) {
 			MapDiff mapDiff = itemDiff.getAliasDiff();
 			
 			result = mapDiff.getNumberOfAddedListValues();

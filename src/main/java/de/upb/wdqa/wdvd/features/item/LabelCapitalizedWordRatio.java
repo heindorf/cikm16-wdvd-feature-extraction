@@ -36,7 +36,7 @@ import de.upb.wdqa.wdvd.features.Utils;
 
 public class LabelCapitalizedWordRatio extends FeatureImpl {
 	
-	private final static Pattern pattern;	
+	private static final Pattern pattern;	
 	static {
 		pattern = Pattern.compile("\\p{Lu}.*");
 	}
@@ -45,9 +45,9 @@ public class LabelCapitalizedWordRatio extends FeatureImpl {
 	public FeatureFloatValue calculate(Revision revision) {
 		Float result = null;
 		
-		ItemDocument itemDocument = revision.getItemDocument();			
+		ItemDocument itemDocument = revision.getItemDocument();
 
-		if(itemDocument != null){
+		if (itemDocument != null) {
 			ItemDocumentDbItem item = new ItemDocumentDbItem(itemDocument);
 			
 			String label = item.getLabel();
@@ -59,4 +59,5 @@ public class LabelCapitalizedWordRatio extends FeatureImpl {
 
 		return new FeatureFloatValue(result);
 	}
+
 }

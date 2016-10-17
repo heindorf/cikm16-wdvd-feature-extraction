@@ -36,14 +36,14 @@ public class BytesIncrease extends FeatureImpl {
 		
 		Revision prevRevision = revision.getPreviousRevision();
 		
-		if (revision != null && revision.getText() != null &&
-				prevRevision != null && prevRevision.getText() != null){
+		if (revision != null && revision.getText() != null
+				&& prevRevision != null && prevRevision.getText() != null) {
 			
 			int newLength = revision.getText().length();
 			int oldLength = prevRevision.getText().length();
 			
 			result = newLength - oldLength;
-		}		
+		}
 		
 		return new FeatureIntegerValue(result);
 	}

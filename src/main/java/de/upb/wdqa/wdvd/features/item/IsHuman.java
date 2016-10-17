@@ -42,18 +42,18 @@ public class IsHuman extends FeatureImpl {
 	static final int HUMAN_ITEM_ID = 5;
 
 	@Override
-	public FeatureBooleanValue calculate(Revision revision) {		
+	public FeatureBooleanValue calculate(Revision revision) {
 		Boolean result = null;
 
-		ItemDocument itemDocument = revision.getItemDocument();		
+		ItemDocument itemDocument = revision.getItemDocument();
 		
-		if(itemDocument != null){
+		if (itemDocument != null) {
 			ItemDocumentDbItem item = new ItemDocumentDbItem(itemDocument);
 				
 			Set<Integer> ids = item.getAllInstanceOfIds();
-			if (!ids.isEmpty()){
+			if (!ids.isEmpty()) {
 				result = ids.contains(HUMAN_ITEM_ID);
-			}			
+			}
 		}
 		
 		return new FeatureBooleanValue(result);

@@ -45,13 +45,13 @@ import org.mockito.Mockito;
 
 public class XmlRevisionWriterTest extends XMLTestCase {
 	
-    @Before
-    public void setUp(){
-		TestUtils.initializeLogger();		
-    }
+	@Before
+	public void setUp() {
+		TestUtils.initializeLogger();
+	}
 	
 	@Test
-	public void testRevisionWriter() throws SAXException, IOException{
+	public void testRevisionWriter() throws SAXException, IOException {
 		String controlPath = "src/test/resources/dumpTest.xml";
 		String testPath = "target/writerTestResult.xml.bz2";
 
@@ -73,4 +73,5 @@ public class XmlRevisionWriterTest extends XMLTestCase {
 		
 		assertTrue(diff.identical());
 	}
+
 }

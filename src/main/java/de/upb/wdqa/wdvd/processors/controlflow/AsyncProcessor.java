@@ -48,9 +48,9 @@ public class AsyncProcessor implements RevisionProcessor {
 	String name;
 	
 	public AsyncProcessor(
-			RevisionProcessor processor, String name, int bufferSize){
+			RevisionProcessor processor, String name, int bufferSize) {
 		
-		logger = LoggerFactory.getLogger(AsyncProcessor.class + "(" + name +")");
+		logger = LoggerFactory.getLogger(AsyncProcessor.class + "(" + name + ")");
 		
 		this.processor = processor;
 		this.name = name;
@@ -70,7 +70,7 @@ public class AsyncProcessor implements RevisionProcessor {
 					
 					processor.startRevisionProcessing();
 					
-					while(revision != DONE){
+					while (revision != DONE) {
 						processor.processRevision(revision);
 						revision = queue.take();
 					}
@@ -120,4 +120,5 @@ public class AsyncProcessor implements RevisionProcessor {
 		}
 		logger.debug("Finished.");
 	}
+
 }

@@ -30,6 +30,6 @@ import de.upb.wdqa.wdvd.processors.RevisionProcessor;
 
 public interface Reducer {
 	
-	public void reduce(List<RevisionProcessor> workerProcessors);
+	void reduce(List<RevisionProcessor> workerProcessors);
 
 }

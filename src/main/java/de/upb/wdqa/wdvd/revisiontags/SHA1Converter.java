@@ -33,24 +33,28 @@ import org.slf4j.LoggerFactory;
 public class SHA1Converter {
 	static final Logger logger = LoggerFactory.getLogger(SHA1Converter.class);
 	
-	static public String base16to36 (String base16){
+	private SHA1Converter() {
+		
+	}
+	
+	public static String base16to36(String base16) {
 		byte[] sha1 = parseByte(16, base16);
 		
 		return getBase36(sha1);
 	}
 	
-	static public byte[] parseByte16(String base16){
+	public static byte[] parseByte16(String base16) {
 		return parseByte(16, base16);
 	}
 	
-	static public byte[] parseByte36(String base36){
+	public static byte[] parseByte36(String base36) {
 		return parseByte(36, base36);
 	}
 	
-	static private byte[] parseByte(int base, String sha1){
+	private static byte[] parseByte(int base, String sha1) {
 		byte[] result = null;
-		if (sha1 != null){
-			if(!sha1.equals("")){
+		if (sha1 != null) {
+			if (!sha1.equals("")) {
 				try {
 					BigInteger bi = new BigInteger(sha1, base);
 					result = bi.toByteArray();
@@ -58,8 +62,7 @@ public class SHA1Converter {
 				} catch (Exception e) {
 					logger.error("", e);
 				}
-			}
-			else{
+			} else {
 				result = new byte[0];
 			}
 		}
@@ -67,19 +70,19 @@ public class SHA1Converter {
 		
 	}
 	
-	static public String getBase16(byte[] bytes){
+	public static String getBase16(byte[] bytes) {
 		return getBase(16, bytes);
 	}
 	
-	static public String getBase36(byte[] bytes){
+	public static String getBase36(byte[] bytes) {
 		return getBase(36, bytes);
 	}
 	
-	static private String getBase(int base, byte[] bytes){
+	private static String getBase(int base, byte[] bytes) {
 		String result;
 		
-		if (bytes != null){
-			if(bytes.length != 0){
+		if (bytes != null) {
+			if (bytes.length != 0) {
 				BigInteger bi = new BigInteger(1, bytes);
 				String tmp = bi.toString(base);
 				
@@ -87,15 +90,14 @@ public class SHA1Converter {
 						(int) Math.ceil(160.0 / (Math.log(base) / Math.log(2.0)));
 				
 				result = StringUtils.leftPad(tmp, numberOfDigits, '0');
-			}
-			else{
+			} else {
 				result = "";
 			}
-		}
-		else{
+		} else {
 			result = null;
 		}
 		
-		return result;		
+		return result;
 	}
+
 }

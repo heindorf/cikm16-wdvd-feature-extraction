@@ -34,7 +34,7 @@ import org.wikidata.wdtk.dumpfiles.MwRevisionProcessor;
 import de.upb.wdqa.wdvd.Revision;
 import de.upb.wdqa.wdvd.processors.RevisionProcessor;
 
-public class RawConverterProcessor implements MwRevisionProcessor{
+public class RawConverterProcessor implements MwRevisionProcessor {
 	static final Logger logger =
 			LoggerFactory.getLogger(RawConverterProcessor.class);
 	

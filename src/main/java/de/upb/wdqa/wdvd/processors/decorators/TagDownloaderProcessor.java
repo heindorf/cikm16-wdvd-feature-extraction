@@ -48,7 +48,7 @@ public class TagDownloaderProcessor implements RevisionProcessor {
 	List<Revision> revisions = new ArrayList<Revision>(BATCH_SIZE);
 	
 	public TagDownloaderProcessor(
-			RevisionProcessor processor, File revisionTagFile){
+			RevisionProcessor processor, File revisionTagFile) {
 		this.processor = processor;
 		this.revisionTagFile = revisionTagFile;
 	}
@@ -65,7 +65,7 @@ public class TagDownloaderProcessor implements RevisionProcessor {
 	public void processRevision(Revision revision) {
 		revisions.add(revision);
 		
-		if(revisions.size() >= BATCH_SIZE){
+		if (revisions.size() >= BATCH_SIZE) {
 			processAllRevisions();
 		}
 	}
@@ -81,28 +81,28 @@ public class TagDownloaderProcessor implements RevisionProcessor {
 		logger.debug("Finished.");		
 	}
 	
-	private void processAllRevisions(){
+	private void processAllRevisions() {
 		List<Long> revisionIds = new ArrayList<Long>();
 		
-		for(Revision revision: revisions){
+		for (Revision revision: revisions) {
 			revisionIds.add(revision.getRevisionId());
 		}
 		
 		List<DbRevision> result = TagDownloader.getRevisions(revisionIds);
 		
-		for(int i = 0; i < revisions.size(); i++){
+		for (int i = 0; i < revisions.size(); i++) {
 			attachInformation(revisions.get(i), result.get(i));
 		}
 		
-		for (Revision revision: revisions){
+		for (Revision revision: revisions) {
 			processor.processRevision(revision);
 		}
 		
 		revisions.clear();
 	}
 	
-	private void attachInformation(Revision revision, DbRevision dbRevision){		
-		if(dbRevision != null){		
+	private void attachInformation(Revision revision, DbRevision dbRevision) {		
+		if (dbRevision != null) {
 			revision.setDownloadedSha1(dbRevision.getSha1());
 			revision.setDownloadedTags(dbRevision.getTagNames());
 		}

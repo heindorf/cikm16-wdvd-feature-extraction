@@ -39,8 +39,8 @@ public class TimeSinceLastRevision extends FeatureImpl {
 		Integer result = null;
 		Revision prevRevision = revision.getPreviousRevision();
 		
-		if (revision != null && revision.getTimeStamp() != null &&
-				prevRevision != null &&	prevRevision.getTimeStamp() != null){
+		if (revision != null && revision.getTimeStamp() != null
+				&& prevRevision != null && prevRevision.getTimeStamp() != null) {
 			
 			Calendar newTime =
 					DatatypeConverter.parseDateTime(revision.getTimeStamp());
@@ -50,7 +50,7 @@ public class TimeSinceLastRevision extends FeatureImpl {
 			long timeDifference =
 					(newTime.getTimeInMillis() - oldTime.getTimeInMillis()) / 1000;
 			
-			result = (int)timeDifference;
+			result = (int) timeDifference;
 		}		
 		
 		return new FeatureIntegerValue(result);

@@ -42,7 +42,7 @@ public class TagDownloaderMemoryDataStore implements TagDownloaderDataStore {
 	DbTagFactory tagFactory;
 	long maxRevisionId;
 	
-	public TagDownloaderMemoryDataStore(DbTagFactory tagFactory, long maxRevisionId){
+	public TagDownloaderMemoryDataStore(DbTagFactory tagFactory, long maxRevisionId) {
 		this.tagFactory = tagFactory;
 		this.maxRevisionId = maxRevisionId;
 	}
@@ -65,7 +65,7 @@ public class TagDownloaderMemoryDataStore implements TagDownloaderDataStore {
 		
 		byte[] bytes = data.getByteArray();
 		ByteBigArrays.copyToBig(bytes, 0, bigByteArray,
-				dbRevision.getRevisionId() * (long)TagDownloaderRevisionData.ELEMENT_SIZE,
+				dbRevision.getRevisionId() * (long) TagDownloaderRevisionData.ELEMENT_SIZE,
 				bytes.length);
 		
 	}
@@ -73,9 +73,9 @@ public class TagDownloaderMemoryDataStore implements TagDownloaderDataStore {
 	@Override
 	public DbRevision getRevision(long revisionId) {
 		byte[] bytes = new byte[TagDownloaderRevisionData.ELEMENT_SIZE];
-		if(bigByteArray != null){
+		if (bigByteArray != null) {
 			ByteBigArrays.copyFromBig(bigByteArray,
-					(long)revisionId * (long)TagDownloaderRevisionData.ELEMENT_SIZE,
+					(long) revisionId * (long) TagDownloaderRevisionData.ELEMENT_SIZE,
 					bytes, 0, bytes.length);
 		}
 		
@@ -86,10 +86,10 @@ public class TagDownloaderMemoryDataStore implements TagDownloaderDataStore {
 	}
 	
 	@Override
-	public List<DbRevision> getRevisions(List<Long> revisionIds){
+	public List<DbRevision> getRevisions(List<Long> revisionIds) {
 		List<DbRevision> result = new ArrayList<DbRevision>(revisionIds.size());
 		
-		for(Long revisionId: revisionIds){
+		for (Long revisionId: revisionIds) {
 			result.add(getRevision(revisionId));
 		}
 		
@@ -100,7 +100,7 @@ public class TagDownloaderMemoryDataStore implements TagDownloaderDataStore {
 	public void clear() throws Exception {
 		bigByteArray = null;
 		bigByteArray = ByteBigArrays.ensureCapacity(new byte[0][0],
-				(long)TagDownloaderRevisionData.ELEMENT_SIZE * (long)maxRevisionId);		
+				(long) TagDownloaderRevisionData.ELEMENT_SIZE * (long) maxRevisionId);		
 	}
 
 	@Override

@@ -42,4 +42,5 @@ public class BengaliRatio extends FeatureImpl {
 		
 		return new FeatureFloatValue(result);
 	}
+
 }

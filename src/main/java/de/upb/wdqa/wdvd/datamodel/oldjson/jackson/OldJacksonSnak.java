@@ -39,4 +39,5 @@ public class OldJacksonSnak {
 	public void setProperty(String property) {
 		this.property = property;
 	}
+
 }

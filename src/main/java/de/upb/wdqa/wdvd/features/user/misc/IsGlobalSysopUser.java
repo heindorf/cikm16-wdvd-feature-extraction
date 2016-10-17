@@ -28,9 +28,9 @@ import de.upb.wdqa.wdvd.Revision;
 import de.upb.wdqa.wdvd.features.FeatureBooleanValue;
 import de.upb.wdqa.wdvd.features.FeatureImpl;
 
-public class IsGlobalSysopUser extends FeatureImpl {	
+public class IsGlobalSysopUser extends FeatureImpl {
 	
-	final static UserSet userSet;
+	static final UserSet userSet;
 	static {
 		
 		// Taken from
@@ -45,14 +45,14 @@ public class IsGlobalSysopUser extends FeatureImpl {
 	}
 
 	@Override
-	public FeatureBooleanValue calculate(Revision revision) {		
+	public FeatureBooleanValue calculate(Revision revision) {
 		return new FeatureBooleanValue(
 				userSet.strContains(revision.getContributor()));
 	}
 	
 
 	
-	public static boolean isGlobalSysop(String contributor){
+	public static boolean isGlobalSysop(String contributor) {
 		return userSet.contains(contributor);
 	}
 

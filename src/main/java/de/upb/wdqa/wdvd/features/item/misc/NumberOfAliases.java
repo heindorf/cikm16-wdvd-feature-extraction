@@ -37,16 +37,16 @@ import de.upb.wdqa.wdvd.features.FeatureIntegerValue;
 public class NumberOfAliases extends FeatureImpl {
 	
 	@Override
-	public FeatureIntegerValue calculate(Revision revision) {		
+	public FeatureIntegerValue calculate(Revision revision) {
 		int result = 0;
 		ItemDocument itemDocument = revision.getItemDocument();
 		
-		if(itemDocument != null){
+		if (itemDocument != null) {
 			Map<String, List<MonolingualTextValue>> aliases =
 					itemDocument.getAliases();
 		
-			if (aliases != null){
-				for (Map.Entry<String, List<MonolingualTextValue>> entry : aliases.entrySet()){
+			if (aliases != null) {
+				for (Map.Entry<String, List<MonolingualTextValue>> entry : aliases.entrySet()) {
 					result += entry.getValue().size();
 				}
 			}
@@ -54,5 +54,5 @@ public class NumberOfAliases extends FeatureImpl {
 
 		return new FeatureIntegerValue(result);
 	}
-	
+
 }

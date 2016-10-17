@@ -94,48 +94,48 @@ public class TagDownloaderDbDataStore implements TagDownloaderDataStore {
 	public void connect() throws Exception {
 		Class.forName("com.mysql.jdbc.Driver");
 
-	    // Setup the connection with the DB
-	    connection = DriverManager
-	    		.getConnection("jdbc:mysql://localhost/wdqa?useServerPrepStmts=false&rewriteBatchedStatements=true",
-	    				"wdqa", "5bI1vjEXasqjxOeWJXKu");
+		// Setup the connection with the DB
+		connection = DriverManager
+				.getConnection("jdbc:mysql://localhost/wdqa?useServerPrepStmts=false&rewriteBatchedStatements=true",
+						"wdqa", "5bI1vjEXasqjxOeWJXKu");
 
-      // Statements allow to issue SQL queries to the database
-	  getTagPreparedStatement = connection.prepareStatement(getTagSQL);
-	  deleteTagsPreparedStatement = connection.prepareStatement(truncateTagsSQL);	    
-      getRevisionPreparedStatement = connection.prepareStatement(getRevisionSQL);
-      getMultipleRevisionsPreparedStatement = connection.prepareStatement(getMultipleRevisionsSQL);
-      getRevisionTagPreparedStatement = connection.prepareStatement(getRevisionTagSQL);
-      
-      clear();
-      
-      for(int i = 0; i < NUMBER_OF_THREADS; i++){
-    	  ConnectionThread thread = new ConnectionThread(queue, tagFactory);
-    	  thread.setName("Connection Thread " + i);
-    	  
-    	  threads.add(thread);
-    	  thread.start();
-      }
-      
-//      connection.setAutoCommit(false);
+		// Statements allow to issue SQL queries to the database
+		getTagPreparedStatement = connection.prepareStatement(getTagSQL);
+		deleteTagsPreparedStatement = connection.prepareStatement(truncateTagsSQL);
+		getRevisionPreparedStatement = connection.prepareStatement(getRevisionSQL);
+		getMultipleRevisionsPreparedStatement = connection.prepareStatement(getMultipleRevisionsSQL);
+		getRevisionTagPreparedStatement = connection.prepareStatement(getRevisionTagSQL);
+		
+		clear();
+		      
+		for (int i = 0; i < NUMBER_OF_THREADS; i++) {
+			ConnectionThread thread = new ConnectionThread(queue, tagFactory);
+			thread.setName("Connection Thread " + i);
+			
+			threads.add(thread);
+			thread.start();
+		}
+		      
+//		connection.setAutoCommit(false);
 	}
 
 
 	@Override
 	public void disconnect() throws Exception {
 		// Notify threads to stop their work
-		for(int i = 0; i < NUMBER_OF_THREADS; i++){
+		for (int i = 0; i < NUMBER_OF_THREADS; i++) {
 			queue.put(ConnectionThread.DONE);
 		}
 		
 		// Wait until all threads have stopped their work
-		for(ConnectionThread thread: threads){
+		for (ConnectionThread thread: threads) {
 			thread.join();
 		}
 //		connection.commit();
 	}
 
 	@Override
-	public void putRevision(DbRevision dbRevision) throws Exception {		
+	public void putRevision(DbRevision dbRevision) throws Exception {
 		queue.put(dbRevision);
 	}
 
@@ -158,26 +158,25 @@ public class TagDownloaderDbDataStore implements TagDownloaderDataStore {
 		
 		// Sort revisions in the same order as the revisionIds
 		List<DbRevision> result = new ArrayList<DbRevision>(revisionIds.size());
-		for(Long revisionId: revisionIds){
+		for (Long revisionId: revisionIds) {
 			result.add(revisions.get(revisionId));
 		}
 	
 		return result;
 	}
 
-	private HashMap<Long, DbRevisionImpl> getPureRevisions(List<Long> revisionIds) throws Exception{
+	private HashMap<Long, DbRevisionImpl> getPureRevisions(List<Long> revisionIds) throws Exception {
 		HashMap<Long, DbRevisionImpl> revisions = new HashMap<Long, DbRevisionImpl>();
 		
-		if(revisionIds.size() > 0){			
+		if (revisionIds.size() > 0) {			
 			StringBuilder statementSQL = new StringBuilder();
 			statementSQL.append("SELECT * FROM revision WHERE rev_id IN (");
 			
-			for(int i = 0; i < revisionIds.size(); i++){
+			for (int i = 0; i < revisionIds.size(); i++) {
 				statementSQL.append("?");
-				if(i != revisionIds.size() -1){
+				if (i != revisionIds.size() - 1) {
 					statementSQL.append(",");
-				}
-				else{
+				} else {
 					statementSQL.append(")");
 				}
 			}
@@ -185,13 +184,13 @@ public class TagDownloaderDbDataStore implements TagDownloaderDataStore {
 			PreparedStatement prepStatement =
 					connection.prepareStatement(statementSQL.toString());
 			
-			for (int i = 0; i < revisionIds.size(); i++){
+			for (int i = 0; i < revisionIds.size(); i++) {
 				prepStatement.setLong(i + 1, revisionIds.get(i));
 			}
 	
 			ResultSet resultSet = prepStatement.executeQuery();
 			
-			while(resultSet.next()){
+			while (resultSet.next()) {
 				DbRevisionImpl revision =
 						new DbRevisionImpl(resultSet.getInt("rev_id"),
 						resultSet.getString("rev_sha1"),
@@ -204,16 +203,15 @@ public class TagDownloaderDbDataStore implements TagDownloaderDataStore {
 	}
 	
 	private void addTags(HashMap<Long, DbRevisionImpl> revisions) throws SQLException {
-		if(revisions.size() > 0){			
+		if (revisions.size() > 0) {
 			StringBuilder statementSQL = new StringBuilder();
 			statementSQL.append("SELECT * FROM revision_tag WHERE rev_id IN (");
 			
-			for(int i = 0; i < revisions.size(); i++){
+			for (int i = 0; i < revisions.size(); i++) {
 				statementSQL.append("?");
-				if(i != revisions.size() -1){
+				if (i != revisions.size() - 1) {
 					statementSQL.append(",");
-				}
-				else{
+				} else {
 					statementSQL.append(")");
 				}
 			}
@@ -222,14 +220,14 @@ public class TagDownloaderDbDataStore implements TagDownloaderDataStore {
 					connection.prepareStatement(statementSQL.toString());
 			
 			int i = 1;
-			for(DbRevision dbRevision: revisions.values()){
+			for (DbRevision dbRevision: revisions.values()) {
 				prepStatement.setLong(i, dbRevision.getRevisionId());
 				i++;
 			}
 		
 			ResultSet resultSet = prepStatement.executeQuery();
 			
-			while(resultSet.next()){
+			while (resultSet.next()) {
 				long revisionId = resultSet.getLong("rev_id");
 				int tagId = resultSet.getInt("tag_id");
 				
@@ -255,25 +253,25 @@ public class TagDownloaderDbDataStore implements TagDownloaderDataStore {
 	@Override
 	public void flush() throws Exception {	
 		// notify all threads about the flush
-		for (int i = 0; i < threads.size(); i++){
+		for (int i = 0; i < threads.size(); i++) {
 			queue.put(ConnectionThread.FLUSH);
 		}
 		
 		// wait until all threads have got it
-		for (ConnectionThread thread: threads){
-			while(!thread.flushed){
+		for (ConnectionThread thread: threads) {
+			while (!thread.flushed) {
 				Thread.sleep(100);
 			}
 		}
 
 		// resume normal operation	
-		for (ConnectionThread thread2: threads){
+		for (ConnectionThread thread2: threads) {
 			thread2.resetFlushed();
 		}
 	}
 }
 
-class ConnectionThread extends Thread{
+class ConnectionThread extends Thread {
 	
 	static final Logger logger = LoggerFactory.getLogger(ConnectionThread.class);
 	
@@ -281,7 +279,7 @@ class ConnectionThread extends Thread{
 	static final DbRevision DONE = new DbRevisionImpl();
 	static final DbRevision FLUSH = new DbRevisionImpl();
 	
-	final static int BATCH_SIZE = 10000;
+	static final int BATCH_SIZE = 10000;
 	
 	// tagFactory and queue are accessed by several threads.
 	// Hence, they must be thread-safe
@@ -312,48 +310,47 @@ class ConnectionThread extends Thread{
 	int numInsertedStatements;	
 
 	
-	public ConnectionThread(BlockingQueue<DbRevision> queue, DbTagFactory tagFactory){
+	ConnectionThread(BlockingQueue<DbRevision> queue, DbTagFactory tagFactory) {
 		this.queue = queue;
 		this.tagFactory = tagFactory;
 	}
 	
 	@Override
 	public void run() {
-		try{
+		try {
 			// Create new connection
 			connect();	
 			
 			DbRevision revision = null;
-			do{
-				do{
+			do {
+				do {
 					revision = queue.take();
 					
-					if (revision != DONE && revision != FLUSH){
+					if (revision != DONE && revision != FLUSH) {
 						addRevisionToBatch(revision);
 						numInsertedStatements++;
 					}	
-				} while(revision != DONE  && revision != FLUSH
-						&& numInsertedStatements < BATCH_SIZE);				
+				} while (revision != DONE  && revision != FLUSH
+						&& numInsertedStatements < BATCH_SIZE);
 	
 				executeBatch();
 				numInsertedStatements = 0;
 				
-				if(revision == FLUSH){
+				if (revision == FLUSH) {
 					// set the current status to "flushed"
 					flushed = true;
 					
 					// wait until this thread is allowed to continue
-					while(flushed){
+					while (flushed) {
 						Thread.sleep(100);
 					}		
 				}		
 				
-			}while (revision != DONE);
+			} while (revision != DONE);
 					
 			// Finally, close the connection
 			disconnect();
-		}
-		catch(Throwable t){
+		} catch (Throwable t) {
 			logger.error("", t);
 		}
 
@@ -362,15 +359,15 @@ class ConnectionThread extends Thread{
 	private void connect() throws Exception {
 		Class.forName("com.mysql.jdbc.Driver");
 
-	    // Setup the connection with the DB
-	    connection = DriverManager
-	    		.getConnection("jdbc:mysql://localhost/wdqa?useServerPrepStmts=false&rewriteBatchedStatements=true",
-	    				"wdqa", "5bI1vjEXasqjxOeWJXKu");
+		// Setup the connection with the DB
+		connection = DriverManager
+				.getConnection("jdbc:mysql://localhost/wdqa?useServerPrepStmts=false&rewriteBatchedStatements=true",
+						"wdqa", "5bI1vjEXasqjxOeWJXKu");
 
-      // Statements allow to issue SQL queries to the database
-	  insertTagPreparedStatement = connection.prepareStatement(insertTagSQL);	    
-      insertRevisionPreparedStatement = connection.prepareStatement(insertRevisionSQL);     
-      insertRevisionTagPreparedStatement = connection.prepareStatement(insertRevisionTagSQL);
+		// Statements allow to issue SQL queries to the database
+		insertTagPreparedStatement = connection.prepareStatement(insertTagSQL);	    
+		insertRevisionPreparedStatement = connection.prepareStatement(insertRevisionSQL);     
+		insertRevisionTagPreparedStatement = connection.prepareStatement(insertRevisionTagSQL);
 
 	}
 	
@@ -384,8 +381,8 @@ class ConnectionThread extends Thread{
 		insertRevisionPreparedStatement.addBatch();
 		
 		Set<DbTag> tags = dbRevision.getTags();
-		if(tags != null){
-			for(DbTag tag: tags){
+		if (tags != null) {
+			for (DbTag tag: tags) {
 				insertRevisionTagPreparedStatement.setLong(1, dbRevision.getRevisionId());
 				insertRevisionTagPreparedStatement.setLong(2, tag.getTagId());
 				insertRevisionTagPreparedStatement.addBatch();
@@ -395,8 +392,8 @@ class ConnectionThread extends Thread{
 	}
 	
 	private void executeBatch() {
-		try{
-			for(DbTag tag: tagFactory.getAllDbTags()){
+		try {
+			for (DbTag tag: tagFactory.getAllDbTags()) {
 				insertTagPreparedStatement.setInt(1, tag.getTagId());
 				insertTagPreparedStatement.setString(2, tag.getTagName());
 				insertTagPreparedStatement.addBatch();
@@ -408,17 +405,17 @@ class ConnectionThread extends Thread{
 			insertRevisionPreparedStatement.clearBatch();
 			insertRevisionTagPreparedStatement.executeBatch();
 			insertRevisionTagPreparedStatement.clearBatch();
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			logger.error("", e);
 		}
 	}
 	
-	public boolean flushed(){
+	public boolean flushed() {
 		return flushed;
 	}
 	
-	public void resetFlushed(){
+	public void resetFlushed() {
 		flushed = false;
 	}	
+
 }

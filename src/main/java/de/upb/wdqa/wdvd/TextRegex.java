@@ -47,4 +47,5 @@ public class TextRegex {
 	public void setNumberOfQids(int numberOfQids) {
 		this.numberOfQids = numberOfQids;
 	}
+
 }

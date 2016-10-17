@@ -37,7 +37,7 @@ public class HasP54Changed extends FeatureImpl {
 		
 		ItemDiff itemDiff = ItemDiff.getItemDiffFromRevision(revision);
 		
-		if (itemDiff != null){
+		if (itemDiff != null) {
 			
 			result = itemDiff.hasPropertyChanged("P54");
 //			System.out.println(result);

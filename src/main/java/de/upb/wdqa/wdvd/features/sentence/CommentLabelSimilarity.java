@@ -39,12 +39,12 @@ public class CommentLabelSimilarity extends FeatureImpl {
 		
 		String suffixComment = revision.getParsedComment().getSuffixComment();
 		
-		if(suffixComment != null){
+		if (suffixComment != null) {
 			suffixComment = suffixComment.trim();
 		
-			ItemDocument itemDocument = revision.getItemDocument();			
+			ItemDocument itemDocument = revision.getItemDocument();
 	
-			if(itemDocument != null){
+			if (itemDocument != null) {
 				ItemDocumentDbItem item = new ItemDocumentDbItem(itemDocument);
 				
 				String label = item.getLabel();

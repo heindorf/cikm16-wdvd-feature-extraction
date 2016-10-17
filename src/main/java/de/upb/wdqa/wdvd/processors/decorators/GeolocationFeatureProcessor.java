@@ -56,7 +56,7 @@ public class GeolocationFeatureProcessor implements RevisionProcessor {
 	Iterator<CSVRecord> iterator;
 	
 	public GeolocationFeatureProcessor(
-			RevisionProcessor processor, File geolocationFeatureFile){
+			RevisionProcessor processor, File geolocationFeatureFile) {
 		this.processor = processor;
 		this.geolocationFeatureFile = geolocationFeatureFile;
 	}
@@ -89,10 +89,10 @@ public class GeolocationFeatureProcessor implements RevisionProcessor {
 		CSVRecord csvRevision = iterator.next();
 		
 		GeoInformation geoInformation = 
-				getGeoInformationForRevision(revision.getRevisionId(), csvRevision);		
+				getGeoInformationForRevision(revision.getRevisionId(), csvRevision);
 		
 			
-		revision.setGeoInformation(geoInformation);		
+		revision.setGeoInformation(geoInformation);
 
 		
 		processor.processRevision(revision);
@@ -112,11 +112,11 @@ public class GeolocationFeatureProcessor implements RevisionProcessor {
 	}
 	
 	private GeoInformation getGeoInformationForRevision(
-			long revisionId, CSVRecord csvRevision){		
+			long revisionId, CSVRecord csvRevision) {
 		
 		long csvRevisionId = Long.parseLong(csvRevision.get("revisionId"));
 		
-		if (revisionId != csvRevisionId){
+		if (revisionId != csvRevisionId) {
 			logger.error("geolocation feature file is out of sync");
 		}
 		
@@ -133,12 +133,12 @@ public class GeolocationFeatureProcessor implements RevisionProcessor {
 		
 		GeoInformation result;
 		
-		if (userCountry != null ||
-			userContinentCode != null ||
-			userTimeZone != null ||
-			userRegionCode != null ||
-			userCityName != null ||
-			userCountyName != null){
+		if (userCountry != null
+		|| userContinentCode != null
+		|| userTimeZone != null
+		|| userRegionCode != null
+		|| userCityName != null
+		|| userCountyName != null) {
 				result = new GeoInformation(
 							startAddress,
 							endAddress,
@@ -148,21 +148,21 @@ public class GeolocationFeatureProcessor implements RevisionProcessor {
 							userRegionCode,
 							userCityName,
 							userCountyName);
-		}
-		else{
+		} else {
 			result = null;
 		}
 		
 		return result;
 	}
 	
-	private String getValue(CSVRecord record, String key){
+	private String getValue(CSVRecord record, String key) {
 		String value = record.get(key);
 		
-		if (value.equals(FeatureValue.MISSING_VALUE_STRING)){
+		if (value.equals(FeatureValue.MISSING_VALUE_STRING)) {
 			value = null;
 		}
 		
-		return value;		
-	}	
+		return value;
+	}
+
 }

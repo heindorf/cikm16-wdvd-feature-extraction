@@ -30,7 +30,7 @@ import de.upb.wdqa.wdvd.features.FeatureImpl;
 
 public class IsGlobalStewardUser extends FeatureImpl {
 
-	final static UserSet userSet;
+	static final UserSet userSet;
 	static {
 		
 		// Taken from
@@ -54,7 +54,7 @@ public class IsGlobalStewardUser extends FeatureImpl {
 				userSet.strContains(revision.getContributor()));
 	}
 	
-	public static boolean isGlobalSteward(String contributor){
+	public static boolean isGlobalSteward(String contributor) {
 		return userSet.contains(contributor);
 	}
 

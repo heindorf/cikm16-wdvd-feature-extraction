@@ -49,7 +49,8 @@ public class DbTagImpl implements DbTag {
 		return tagId;
 	}
 	
-	public String toString(){
+	public String toString() {
 		return tagName + " (id " + tagId + ")";
 	}
+
 }

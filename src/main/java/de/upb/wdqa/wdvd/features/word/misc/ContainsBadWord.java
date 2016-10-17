@@ -40,7 +40,7 @@ public class ContainsBadWord extends FeatureImpl {
 
 	// http://www.cs.cmu.edu/~biglou/resources/
 	// Last updated: December 13, 2014
-	public final static String[] luisVonAhnWordlist = { "abbo", "abo",
+	public static final String[] luisVonAhnWordlist = { "abbo", "abo",
 			"abortion", "abuse", "addict", "addicts", "adult", "africa",
 			"african", "alla", "allah", "alligatorbait", "amateur", "american",
 			"anal", "analannie", "analsex", "angie", "angry", "anus", "arab",
@@ -286,14 +286,14 @@ public class ContainsBadWord extends FeatureImpl {
 			"zipperhead"
 	};	
 	
-	private final static Pattern pattern;
+	private static final Pattern pattern;
 	
-	static{
+	static {
 		List<String> tokens = new ArrayList<String>(Arrays.asList(luisVonAhnWordlist));
 
 		String patternString = ".*\\b(" + StringUtils.join(tokens, "|") + ")\\b.*";
-		pattern = Pattern.compile(patternString, Pattern.CASE_INSENSITIVE |
-				Pattern.UNICODE_CASE | Pattern.DOTALL | Pattern.CANON_EQ);
+		pattern = Pattern.compile(patternString, Pattern.CASE_INSENSITIVE
+				| Pattern.UNICODE_CASE | Pattern.DOTALL | Pattern.CANON_EQ);
 	}
 	
 	private final Matcher matcher = pattern.matcher("");
@@ -303,7 +303,7 @@ public class ContainsBadWord extends FeatureImpl {
 		String text = revision.getParsedComment().getSuffixComment();
 		
 		boolean result = false;
-		if (text != null){			
+		if (text != null) {			
 			result = matcher.reset(text).matches();
 		}
 		

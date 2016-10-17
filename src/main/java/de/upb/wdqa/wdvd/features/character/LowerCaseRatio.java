@@ -43,5 +43,5 @@ public class LowerCaseRatio extends FeatureImpl {
 		
 		return new FeatureFloatValue(result);
 	}
-	
+
 }

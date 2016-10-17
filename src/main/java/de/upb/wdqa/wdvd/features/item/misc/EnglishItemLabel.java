@@ -44,7 +44,7 @@ public class EnglishItemLabel extends FeatureImpl {
 
 		ItemDocument itemDocument = revision.getItemDocument();			
 
-		if(itemDocument != null){
+		if (itemDocument != null) {
 			ItemDocumentDbItem item = new ItemDocumentDbItem(itemDocument);
 			
 			result = item.getLabel();

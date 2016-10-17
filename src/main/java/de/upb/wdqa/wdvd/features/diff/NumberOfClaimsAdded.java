@@ -38,7 +38,7 @@ public class NumberOfClaimsAdded extends FeatureImpl {
 		
 		ItemDiff itemDiff = ItemDiff.getItemDiffFromRevision(revision);
 		
-		if (itemDiff != null){					
+		if (itemDiff != null) {
 			MapDiff mapDiff = itemDiff.getClaimDiff();
 			
 //			Integer test = itemDiff.getClaimDiff2().getNumberOfAddedClaims();
@@ -49,4 +49,5 @@ public class NumberOfClaimsAdded extends FeatureImpl {
 		
 		return new FeatureIntegerValue(result);
 	}
+
 }

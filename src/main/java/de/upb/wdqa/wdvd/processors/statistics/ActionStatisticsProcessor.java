@@ -48,8 +48,8 @@ import de.upb.wdqa.wdvd.Revision;
 import de.upb.wdqa.wdvd.processors.RevisionProcessor;
 
 public class ActionStatisticsProcessor implements RevisionProcessor {
-	final static Logger logger =
-			LoggerFactory.getLogger(ActionStatisticsProcessor.class);	
+	static final Logger logger =
+			LoggerFactory.getLogger(ActionStatisticsProcessor.class);
 	
 	// Corpus Creation Statistics
 	private Frequency actionDistribution = new Frequency(); 
@@ -76,21 +76,20 @@ public class ActionStatisticsProcessor implements RevisionProcessor {
 	@Override
 	public void startRevisionProcessing() {
 		logger.debug("Starting...");
-		processor.startRevisionProcessing();		
+		processor.startRevisionProcessing();
 	}
 
 	@Override
-	public void processRevision(Revision revision) {		
+	public void processRevision(Revision revision) {
 		String action1 = "" + revision.getParsedComment().getAction1();
 		// getParsedComment() is called before processRevision such that it can
 		// be cached (revision is cloned in the next RevisionProcessor)
 		processor.processRevision(revision);
 		
 		actionDistribution.addValue(action1);
-		if(revision.wasRollbackReverted()){
+		if (revision.wasRollbackReverted()) {
 			rollbackRevertedActionDistribution.addValue(action1);
-		}
-		else{
+		} else {
 			nonRollbackRevertedActionDistribution.addValue(action1);
 		}
 		
@@ -105,11 +104,11 @@ public class ActionStatisticsProcessor implements RevisionProcessor {
 		
 		String timeString = format.format(revision.getDate()); 
 		
-		if(!monthlyActionDistribution.containsKey(timeString)){
+		if (!monthlyActionDistribution.containsKey(timeString)) {
 			monthlyActionDistribution.put(timeString, new HashMap<String, Integer>());
 		}
 		
-		if(!monthlyActionDistribution.get(timeString).containsKey(action1)){
+		if (!monthlyActionDistribution.get(timeString).containsKey(action1)) {
 			monthlyActionDistribution.get(timeString).put(action1, 0);
 		}
 		
@@ -134,20 +133,20 @@ public class ActionStatisticsProcessor implements RevisionProcessor {
 			CSVPrinter csvWriter = CSVFormat.RFC4180.withQuoteMode(QuoteMode.ALL)
 					.withHeader("month", "action", "count").print(writer);
 			
-			for(Entry<String, HashMap<String, Integer>> entry: getSortedList(monthlyActionDistribution)){
+			for (Entry<String, HashMap<String, Integer>> entry: getSortedList(monthlyActionDistribution)) {
 				String month = entry.getKey();
 				
-				for(Entry<String, Integer> entry2: getSortedList2(entry.getValue())){
-					String action = entry2.getKey();				
-					Integer value = entry2.getValue();					
+				for (Entry<String, Integer> entry2: getSortedList2(entry.getValue())) {
+					String action = entry2.getKey();
+					Integer value = entry2.getValue();
 	
-					csvWriter.printRecord(month, action, value);					
+					csvWriter.printRecord(month, action, value);
 				}
 			}
 			csvWriter.close();
 		} catch (IOException e) {
 			logger.error("", e);
-		}		
+		}
 	}
 	
 	private static List<Map.Entry<String, HashMap<String, Integer>>> getSortedList(
@@ -181,4 +180,5 @@ public class ActionStatisticsProcessor implements RevisionProcessor {
 		});
 		return entries;
 	}
+
 }

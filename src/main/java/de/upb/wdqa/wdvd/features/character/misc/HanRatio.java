@@ -42,4 +42,5 @@ public class HanRatio extends FeatureImpl {
 		
 		return new FeatureFloatValue(result);
 	}
+
 }

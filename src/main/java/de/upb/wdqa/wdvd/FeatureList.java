@@ -80,9 +80,13 @@ import de.upb.wdqa.wdvd.features.word.misc.ProportionOfLanguageAdded;
 
 public class FeatureList {	
 	
-	final static Logger logger = LoggerFactory.getLogger(FeatureList.class);
+	static final Logger logger = LoggerFactory.getLogger(FeatureList.class);
 	
-	private static List<Feature> getFeatureListInternal(boolean allFeatures){
+	private FeatureList() {
+		
+	}
+	
+	private static List<Feature> getFeatureListInternal(boolean allFeatures) {
 		List<Feature> l = new ArrayList<Feature>();
 		
 		////////////////////////////////////////////////////////
@@ -92,12 +96,12 @@ public class FeatureList {
 		l.add(new RevisionId());
 		
 		l.add(new UserId());
-		l.add(new UserName());		
+		l.add(new UserName());
 		l.add(new GroupId());
 		
 		l.add(new Timestamp());
-		l.add(new RevisionLanguage());		
-		l.add(new ContentType());		
+		l.add(new RevisionLanguage());
+		l.add(new ContentType());
 		l.add(new CommentTail());
 		
 		l.add(new ItemId());
@@ -116,14 +120,14 @@ public class FeatureList {
 		l.add(new BracketRatio());
 		l.add(new DigitRatio());
 		l.add(new LatinRatio());
-		l.add(new LongestCharacterSequence());			
-		l.add(new LowerCaseRatio());						
-		l.add(new NonLatinRatio());					
+		l.add(new LongestCharacterSequence());
+		l.add(new LowerCaseRatio());
+		l.add(new NonLatinRatio());
 		l.add(new PunctuationRatio());
 		l.add(new UpperCaseRatio());
 		l.add(new WhitespaceRatio());
 		
-		if (allFeatures){
+		if (allFeatures) {
 			l.add(new ArabicRatio());
 			l.add(new BengaliRatio());
 			l.add(new CyrillicRatio());
@@ -141,11 +145,11 @@ public class FeatureList {
 		l.add(new ContainsLanguageWord());
 		l.add(new ContainsURL());
 		l.add(new LanguageWordRatio());
-		l.add(new LongestWord());			
+		l.add(new LongestWord());
 		l.add(new LowerCaseWordRatio());
 		l.add(new ProportionOfLinksAdded()); // from ORES baseline
 		l.add(new ProportionOfQidAdded()); // from ORES baseline
-		l.add(new UpperCaseWordRatio());			
+		l.add(new UpperCaseWordRatio());
 		
 		// Used for ORES baseline
 		l.add(new ProportionOfLanguageAdded()); // taken from ORES. takes a loooong time
@@ -158,22 +162,22 @@ public class FeatureList {
 		l.add(new CommentTailLength());
 		l.add(new CommentSitelinkSimilarity());
 		
-		if (allFeatures){
-			l.add(new CommentTail());			
+		if (allFeatures) {
+			l.add(new CommentTail());
 		}
 //		l.add(new WordsFromCommentInText());
 //		l.add(new WordsFromCommentInTextWithoutStopWords());
 		
 		////////////////////////////////////////////////////////
 		// Statement features
-		////////////////////////////////////////////////////////			
+		////////////////////////////////////////////////////////
 		l.add(new Property());
 		l.add(new ItemValue());
 		l.add(new LiteralValue());
 		
-		if (allFeatures){
+		if (allFeatures) {
 			l.add(new ItemId());
-			l.add(new SuperItemId());			
+			l.add(new SuperItemId());
 		}
 		
 		////////////////////////////////////////////////////////
@@ -184,10 +188,10 @@ public class FeatureList {
 		l.add(new UserCity());
 		l.add(new UserContinent());
 		l.add(new UserCountry());
-		l.add(new UserCounty());			
+		l.add(new UserCounty());
 		l.add(new UserName());
 		l.add(new UserRegion());
-		l.add(new UserTimeZone());	
+		l.add(new UserTimeZone());
 		
 		// Used by ORES baseline
 		l.add(new IsBotUser());
@@ -227,7 +231,7 @@ public class FeatureList {
 		l.add(new NumberOfBadges()); // taken from ORES baseline		
 		l.add(new IsLivingPerson()); // taken from ORES baseline
 		
-		if (allFeatures){			
+		if (allFeatures) {
 			l.add(new SuperItemId());
 			l.add(new LatestInstanceOfItemId());
 			l.add(new LatestEnglishItemLabel());
@@ -242,17 +246,17 @@ public class FeatureList {
 		l.add(new RevisionAction());
 		l.add(new RevisionLanguage());
 		l.add(new RevisionPrevAction());
-		l.add(new RevisionSubaction());			
+		l.add(new RevisionSubaction());
 		l.add(new RevisionTag()); // also used as FILTER baseline
 		
-		if (allFeatures){
-			l.add(new RevisionSize());		
-			l.add(new BytesIncrease());			
+		if (allFeatures) {
+			l.add(new RevisionSize());
+			l.add(new BytesIncrease());
 			l.add(new MinorRevision());
 			l.add(new ParentRevisionInCorpus());
-			l.add(new Param1());			
+			l.add(new Param1());
 			l.add(new Param3());
-			l.add(new Param4());								
+			l.add(new Param4());
 			l.add(new TimeSinceLastRevision());
 		}
 		
@@ -276,10 +280,10 @@ public class FeatureList {
 		
 		l.add(new NumberOfClaimsAdded());
 		l.add(new NumberOfClaimsRemoved());
-		l.add(new NumberOfClaimsChanged());		
+		l.add(new NumberOfClaimsChanged());
 
 		
-		l.add(new NumberOfIdentifiersChanged());		
+		l.add(new NumberOfIdentifiersChanged());
 		l.add(new EnglishLabelTouched());
 		
 		l.add(new NumberOfSourcesAdded());
@@ -306,14 +310,14 @@ public class FeatureList {
 		////////////////////////////////////////////////////////
 		l.add(new RollbackReverted());
 		
-		if(allFeatures){
+		if (allFeatures) {
 			l.add(new UndoRestoreReverted());
 		}
 		
 		return l;		
 	}	
 	
-	public static List<Feature> getFeatures(boolean allFeatures){
+	public static List<Feature> getFeatures(boolean allFeatures) {
 		List<Feature> featureList = getFeatureListInternal(allFeatures);
 		
 		featureList = removeDuplicates(featureList);
@@ -321,16 +325,15 @@ public class FeatureList {
 		return featureList;
 	}
 	
-	private static List<Feature> removeDuplicates(List<Feature> list){
+	private static List<Feature> removeDuplicates(List<Feature> list) {
 		LinkedHashSet<Feature> linkedHashSet = new LinkedHashSet<Feature>();
 		
-		for (Feature feature: list){
-			if (!linkedHashSet.contains(feature)){
+		for (Feature feature: list) {
+			if (!linkedHashSet.contains(feature)) {
 				linkedHashSet.add(feature);
-			}
-			else{
+			} else {
 				logger.debug("Removing duplicate feature: " + feature.getName());
-			}			
+			}
 		}
 		
 		List<Feature> result = new ArrayList<Feature>(linkedHashSet);

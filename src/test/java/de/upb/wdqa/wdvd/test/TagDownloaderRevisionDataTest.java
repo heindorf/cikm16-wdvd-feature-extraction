@@ -56,7 +56,7 @@ public class TagDownloaderRevisionDataTest {
 	DbTagFactory tagFactory = new DbTagFactory();
 	
 	@Test
-	public void testTags(){		
+	public void testTags() {
 		List<String> emptyTags = new ArrayList<String>();
 		List<String> emptyStringTags = new ArrayList<String>();
 		emptyStringTags.add("");
@@ -98,27 +98,28 @@ public class TagDownloaderRevisionDataTest {
 		bytes = data.getByteArray();
 		System.out.println(bytes.length);
 		
-		loadedData = new TagDownloaderRevisionData(bytes, tagFactory);		
+		loadedData = new TagDownloaderRevisionData(bytes, tagFactory);
 		Assert.assertEquals(data, loadedData);
 	}
 	
-	private DbRevision getDbRevision(String sha1Base16, List<String> tagNames){
+	private DbRevision getDbRevision(String sha1Base16, List<String> tagNames) {
 		
 		Set<DbTag> tags = new HashSet<DbTag>(); 
 		
-		for(String tagName: tagNames){
+		for (String tagName: tagNames) {
 			tags.add(tagFactory.getTag(tagName));
-		}		
+		}
 		
 		return new DbRevisionImpl(-1, SHA1Converter.base16to36(sha1Base16), tags);
 	}
 	
-	private boolean containsTagName(String tagName, Set<DbTag> tags){
+	private boolean containsTagName(String tagName, Set<DbTag> tags) {
 		Set<String> tagNames = new HashSet<String>();
-		for(DbTag tag: tags){
+		for (DbTag tag: tags) {
 			tagNames.add(tag.getTagName());
 		}
 		
 		return tagNames.contains(tagName);
 	}
+
 }

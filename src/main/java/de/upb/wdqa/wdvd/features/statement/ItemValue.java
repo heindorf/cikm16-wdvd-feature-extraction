@@ -33,7 +33,7 @@ public class ItemValue extends FeatureImpl {
 
 	@Override
 	public FeatureStringValue calculate(Revision revision) {
-		ParsedComment comment = revision.getParsedComment();	
+		ParsedComment comment = revision.getParsedComment();
 		
 		String result = comment.getItemValue();
 		

@@ -81,45 +81,45 @@ public class FeatureExtractorConfiguration {
 	private static final HelpFormatter helpFormatter;
 	
 	
-	public FeatureExtractorConfiguration(String[] args){		
+	public FeatureExtractorConfiguration(String[] args) {
 		readArgs(args);	
 	}
 	
-	public File getRevisionFile(){
+	public File getRevisionFile() {
 		return this.revisionFile;
 	}
 	
-	public File getLabelFile(){
+	public File getLabelFile() {
 		return this.labelFile;
 	}
 	
-	public File getGeolocationDbFile(){
+	public File getGeolocationDbFile() {
 		return this.geolocationDbFile;
 	}
 	
-	public File getGeolocationFeatureFile(){
+	public File getGeolocationFeatureFile() {
 		return this.geolocationFeatureFile;
 	}
 	
-	public File getRevisionTagFile(){
+	public File getRevisionTagFile() {
 		return this.revisionTagFile;
 	}
 	
-	public File getFeatureFile(){
+	public File getFeatureFile() {
 		return this.featureFile;
 	}
 	
-	public void printHelp(){
+	public void printHelp() {
 		helpFormatter.printHelp(CMD_LINE_SYNTAX, HEADER, options, FOOTER);
 	}
 	
 
 	
-	private void readArgs(String[] args){
+	private void readArgs(String[] args) {
 		CommandLineParser parser = new DefaultParser();
 		
-		try{
-			CommandLine cmd = parser.parse( options, args);
+		try {
+			CommandLine cmd = parser.parse(options, args);
 			
 			labelFile = getFileFromOption(cmd, OPTION_LABEL_FILE);
 			geolocationDbFile = getFileFromOption(cmd, OPTION_GEOLOCATION_DB_FILE);
@@ -128,24 +128,22 @@ public class FeatureExtractorConfiguration {
 			
 			List<String> argList = cmd.getArgList();
 			
-			if(argList.size() != 2){
+			if (argList.size() != 2) {
 				printHelp();
-			}
-			else{
+			} else {
 				revisionFile = new File(argList.get(0));
 				featureFile = new File(argList.get(1));
 			}
-	    }
-	    catch(ParseException exp ) {
-	    	System.err.print(exp);
-	    }
+		} catch (ParseException exp) {
+			System.err.print(exp);
+		}
 	}
 	
-	private static File getFileFromOption(CommandLine cmd, String option){
+	private static File getFileFromOption(CommandLine cmd, String option) {
 		File result = null;
 		
 		String optionValue = cmd.getOptionValue(option);
-		if (optionValue != null){
+		if (optionValue != null) {
 			result = new File(optionValue); 
 		}
 		
@@ -158,31 +156,31 @@ public class FeatureExtractorConfiguration {
 		Option labelFile = Option.builder()
 				.longOpt(OPTION_LABEL_FILE)
 				.argName("FILE")
-                .hasArg()
-                .desc("use given labels (bz2 format)")
-                .build();
+				.hasArg()
+				.desc("use given labels (bz2 format)")
+				.build();
 		
 		Option geolocationDbFile = Option.builder()
 				.longOpt(OPTION_GEOLOCATION_DB_FILE)
 				.argName("FILE")
-                .hasArg()
-                .desc("use given IP geolocation database (bz2 format)")
-                .build();
+				.hasArg()
+				.desc("use given IP geolocation database (bz2 format)")
+				.build();
 		
 		Option geolocationFeatureFile = Option.builder()
 				.longOpt(OPTION_GEOLOCATION_FEATURE_FILE)
 				.argName("FILE")
-                .hasArg()
-                .desc("use given geolocation feature file (bz2 format)")
-                .build();
+				.hasArg()
+				.desc("use given geolocation feature file (bz2 format)")
+				.build();
 		
 		Option revisionTagFile = Option.builder()
 				.longOpt(OPTION_REVISION_TAG_FILE)
 				.argName("FILE")
-                .hasArg()
-                .optionalArg(false)
-                .desc("use given revision tags (bz2 format)")
-                .build();
+				.hasArg()
+				.optionalArg(false)
+				.desc("use given revision tags (bz2 format)")
+				.build();
 		
 		final List<Option> optionList = new LinkedList<Option>();
 		
@@ -192,7 +190,7 @@ public class FeatureExtractorConfiguration {
 		optionList.add(revisionTagFile);
 		
 		
-		for (Option option: optionList){
+		for (Option option: optionList) {
 			options.addOption(option);
 		}
 		
@@ -206,10 +204,7 @@ public class FeatureExtractorConfiguration {
 				return Integer.compare(pos1, pos2);
 
 			}
-		});	
-		
-
-
-
+		});
 	}
+
 }

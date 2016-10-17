@@ -32,7 +32,7 @@ import de.upb.wdqa.wdvd.Revision;
 public class RevisionTest {
 	
 	@Test
-	public void testRevert(){
+	public void testRevert() {
 //		String timeString = "2012-11-13T05:34:15Z";
 		
 		Revision revision = new Revision();
@@ -46,7 +46,7 @@ public class RevisionTest {
 	}
 	
 	@Test
-	public void testCopy(){
+	public void testCopy() {
 		Revision revision = new Revision();
 		
 		Assert.assertFalse(revision.wasRollbackReverted());
@@ -60,6 +60,7 @@ public class RevisionTest {
 		
 		Assert.assertTrue(copy.wasRollbackReverted());
 		Assert.assertNotNull(copy.getPreviousRevision());
-		Assert.assertEquals(42, copy.getRevisionGroupId());		
+		Assert.assertEquals(42, copy.getRevisionGroupId());
 	}
+
 }

@@ -33,7 +33,7 @@ import de.upb.wdqa.wdvd.db.implementation.ItemDocumentDbItem;
 public class ItemDocumentSimplifiedItemTest {
 	
 	@Test
-	public void testRankComparison(){
+	public void testRankComparison() {
 		Assert.assertTrue(ItemDocumentDbItem.firstIsHigherThanSecond(
 				StatementRank.NORMAL, StatementRank.DEPRECATED));
 		Assert.assertTrue(ItemDocumentDbItem.firstIsHigherThanSecond(
@@ -48,6 +48,5 @@ public class ItemDocumentSimplifiedItemTest {
 		Assert.assertFalse(ItemDocumentDbItem.firstIsHigherThanSecond(
 				StatementRank.NORMAL, StatementRank.PREFERRED));
 	}
-	
-}
 
+}

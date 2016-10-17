@@ -66,9 +66,13 @@ import de.upb.wdqa.wdvd.datamodel.oldjson.jackson.datavalues.OldJacksonValueItem
 public class JsonNormalizer {
 	private static final Logger logger = Logger.getLogger(JsonNormalizer.class);
 	
+	private JsonNormalizer() {
+		
+	}
+	
 	public static JacksonItemDocument normalizeFormat(
 			OldJacksonItemDocument oldDocument)
-			throws JsonParseException, JsonMappingException, IOException{
+			throws JsonParseException, JsonMappingException, IOException {
 		
 		JacksonItemDocument newDocument = getNewJacksonItemDocument(oldDocument);
 		
@@ -76,7 +80,7 @@ public class JsonNormalizer {
 	}
 	
 	private static JacksonItemDocument getNewJacksonItemDocument(
-			OldJacksonItemDocument oldItemDocument){
+			OldJacksonItemDocument oldItemDocument) {
 		JacksonItemDocument result = new JacksonItemDocument();
 		
 		result.setJsonId(oldItemDocument.getEntity().getId());
@@ -102,8 +106,8 @@ public class JsonNormalizer {
 		Map<String, JacksonSiteLink> result =
 				new LinkedHashMap<String, JacksonSiteLink>();
 		
-		if(siteLinks != null){
-			for(Entry<String,OldJacksonSiteLink> entry: siteLinks.entrySet()){
+		if (siteLinks != null) {
+			for (Entry<String, OldJacksonSiteLink> entry: siteLinks.entrySet()) {
 				String siteKey = entry.getKey();
 				OldJacksonSiteLink oldSitelink = entry.getValue();
 				
@@ -126,13 +130,13 @@ public class JsonNormalizer {
 		Map<String, List<JacksonStatement>> result =
 				new LinkedHashMap<String, List<JacksonStatement>>();
 		
-		if(claims != null){
-			for(OldJacksonStatement oldStatement: claims){
+		if (claims != null) {
+			for (OldJacksonStatement oldStatement: claims) {
 				JacksonStatement statement = getNewStatement(oldStatement);
 				JacksonSnak mainsnak = statement.getMainsnak();
-				if(mainsnak != null){
+				if (mainsnak != null) {
 					String property = mainsnak.getProperty();
-					if(!result.containsKey(property)){
+					if (!result.containsKey(property)) {
 						result.put(property, new ArrayList<JacksonStatement>());
 					}
 					
@@ -150,7 +154,7 @@ public class JsonNormalizer {
 			OldJacksonStatement oldStatement) {
 		JacksonStatement result = new JacksonStatement();
 		
-		if(oldStatement != null){
+		if (oldStatement != null) {
 			result.setStatementId(oldStatement.getStatementId());
 			
 			result.setRank(oldStatement.getRank());			
@@ -167,7 +171,7 @@ public class JsonNormalizer {
 			result.setQualifiers(qualifiers);			
 			List<String> qualifierPropertyOrder =
 					getNewPropertyOrder(oldStatement.getQualifiers());
-			result.setPropertyOrder(qualifierPropertyOrder );
+			result.setPropertyOrder(qualifierPropertyOrder);
 			
 			// Remark: the subject must not be set here. It is later
 			// automatically set by a call to
@@ -182,12 +186,12 @@ public class JsonNormalizer {
 		Map<String, List<JacksonSnak>> result =
 				new LinkedHashMap<String, List<JacksonSnak>>();
 		
-		if(qualifiers != null){
-			for(OldJacksonSnak oldSnak: qualifiers){
+		if (qualifiers != null) {
+			for (OldJacksonSnak oldSnak: qualifiers) {
 				JacksonSnak snak = getNewSnak(oldSnak);
 				String property = snak.getProperty();
-				if(property != null){
-					if(!result.containsKey(property)){
+				if (property != null) {
+					if (!result.containsKey(property)) {
 						result.put(property, new ArrayList<JacksonSnak>());
 					}
 					
@@ -209,7 +213,7 @@ public class JsonNormalizer {
 	private static JacksonSnak getNewSnak(OldJacksonSnak snak) {
 		JacksonSnak result = null;
 		
-		if(snak instanceof OldJacksonValueSnak){
+		if (snak instanceof OldJacksonValueSnak) {
 			OldJacksonValueSnak snak2 = (OldJacksonValueSnak) snak;
 			JacksonValueSnak result2 = new JacksonValueSnak();
 			result2.setProperty(snak2.getProperty());
@@ -217,20 +221,17 @@ public class JsonNormalizer {
 			result2.setProperty(snak2.getProperty());
 			result2.setDatavalue(getNewDataValue(snak2.getDatavalue()));
 			result = result2;
-		}
-		else if(snak instanceof OldJacksonNoValueSnak){
+		} else if (snak instanceof OldJacksonNoValueSnak) {
 			OldJacksonNoValueSnak snak2 = (OldJacksonNoValueSnak) snak;
 			JacksonNoValueSnak result2 = new JacksonNoValueSnak();
 			result2.setProperty(snak2.getProperty());
 			result = result2;
-		}
-		else if(snak instanceof OldJacksonSomeValueSnak){
+		} else if (snak instanceof OldJacksonSomeValueSnak) {
 			OldJacksonSomeValueSnak snak2 = (OldJacksonSomeValueSnak) snak;
 			JacksonSomeValueSnak result2 = new JacksonSomeValueSnak();
 			result2.setProperty(snak2.getProperty());
 			result = result2;
-		}
-		else{
+		} else {
 			logger.warn("Unknown OldJacksonValueSnak Type: " + snak.getClass());
 		}
 		
@@ -257,7 +258,7 @@ public class JsonNormalizer {
 		LinkedHashMap<String, JacksonMonolingualTextValue> result =
 				new LinkedHashMap<String, JacksonMonolingualTextValue>();
 		
-		if(labels != null){
+		if (labels != null) {
 			for (Entry<String, String> entry : labels.entrySet()) {
 				JacksonMonolingualTextValue mltv =
 						new JacksonMonolingualTextValue(entry.getKey(), entry.getValue());
@@ -280,16 +281,16 @@ public class JsonNormalizer {
 		Map<String, List<JacksonMonolingualTextValue>> result =
 				new LinkedHashMap<String, List<JacksonMonolingualTextValue>>();
 		
-		if(aliases != null){
-			for(Entry<String, List<String>> entry: aliases.entrySet()){
+		if (aliases != null) {
+			for (Entry<String, List<String>> entry: aliases.entrySet()) {
 				String languageCode = entry.getKey();
 				List<String> langAliases = entry.getValue();			
 	
-				List<JacksonMonolingualTextValue >list =
+				List<JacksonMonolingualTextValue> list =
 						new ArrayList<JacksonMonolingualTextValue>();
 				result.put(languageCode, list);
 				
-				for(String langAlias: langAliases){
+				for (String langAlias: langAliases) {
 					JacksonMonolingualTextValue mltv =
 							new JacksonMonolingualTextValue(languageCode, langAlias);
 					list.add(mltv);
@@ -301,11 +302,11 @@ public class JsonNormalizer {
 	}
 	
 	private static List<JacksonReference> getNewReferences(
-			List<List<OldJacksonSnak>> oldReferences){
+			List<List<OldJacksonSnak>> oldReferences) {
 		List<JacksonReference> result = new ArrayList<JacksonReference>();
 		
 		// A single reference consists of a list of snaks
-		for (List<OldJacksonSnak> oldReference: oldReferences){
+		for (List<OldJacksonSnak> oldReference: oldReferences) {
 			JacksonReference newReference = new JacksonReference();
 			
 			Map<String, List<JacksonSnak>> newSnaks =
@@ -326,7 +327,7 @@ public class JsonNormalizer {
 			List<OldJacksonSnak> oldReference) {
 		List<String> result = new ArrayList<String>();
 		
-		for (OldJacksonSnak oldSnak: oldReference){
+		for (OldJacksonSnak oldSnak: oldReference) {
 			String property = oldSnak.getProperty();
 			
 			result.add(property);
@@ -334,4 +335,5 @@ public class JsonNormalizer {
 		
 		return result;
 	}
+
 }

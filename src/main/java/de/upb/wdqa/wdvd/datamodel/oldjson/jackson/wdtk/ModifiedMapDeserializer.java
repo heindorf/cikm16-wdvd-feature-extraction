@@ -42,8 +42,8 @@ import com.fasterxml.jackson.databind.deser.ResolvableDeserializer;
 import com.fasterxml.jackson.databind.deser.std.MapDeserializer;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
-public class ModifiedMapDeserializer<K,V>
-	extends StdDeserializer<Map<K,V>>
+public class ModifiedMapDeserializer<K, V>
+	extends StdDeserializer<Map<K, V>>
 	implements ResolvableDeserializer, ContextualDeserializer {
 	
 	private static Logger logger =
@@ -54,29 +54,29 @@ public class ModifiedMapDeserializer<K,V>
 	private MapDeserializer defaultDeserializer;
 	
 	public ModifiedMapDeserializer(JsonDeserializer<?> defaultDeserializer) {
-		super((MapDeserializer)defaultDeserializer);
+		super((MapDeserializer) defaultDeserializer);
 		this.defaultDeserializer = (MapDeserializer) defaultDeserializer;
 	}
 
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<K,V> deserialize(JsonParser p,
+	public Map<K, V> deserialize(JsonParser p,
 			DeserializationContext ctxt) throws IOException,
 			JsonProcessingException {
 		
-		Map<K,V> result = null;
-			if(p.getCurrentToken().equals(JsonToken.START_ARRAY)){
+		Map<K, V> result = null;
+			if (p.getCurrentToken().equals(JsonToken.START_ARRAY)) {
 				result = new HashMap<>();
 				p.nextToken();
-				if(!p.getCurrentToken().equals(JsonToken.END_ARRAY)){
-					logger.warn("Array was not empty. Current token: " +
-							p.getCurrentToken());
+				if (!p.getCurrentToken().equals(JsonToken.END_ARRAY)) {
+					logger.warn("Array was not empty. Current token: "
+							+ p.getCurrentToken());
 				}
 			}
-			else{
+			else {
 				Object tmp = defaultDeserializer.deserialize(p, ctxt);
-				result = (Map<K,V>) tmp;
+				result = (Map<K, V>) tmp;
 			}
 		    return result;
 	}	
@@ -96,4 +96,5 @@ public class ModifiedMapDeserializer<K,V>
 		
 		return this;
 	}
+
 }

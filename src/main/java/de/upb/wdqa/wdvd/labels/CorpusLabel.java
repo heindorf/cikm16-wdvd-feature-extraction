@@ -70,4 +70,5 @@ public class CorpusLabel {
 				+ " rollback reverted: " + wasRollbackReverted
 				+ ", undo-restore reverted: " + wasUndoRestoreReverted;
 	}
+
 }

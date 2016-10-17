@@ -30,7 +30,7 @@ import de.upb.wdqa.wdvd.features.FeatureImpl;
 
 public class IsExtensionBotUser extends FeatureImpl {
 
-	final static UserSet userSet;	
+	static final UserSet userSet;	
 	static {
 		
 		// Taken from http://www.wikidata.org/wiki/Category:Extension_bots
@@ -46,7 +46,7 @@ public class IsExtensionBotUser extends FeatureImpl {
 				userSet.strContains(revision.getContributor()));
 	}
 	
-	public static boolean isExtensionBot(String contributor){
+	public static boolean isExtensionBot(String contributor) {
 		return userSet.contains(contributor);		
 	}
 	

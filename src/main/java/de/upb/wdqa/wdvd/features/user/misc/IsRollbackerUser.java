@@ -30,7 +30,7 @@ import de.upb.wdqa.wdvd.features.FeatureImpl;
 
 public class IsRollbackerUser extends FeatureImpl {
 	
-	final static UserSet userSet;
+	static final UserSet userSet;
 	static {
 		// source:
 		// http://www.wikidata.org/w/index.php?title=Special:ListUsers&limit=500&username=&group=rollbacker&uselang=en
@@ -69,7 +69,7 @@ public class IsRollbackerUser extends FeatureImpl {
 				userSet.strContains(revision.getContributor()));
 	}
 	
-	public static boolean isRollbacker(String contributor){
+	public static boolean isRollbacker(String contributor) {
 		return userSet.contains(contributor);
 	}	
 

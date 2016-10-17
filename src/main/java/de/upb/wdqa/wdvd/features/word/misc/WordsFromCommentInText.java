@@ -31,7 +31,7 @@ import de.upb.wdqa.wdvd.features.FeatureImpl;
 import de.upb.wdqa.wdvd.features.FeatureIntegerValue;
 
 public class WordsFromCommentInText extends FeatureImpl {
-	private final static Pattern pattern;
+	private static final Pattern pattern;
 	
 	static {
 		pattern = Pattern.compile("\\s+");
@@ -43,26 +43,26 @@ public class WordsFromCommentInText extends FeatureImpl {
 		
 		Revision prevRevision = revision.getPreviousRevision();
 	
-		if (prevRevision != null){
+		if (prevRevision != null) {
 		
-			String suffixComment = revision.getParsedComment().getSuffixComment();		
+			String suffixComment = revision.getParsedComment().getSuffixComment();
 		
 		
-			if (suffixComment != null){
+			if (suffixComment != null) {
 				String[] words = pattern.split(suffixComment.trim());
 			
-				if (words.length > 0){		
+				if (words.length > 0) {		
 					result = 0;
 				}
 	
-				for (String word: words){
+				for (String word: words) {
 					
 					word = word.trim();
-					if (!word.equals("") && prevRevision.getText().contains(word)){
+					if (!word.equals("") && prevRevision.getText().contains(word)) {
 						result++;
 					}
 				}
-			}		
+			}
 		}
 
 		return new FeatureIntegerValue(result);

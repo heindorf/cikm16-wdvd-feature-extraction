@@ -33,12 +33,12 @@ import de.upb.wdqa.wdvd.features.FeatureImpl;
 
 public class IsBotUser extends FeatureImpl {
 	
-	final static Logger logger = LoggerFactory.getLogger(IsBotUser.class);
+	static final Logger logger = LoggerFactory.getLogger(IsBotUser.class);
 
 	@Override
 	public FeatureBooleanValue calculate(Revision revision) {
 		String contributor = revision.getContributor();
-		if (contributor == null){
+		if (contributor == null) {
 			return new FeatureBooleanValue(null);
 		}		
 
@@ -47,9 +47,10 @@ public class IsBotUser extends FeatureImpl {
 		return new FeatureBooleanValue(result);
 	}
 	
-	public static boolean isBot(String contributor){
-		if (contributor == null)
+	public static boolean isBot(String contributor) {
+		if (contributor == null) {
 			return false;
+		}
 		
 		boolean result = IsLocalBotUser.isLocalBot(contributor)	
 				|| IsGlobalBotUser.isGlobalBot(contributor)

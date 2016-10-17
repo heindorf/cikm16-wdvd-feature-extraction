@@ -40,7 +40,7 @@ public class BadWordRatio extends FeatureImpl {
 
 	// http://www.cs.cmu.edu/~biglou/resources/
 	// Last updated: December 13, 2014
-	public final static String[] luisVonAhnWordlist = { "abbo", "abo",
+	public static final String[] luisVonAhnWordlist = { "abbo", "abo",
 			"abortion", "abuse", "addict", "addicts", "adult", "africa",
 			"african", "alla", "allah", "alligatorbait", "amateur", "american",
 			"anal", "analannie", "analsex", "angie", "angry", "anus", "arab",
@@ -286,9 +286,9 @@ public class BadWordRatio extends FeatureImpl {
 			"zipperhead"
 	};	
 	
-	private final static Pattern pattern;
+	private static final Pattern pattern;
 	
-	static{
+	static {
 		List<String> tokens =
 				new ArrayList<String>(Arrays.asList(luisVonAhnWordlist));
 
@@ -302,9 +302,9 @@ public class BadWordRatio extends FeatureImpl {
 		
 		String suffixComment = revision.getParsedComment().getSuffixComment();	
 
-		if(suffixComment != null){
+		if (suffixComment != null) {
 			suffixComment = suffixComment.toLowerCase();
-			result = Utils.wordRatio(suffixComment, pattern);	
+			result = Utils.wordRatio(suffixComment, pattern);
 		}		
 
 		return new FeatureFloatValue(result);

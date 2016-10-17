@@ -42,9 +42,9 @@ public class LatestEnglishItemLabel extends FeatureImpl {
 	public FeatureStringValue calculate(Revision revision) {
 		String result = null;
 
-		ItemDocument latestItemDocument = revision.getLatestItemDocument();			
+		ItemDocument latestItemDocument = revision.getLatestItemDocument();
 
-		if(latestItemDocument != null){
+		if (latestItemDocument != null) {
 			ItemDocumentDbItem item = new ItemDocumentDbItem(latestItemDocument);
 			
 			result = item.getLabel();

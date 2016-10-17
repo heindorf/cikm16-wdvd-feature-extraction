@@ -38,11 +38,11 @@ public class CommentCommentSimilarity extends FeatureImpl {
 		String curComment = revision.getParsedComment().getSuffixComment();
 		
 		Revision prevRevision = revision.getPreviousRevision();
-		if((curComment != null) && (prevRevision != null)){
+		if ((curComment != null) && (prevRevision != null)) {
 			String prevComment =
 					prevRevision.getParsedComment().getSuffixComment(); 
 
-			if (prevComment != null){
+			if (prevComment != null) {
 				curComment = curComment.trim();
 				prevComment = prevComment.trim();
 				result = (float) StringUtils.getJaroWinklerDistance(

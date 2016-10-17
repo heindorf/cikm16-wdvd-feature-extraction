@@ -32,14 +32,13 @@ public enum CONTENT_TYPE {
 	
 	static final Logger logger = LoggerFactory.getLogger(CONTENT_TYPE.class);
 	
-	static public CONTENT_TYPE getContentType(String action){
+	public static CONTENT_TYPE getContentType(String action) {
 		CONTENT_TYPE result;
 		
-		if (action == null){
+		if (action == null) {
 			result = CONTENT_TYPE.MISC;
-		}
-		else{
-			switch(action){
+		} else {
+			switch (action) {
 			case "wbcreateclaim":
 			case "wbsetclaim":
 			case "wbremoveclaims":
@@ -48,7 +47,7 @@ public enum CONTENT_TYPE {
 			case "wbremovereferences":
 			case "wbsetqualifier":
 			case "wbremovequalifiers":
-				result= CONTENT_TYPE.STATEMENT;
+				result = CONTENT_TYPE.STATEMENT;
 				break;
 			case "wbsetsitelink":
 			case "wbcreateredirect":
@@ -59,7 +58,7 @@ public enum CONTENT_TYPE {
 			case "wbsetaliases":
 			case "wbsetdescription":
 			case "wbsetlabel":
-				result= CONTENT_TYPE.TEXT;
+				result = CONTENT_TYPE.TEXT;
 				break;
 			case "wbeditentity":
 			case "wbsetentity":
@@ -77,22 +76,22 @@ public enum CONTENT_TYPE {
 			case "unknownCommentType":
 			case "null":
 			case "":
-				result= CONTENT_TYPE.MISC;
+				result = CONTENT_TYPE.MISC;
 				break;
 			default:
 				logger.warn("Unknown content type of: " + action);
-				result= CONTENT_TYPE.MISC;
+				result = CONTENT_TYPE.MISC;
 			}
 		}
 		return result;
 	}
 	
 	public CONTENT_TYPE combine(CONTENT_TYPE type2) {
-		if (this == type2){
+		if (this == type2) {
 			return this;
-		}
-		else{
+		} else {
 			return CONTENT_TYPE.DIFFERENT;
 		}
 	}
+
 }

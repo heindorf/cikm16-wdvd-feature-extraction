@@ -35,11 +35,11 @@ public class UserCounty extends FeatureImpl {
 	public FeatureStringValue calculate(Revision revision) {
 		String result = null;
 		GeoInformation geoInformation = revision.getGeoInformation();
-		if (geoInformation != null){
+		if (geoInformation != null) {
 			result = geoInformation.getCountyName();
 		}
 		
-		return new FeatureStringValue(result);		
+		return new FeatureStringValue(result);
 	}
 
 }

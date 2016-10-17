@@ -30,7 +30,7 @@ import de.upb.wdqa.wdvd.features.FeatureImpl;
 
 public class IsBotWithoutBotFlagUser extends FeatureImpl {
 	
-	final static UserSet userSet;
+	static final UserSet userSet;
 	static {
 		
 		// Taken from http://www.wikidata.org/wiki/Category:Bots_without_botflag

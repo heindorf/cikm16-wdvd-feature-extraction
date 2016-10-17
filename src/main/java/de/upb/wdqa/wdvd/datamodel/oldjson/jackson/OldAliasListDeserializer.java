@@ -37,7 +37,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
-public class OldAliasListDeserializer extends JsonDeserializer<List<String>>{
+public class OldAliasListDeserializer extends JsonDeserializer<List<String>> {
 
 	@Override
 	public List<String> deserialize(JsonParser p, DeserializationContext ctxt)
@@ -47,12 +47,11 @@ public class OldAliasListDeserializer extends JsonDeserializer<List<String>>{
 		 ObjectCodec codec = p.getCodec();
 		 
 
-		if (p.getCurrentToken().equals(JsonToken.START_ARRAY)){
-			result = codec.readValue(p, new TypeReference<List<String>>() {}) ;
-		}
-		else{
+		if (p.getCurrentToken().equals(JsonToken.START_ARRAY)) {
+			result = codec.readValue(p, new TypeReference<List<String>>() { });
+		} else {
 			LinkedHashMap<Integer, String> map = codec.readValue(p,
-					new TypeReference<LinkedHashMap<Integer, String>>() {});
+					new TypeReference<LinkedHashMap<Integer, String>>() { });
 			
 			result = new ArrayList<String>(map.values());
 		}

@@ -63,18 +63,18 @@ public class OldAliasesDeserializer extends
 				new LinkedHashMap<String, List<String>>();
 
 		// Is the alias broken, i.e., it starts with '['
-		if (jp.getCurrentToken().equals(JsonToken.START_ARRAY)){
+		if (jp.getCurrentToken().equals(JsonToken.START_ARRAY)) {
 			jp.nextToken();
-			if(!jp.getCurrentToken().equals(JsonToken.END_ARRAY)){
+			if (!jp.getCurrentToken().equals(JsonToken.END_ARRAY)) {
 				logger.warn("Token " + JsonToken.END_ARRAY + " expected");
 			}			
-		}
-		else{
+		} else {
 				ObjectCodec mapper = jp.getCodec();
 				result = mapper.readValue(jp,
-						new TypeReference<LinkedHashMap<String, OldAliasList>>() {});
+						new TypeReference<LinkedHashMap<String, OldAliasList>>() { });
 		}
 
 		return result;
 	}
+
 }

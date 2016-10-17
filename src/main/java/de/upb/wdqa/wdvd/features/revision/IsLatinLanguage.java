@@ -33,8 +33,8 @@ import de.upb.wdqa.wdvd.features.FeatureImpl;
 
 public class IsLatinLanguage extends FeatureImpl {
 
-	private final static Pattern latinPattern;
-	private final static Pattern nonLatinPattern;
+	private static final Pattern latinPattern;
+	private static final Pattern nonLatinPattern;
 	
 	static {
 		
@@ -67,14 +67,14 @@ public class IsLatinLanguage extends FeatureImpl {
 		
 		String[] params = revision.getParsedComment().getParameters();
 		
-		if (params.length > 1){
+		if (params.length > 1) {
 			String param2 = params[1].trim();
 			
-			if (latinMatcher.reset(param2).matches()){
+			if (latinMatcher.reset(param2).matches()) {
 				result = true;
 			}
 			
-			if (nonLatinMatcher.reset(param2).matches()){
+			if (nonLatinMatcher.reset(param2).matches()) {
 				result = false;
 			}
 		}

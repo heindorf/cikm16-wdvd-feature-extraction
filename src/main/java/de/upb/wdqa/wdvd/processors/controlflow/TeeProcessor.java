@@ -36,21 +36,21 @@ public class TeeProcessor implements RevisionProcessor {
 
 	@Override
 	public void startRevisionProcessing() {
-		for(RevisionProcessor processor: processors){
+		for (RevisionProcessor processor: processors) {
 			processor.startRevisionProcessing();
 		}		
 	}
 
 	@Override
 	public void processRevision(Revision revision) {
-		for(RevisionProcessor processor: processors){
+		for (RevisionProcessor processor: processors) {
 			processor.processRevision(new Revision(revision));
 		}		
 	}
 
 	@Override
 	public void finishRevisionProcessing() {
-		for(RevisionProcessor processor: processors){
+		for (RevisionProcessor processor: processors) {
 			processor.finishRevisionProcessing();
 		}
 	}
@@ -58,6 +58,5 @@ public class TeeProcessor implements RevisionProcessor {
 	public void add(RevisionProcessor processor) {
 		processors.add(processor);
 	}
-	
 
 }

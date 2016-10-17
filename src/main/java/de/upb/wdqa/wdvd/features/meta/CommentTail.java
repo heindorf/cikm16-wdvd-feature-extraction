@@ -34,7 +34,7 @@ public class CommentTail extends FeatureImpl {
 	public FeatureStringValue calculate(Revision revision) {
 		String result = revision.getParsedComment().getSuffixComment();
 		
-		if (result!= null){
+		if (result != null) {
 			result = result.trim();
 		}
 		

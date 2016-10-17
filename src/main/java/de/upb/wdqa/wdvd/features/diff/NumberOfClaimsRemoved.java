@@ -38,7 +38,7 @@ public class NumberOfClaimsRemoved extends FeatureImpl {
 		
 		ItemDiff itemDiff = ItemDiff.getItemDiffFromRevision(revision);
 		
-		if (itemDiff != null){					
+		if (itemDiff != null) {
 			MapDiff mapDiff = itemDiff.getClaimDiff();
 			
 			result = mapDiff.getRemovedKeys().size();
@@ -47,4 +47,5 @@ public class NumberOfClaimsRemoved extends FeatureImpl {
 		
 		return new FeatureIntegerValue(result);
 	}
+
 }

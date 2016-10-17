@@ -29,7 +29,7 @@ import de.upb.wdqa.wdvd.features.FeatureBooleanValue;
 import de.upb.wdqa.wdvd.features.FeatureImpl;
 
 public class IsTranslationAdminUser extends FeatureImpl {
-	final static UserSet userSet;
+	static final UserSet userSet;
 
 	static {
 

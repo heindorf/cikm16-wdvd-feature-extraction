@@ -27,10 +27,8 @@ package de.upb.wdqa.wdvd.datamodel.oldjson.jackson.datavalues;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OldJacksonValueItemId extends OldJacksonValue {
-	
 
 	private String entityType;
-	
 
 	private int numericId;
 
@@ -53,4 +51,5 @@ public class OldJacksonValueItemId extends OldJacksonValue {
 	public void setNumericId(int numericId) {
 		this.numericId = numericId;
 	}
+
 }

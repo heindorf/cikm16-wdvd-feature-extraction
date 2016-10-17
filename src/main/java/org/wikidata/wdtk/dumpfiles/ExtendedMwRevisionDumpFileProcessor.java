@@ -8,8 +8,6 @@ import javax.xml.stream.XMLStreamException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.wikidata.wdtk.dumpfiles.MwRevisionDumpFileProcessor;
-import org.wikidata.wdtk.dumpfiles.MwRevisionProcessor;
 
 
 public class ExtendedMwRevisionDumpFileProcessor extends MwRevisionDumpFileProcessor {
@@ -27,15 +25,15 @@ public class ExtendedMwRevisionDumpFileProcessor extends MwRevisionDumpFileProce
 		try {
 			setFinalField(this, this.getClass().getSuperclass().getDeclaredField("mwRevision"),
 					new ExtendedMwRevisionImpl());
-		} catch ( Exception e) {
+		} catch (Exception e) {
 			logger.error("", e);
 		}
 	}
 	
 	void setFinalField(Object owner, Field field, Object newValue) throws Exception {
 		field.setAccessible(true);
-	    field.set(owner, newValue);
-	 }
+		field.set(owner, newValue);
+	}
 	
 	
 	

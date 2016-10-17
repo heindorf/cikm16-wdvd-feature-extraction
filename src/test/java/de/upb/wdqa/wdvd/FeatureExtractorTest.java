@@ -24,7 +24,7 @@
 
 package de.upb.wdqa.wdvd;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,15 +33,12 @@ import java.nio.file.Files;
 
 import org.junit.Test;
 
-import de.upb.wdqa.wdvd.FeatureExtractor;
-
 public class FeatureExtractorTest {
-
 	
 	@Test
 	public void SimpleSmokeTest() throws IOException {
 		File tmpDirectory = null;
-		try{
+		try {
 			String[] args = new String[2];
 			
 			tmpDirectory = Files.createTempDirectory("WDVD").toFile();
@@ -52,21 +49,23 @@ public class FeatureExtractorTest {
 			int result = FeatureExtractor.main2(args);
 			
 			assertEquals(0, result);
-		}
-		finally{
+		} finally {
 			delete(tmpDirectory);
 		}
 		
 	}
 	
 	static void delete(File f) throws IOException {
-		if (f!= null){
-			  if (f.isDirectory()) {
-			    for (File c : f.listFiles())
-			      delete(c);
-			  }
-			  if (!f.delete())
-			    throw new FileNotFoundException("Failed to delete file: " + f);
+		if (f != null) {
+			if (f.isDirectory()) {
+				for (File c : f.listFiles()) {
+					delete(c);
+				}
+				}
+				if (!f.delete()) {
+				throw new FileNotFoundException("Failed to delete file: " + f);
+				}
 			}
 		}
+
 }

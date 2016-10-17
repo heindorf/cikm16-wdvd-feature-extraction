@@ -51,7 +51,7 @@ public class JsonProcessorReducer implements Reducer {
 		List<SummaryStatistics> oldJsonStatisticsList = new ArrayList<SummaryStatistics>();
 		List<SummaryStatistics> redirectStatisticsList = new ArrayList<SummaryStatistics>();
 		
-		for(RevisionProcessor processor: workerProcessors){
+		for (RevisionProcessor processor: workerProcessors) {
 			JsonProcessor jsonProcessor = (JsonProcessor) processor;
 			
 			emptyStatisticsList.add(jsonProcessor.getEmptyJsonStatistics());

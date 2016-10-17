@@ -38,7 +38,7 @@ public class NumberOfQualifiersAdded extends FeatureImpl {
 		
 		ItemDiff itemDiff = ItemDiff.getItemDiffFromRevision(revision);
 		
-		if (itemDiff != null){					
+		if (itemDiff != null) {
 			MapDiff mapDiff = itemDiff.getQualifierDiff();
 			
 			result = mapDiff.getAddedKeys().size();
@@ -47,4 +47,5 @@ public class NumberOfQualifiersAdded extends FeatureImpl {
 		
 		return new FeatureIntegerValue(result);
 	}
+
 }

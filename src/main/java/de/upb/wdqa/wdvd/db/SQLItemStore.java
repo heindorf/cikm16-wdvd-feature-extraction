@@ -42,7 +42,7 @@ public class SQLItemStore implements ItemStore {
 	static final Logger logger = LoggerFactory.getLogger(SQLItemStore.class);
 	
 //	final static int BATCH_SIZE = 1; // just for testing
-	final static int BATCH_SIZE = 10000;
+	static final int BATCH_SIZE = 10000;
 	
 	private static Connection connection = null;
 	
@@ -60,20 +60,19 @@ public class SQLItemStore implements ItemStore {
 	
 	@Override
 	public void connect() {
-		try{
-	      // This will load the MySQL driver, each DB has its own driver
+		try {
+		// This will load the MySQL driver, each DB has its own driver
 			Class.forName("com.mysql.jdbc.Driver");
 
-		      // Setup the connection with the DB
-		      connection = DriverManager
-		          .getConnection("jdbc:mysql://localhost/wdqa?useServerPrepStmts=false&rewriteBatchedStatements=true",
-		        		  "wdqa", "5bI1vjEXasqjxOeWJXKu");
+			// Setup the connection with the DB
+			connection = DriverManager
+				.getConnection("jdbc:mysql://localhost/wdqa?useServerPrepStmts=false&rewriteBatchedStatements=true",
+						"wdqa", "5bI1vjEXasqjxOeWJXKu");
 	
-		      // Statements allow to issue SQL queries to the database
-		      insertItemPreparedStatement = connection.prepareStatement(insertItemSQL);
-		      getItemPreparedStatement = connection.prepareStatement(getItemSQL);
-		}
-		catch (ClassNotFoundException | SQLException e){
+			// Statements allow to issue SQL queries to the database
+			insertItemPreparedStatement = connection.prepareStatement(insertItemSQL);
+			getItemPreparedStatement = connection.prepareStatement(getItemSQL);
+		} catch (ClassNotFoundException | SQLException e) {
 			logger.error("", e);
 		}
 	}
@@ -82,35 +81,32 @@ public class SQLItemStore implements ItemStore {
 	 * Inserts an item into the database. This method is not thread-safe.
 	 */
 	@Override
-	public void insertItem(DbItem item){
+	public void insertItem(DbItem item) {
 		try {
 			insertItemPreparedStatement.setInt(1, item.getItemId());
 			insertItemPreparedStatement.setString(2, item.getLabel());
 			
-			if (item.getInstanceOfId() != null){
+			if (item.getInstanceOfId() != null) {
 				insertItemPreparedStatement.setInt(3, item.getInstanceOfId());
-			}
-			else{
+			} else {
 				insertItemPreparedStatement.setNull(3, java.sql.Types.INTEGER);
 			}
 			
-			if (item.getSubclassOfId() != null){
+			if (item.getSubclassOfId() != null) {
 				insertItemPreparedStatement.setInt(4, item.getSubclassOfId());
-			}
-			else{
+			} else {
 				insertItemPreparedStatement.setNull(4, java.sql.Types.INTEGER);
 			}
 			
-			if (item.getPartOfId() != null){
+			if (item.getPartOfId() != null) {
 				insertItemPreparedStatement.setInt(5, item.getPartOfId());
-			}
-			else{
+			} else {
 				insertItemPreparedStatement.setNull(5, java.sql.Types.INTEGER);
 			}
 			
 			insertItemPreparedStatement.addBatch();
 			numInsertedStatements++;
-			if(numInsertedStatements >= BATCH_SIZE){
+			if (numInsertedStatements >= BATCH_SIZE) {
 				insertItemPreparedStatement.executeBatch();
 				numInsertedStatements = 0;
 			}
@@ -118,7 +114,7 @@ public class SQLItemStore implements ItemStore {
 		} catch (SQLException e) {
 			String currentItem = "";
 			
-			if(item != null){
+			if (item != null) {
 				currentItem = "Item " + item.getItemId();
 			}
 			
@@ -127,7 +123,7 @@ public class SQLItemStore implements ItemStore {
 	}
 	
 	@Override
-	public void flushItems(){
+	public void flushItems() {
 		try {
 			insertItemPreparedStatement.executeBatch();
 		} catch (SQLException e) {
@@ -136,7 +132,7 @@ public class SQLItemStore implements ItemStore {
 	}
 	
 	@Override
-	public DbItem getItem(int itemId){
+	public DbItem getItem(int itemId) {
 		DbItem item = null;
 		
 		try {
@@ -144,7 +140,7 @@ public class SQLItemStore implements ItemStore {
 
 		ResultSet resultSet = getItemPreparedStatement.executeQuery();
 		
-		if (resultSet.first()){
+		if (resultSet.first()) {
 			item = new DbItemImpl(resultSet.getInt("item_id"),
 					resultSet.getString("item_label"),
 					resultSet.getInt("item_instance_of_id"),
@@ -160,8 +156,8 @@ public class SQLItemStore implements ItemStore {
 	}
 	
 	@Override
-	public void deleteItems(){
-		try{
+	public void deleteItems() {
+		try {
 			Statement statement = connection.createStatement();
 			statement.execute(deleteItems);
 		} catch (SQLException e) {
@@ -170,7 +166,7 @@ public class SQLItemStore implements ItemStore {
 	}
 	
 	@Override
-	public void close(){
+	public void close() {
 		try {
 			flushItems();
 			connection.close();
@@ -179,4 +175,5 @@ public class SQLItemStore implements ItemStore {
 			logger.error("", e);
 		}
 	}
+
 }

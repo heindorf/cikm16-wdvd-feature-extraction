@@ -44,5 +44,5 @@ public class AlphanumericRatio extends FeatureImpl {
 		
 		return new FeatureFloatValue(result);
 	}
-	
+
 }

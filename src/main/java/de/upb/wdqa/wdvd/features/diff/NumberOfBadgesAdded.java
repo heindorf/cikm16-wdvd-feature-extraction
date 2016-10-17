@@ -38,7 +38,7 @@ public class NumberOfBadgesAdded extends FeatureImpl {
 		
 		ItemDiff itemDiff = ItemDiff.getItemDiffFromRevision(revision);
 		
-		if (itemDiff != null){					
+		if (itemDiff != null) {					
 			MapDiff mapDiff = itemDiff.getBadgeDiff();
 			
 			result = mapDiff.getNumberOfAddedListValues();
@@ -47,4 +47,5 @@ public class NumberOfBadgesAdded extends FeatureImpl {
 		
 		return new FeatureIntegerValue(result);
 	}
+
 }

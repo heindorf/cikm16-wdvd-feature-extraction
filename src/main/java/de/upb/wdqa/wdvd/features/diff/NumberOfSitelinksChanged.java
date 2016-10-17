@@ -38,7 +38,7 @@ public class NumberOfSitelinksChanged extends FeatureImpl {
 		
 		ItemDiff itemDiff = ItemDiff.getItemDiffFromRevision(revision);
 		
-		if (itemDiff != null){					
+		if (itemDiff != null) {
 			MapDiff mapDiff = itemDiff.getSitelinkDiff();
 			
 			result = mapDiff.getChangedKeys().size();

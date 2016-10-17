@@ -62,7 +62,7 @@ public class ItemDocumentDbItem implements DbItem {
 		String result = null;
 		
 		MonolingualTextValue label = itemDocument.getLabels().get("en");		
-		if (label != null){				
+		if (label != null) {
 			result = label.getText();
 		}
 		
@@ -90,25 +90,25 @@ public class ItemDocumentDbItem implements DbItem {
 
 	// Finds all statements with the given property and returns the value of the
 	// first statement with the highest rank
-	private Integer getFirstValueOfPropertyWithHighestRank(String property){
+	private Integer getFirstValueOfPropertyWithHighestRank(String property) {
 		Iterator<Statement> it = itemDocument.getAllStatements();
 		
 		Integer result = null;
 		StatementRank highestStatementRank = null;
 		
-		while (it.hasNext()){
+		while (it.hasNext()) {
 			Statement statement = it.next();
 			StatementRank rank = statement.getRank();
 			
 			// Among the "instance of" statements with the highest rank,
 			// take the first one
-			if(highestStatementRank == null ||
-					firstIsHigherThanSecond(rank, highestStatementRank)){
+			if (highestStatementRank == null
+					|| firstIsHigherThanSecond(rank, highestStatementRank)) {
 				
-				if (property.equals(getPropertyOfStatement(statement))){				
+				if (property.equals(getPropertyOfStatement(statement))) {
 					Integer itemIdValue = getItemIdValueOfStatement(statement);	
 					
-					if (itemIdValue != null){
+					if (itemIdValue != null) {
 						result = itemIdValue;
 						highestStatementRank = rank;
 					}
@@ -119,18 +119,18 @@ public class ItemDocumentDbItem implements DbItem {
 		return result;		
 	}
 	
-	private Set<Integer> getAllValuesOfProperty(String property){
+	private Set<Integer> getAllValuesOfProperty(String property) {
 		Set<Integer> result = new HashSet<Integer>();
 		
 		Iterator<Statement> it = itemDocument.getAllStatements();		
 
-		while (it.hasNext()){
+		while (it.hasNext()) {
 			Statement statement = it.next();
 			
-			if (property.equals(getPropertyOfStatement(statement))){
+			if (property.equals(getPropertyOfStatement(statement))) {
 				Integer itemIdValue = getItemIdValueOfStatement(statement);
 				
-				if (itemIdValue != null){
+				if (itemIdValue != null) {
 					result.add(itemIdValue);
 				}
 			}
@@ -140,19 +140,19 @@ public class ItemDocumentDbItem implements DbItem {
 	}
 	
 	
-	private static Integer getItemIdValueOfStatement(Statement statement){
+	private static Integer getItemIdValueOfStatement(Statement statement) {
 		Integer result = null;
 		Claim claim = statement.getClaim();
 		Snak snak = claim.getMainSnak();	
 		
-		if (snak instanceof ValueSnak){
+		if (snak instanceof ValueSnak) {
 			ValueSnak valueSnak = (ValueSnak) snak;
 			
 			ItemIdValue value = (ItemIdValue) valueSnak.getValue();
 			String idStr = value.getId();
 			
-			if (idStr != null && idStr.length() > 0){
-				if (!idStr.startsWith("Q")){
+			if (idStr != null && idStr.length() > 0) {
+				if (!idStr.startsWith("Q")) {
 					throw new RuntimeException("Item should start with Q");
 				}							
 				result = Integer.parseInt(idStr.substring(1));
@@ -162,7 +162,7 @@ public class ItemDocumentDbItem implements DbItem {
 		return result;
 	}
 	
-	private static String getPropertyOfStatement(Statement statement){
+	private static String getPropertyOfStatement(Statement statement) {
 		Claim claim = statement.getClaim();
 		Snak snak = claim.getMainSnak();
 		
@@ -171,10 +171,8 @@ public class ItemDocumentDbItem implements DbItem {
 	}
 	
 	public static boolean firstIsHigherThanSecond(
-			StatementRank first, StatementRank second){
+			StatementRank first, StatementRank second) {
 		return first.compareTo(second) < 0;
 	}
-
-
 
 }

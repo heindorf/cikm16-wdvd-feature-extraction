@@ -66,21 +66,25 @@ public class PageProcessor implements RevisionProcessor {
 		processor.startRevisionProcessing();
 	}
 
-	/* (non-Javadoc)
-	 * @see de.upb.wdqa.wdvd.processors.RevisionProcessor#processRevision(de.upb.wdqa.wdvd.Revision)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.upb.wdqa.wdvd.processors.RevisionProcessor#processRevision(de.upb.wdqa
+	 * .wdvd.Revision)
 	 */
 	@Override
 	public void processRevision(Revision revision) {
-		try{
+		try {
 //			if(revision.getNamespace() == 0){	
 				
 			// Check whether a new page has been started (and thus the previous
 			// page is complete).  In case an exception has been thrown before,
 			// check that there is at least one revision to process
 			// (otherwise further exceptions will be thrown)
-				if (previousPageId != -1 &&
-						revision.getPageId() != previousPageId &&
-						revisionsOfCurrentPage.size() > 0){
+				if (previousPageId != -1
+					&& revision.getPageId() != previousPageId
+					&& revisionsOfCurrentPage.size() > 0) {
 						processPage();
 						revisionsOfCurrentPage.clear();
 				}
@@ -88,15 +92,13 @@ public class PageProcessor implements RevisionProcessor {
 				previousPageId = revision.getPageId();
 				revisionsOfCurrentPage.add(revision);
 //			}
-		}
-		catch(OutOfMemoryError e){
+		} catch (OutOfMemoryError e) {
 			logger.error("", e);
 			logger.error(revision.toString());
 			logger.error("Size of list: " + revisionsOfCurrentPage.size());
 			revisionsOfCurrentPage.clear();
-		}
-		catch(Throwable e){
-			logger.error("",e);
+		} catch (Throwable e) {
+			logger.error("", e);
 			logger.error(revision.toString());
 			logger.error("Size of list: " + revisionsOfCurrentPage.size());
 			revisionsOfCurrentPage.clear();
@@ -113,8 +115,8 @@ public class PageProcessor implements RevisionProcessor {
 		logger.debug("Finished.");
 	}
 	
-	private void processPage(){
-		if (System.currentTimeMillis() - lastTimeProgressLogged > PROGRESS_LOGGING_INTERVAL){
+	private void processPage() {
+		if (System.currentTimeMillis() - lastTimeProgressLogged > PROGRESS_LOGGING_INTERVAL) {
 			logger.info("Processing item " + revisionsOfCurrentPage.get(0).getPrefixedTitle());
 			lastTimeProgressLogged = System.currentTimeMillis();
 		}
@@ -124,10 +126,10 @@ public class PageProcessor implements RevisionProcessor {
 		
 		// Find the latest parsable JSON
 		ItemDocument latestItemDocument = null;
-		for(int index = revisionsOfCurrentPage.size()-1; index >=0; index--){
+		for (int index = revisionsOfCurrentPage.size() - 1; index >= 0; index--) {
 			ItemDocument itemDocument = revisionsOfCurrentPage.get(index).getItemDocument();
 			
-			if(itemDocument != null){
+			if (itemDocument != null) {
 				latestItemDocument = itemDocument;
 				itemStore.insertItem(new ItemDocumentDbItem(itemDocument));
 				
@@ -135,14 +137,14 @@ public class PageProcessor implements RevisionProcessor {
 			}
 		}
 		
-		if(latestItemDocument == null){
-			logger.debug("Could not parse JSON of any revision: " +
-					firstRevision.getPrefixedTitle());
+		if (latestItemDocument == null) {
+			logger.debug("Could not parse JSON of any revision: "
+					+ firstRevision.getPrefixedTitle());
 		}
 		
 		
 		Revision prevRevision = null;		
-		for (Revision revision: revisionsOfCurrentPage){
+		for (Revision revision: revisionsOfCurrentPage) {
 			revision.setLatestRevision(latestRevision);
 			revision.setPreviousRevision(prevRevision);
 			
@@ -157,11 +159,11 @@ public class PageProcessor implements RevisionProcessor {
 		
 	}
 	
-	static private void checkIncreasingRevisionId(Revision prev, Revision cur){
-		if(prev!= null && prev.getRevisionId() >= cur.getRevisionId()){
-			logger.warn("Revision IDs should be increasing, prev revision: " +
-					prev.toString() + ", current Revision: " + cur.toString());
-		}		
+	private static void checkIncreasingRevisionId(Revision prev, Revision cur) {
+		if (prev != null && prev.getRevisionId() >= cur.getRevisionId()) {
+			logger.warn("Revision IDs should be increasing, prev revision: "
+					+ prev.toString() + ", current Revision: " + cur.toString());
+		}
 	}
 
 }

@@ -67,24 +67,23 @@ public class RawDumpStatisticsProcessor implements MwRevisionProcessor {
 
 	@Override
 	public void processRevision(final MwRevision mwRevision) {
-		try{
+		try {
 			numberOfRevisions++;
 			namespaceDistribution.addValue(mwRevision.getNamespace());
-			formatDistribution.addValue(mwRevision.getFormat());		
+			formatDistribution.addValue(mwRevision.getFormat());
 			modelDistribution.addValue(mwRevision.getModel());
 			revisionIdStatistics.addValue(mwRevision.getRevisionId());
 			
-			if(seenRevisionIDs.get((int) mwRevision.getRevisionId())){
+			if (seenRevisionIDs.get((int) mwRevision.getRevisionId())) {
 				logger.warn("Duplicate Revision ID: " + mwRevision.getRevisionId());
 			}			
 			seenRevisionIDs.set((int) mwRevision.getRevisionId());
 			int itemId = Revision.getItemIdFromString(mwRevision.getPrefixedTitle());
-			seenItemIDs.set(itemId<0?0:itemId);
+			seenItemIDs.set(itemId < 0 ? 0 : itemId);
 			seenPageIDs.set((int) mwRevision.getPageId());
 			
 //			Date currentDate = SimpleDateFormat
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			logger.error("", e);
 		}
 		processor.processRevision(mwRevision);
@@ -95,20 +94,21 @@ public class RawDumpStatisticsProcessor implements MwRevisionProcessor {
 
 	@Override
 	public void finishRevisionProcessing() {
-		processor.finishRevisionProcessing();		
+		processor.finishRevisionProcessing();
 		logResults();
 	}
 	
-	private void logResults(){
-		logger.info("Total number of revisions in the dump including all namespaces: " +
-				numberOfRevisions);
+	private void logResults() {
+		logger.info("Total number of revisions in the dump including all namespaces: "
+				+ numberOfRevisions);
 		
 		logger.info("Frequency distribution of namespaces:\n" + namespaceDistribution.toString());
 		logger.info("Frequency distribution of formats:\n" + formatDistribution.toString());
 		logger.info("Frequency distribution of models:\n" + modelDistribution.toString());
-		logger.info("RevisionId statistics: Min: " +
-				(int)revisionIdStatistics.getMin() + ", Max: " + (int)revisionIdStatistics.getMax() + ", Mean: " + revisionIdStatistics.getMean());
+		logger.info("RevisionId statistics: Min: "
+				+ (int) revisionIdStatistics.getMin() + ", Max: " + (int) revisionIdStatistics.getMax() + ", Mean: " + revisionIdStatistics.getMean());
 		
 		logger.info("finished!");
 	}	
+
 }

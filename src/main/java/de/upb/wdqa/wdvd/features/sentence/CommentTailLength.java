@@ -36,7 +36,7 @@ public class CommentTailLength extends FeatureImpl {
 		Integer result = null;
 		
 		ParsedComment comment = revision.getParsedComment();
-		if (comment.getSuffixComment() != null){
+		if (comment.getSuffixComment() != null) {
 			result = comment.getSuffixComment().length();
 		}
 

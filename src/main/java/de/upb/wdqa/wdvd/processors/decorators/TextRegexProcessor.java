@@ -46,7 +46,7 @@ public class TextRegexProcessor implements RevisionProcessor {
 	private Matcher linkMatcher;
 	private Matcher qidMatcher;
 	
-	public TextRegexProcessor(boolean matchLanguages){
+	public TextRegexProcessor(boolean matchLanguages) {
 		this.matchLanguages = matchLanguages;
 	}
 	
@@ -62,7 +62,7 @@ public class TextRegexProcessor implements RevisionProcessor {
 	@Override
 	public void processRevision(Revision revision) {		
 		int numberOfLanguageWords = 0;
-		if(matchLanguages){
+		if (matchLanguages) {
 			numberOfLanguageWords =
 					regexCount(revision.getText(), languageMatcher);
 		}
@@ -81,12 +81,12 @@ public class TextRegexProcessor implements RevisionProcessor {
 	}
 	
 	// Matcher is not thread safe and should only be used within one thread
-	private static int regexCount(String str, Matcher matcher ){
+	private static int regexCount(String str, Matcher matcher) {
 		int count = 0;
 		
-		if (str != null){
+		if (str != null) {
 			matcher.reset(str);
-			while(matcher.find()){
+			while (matcher.find()) {
 				count++;
 			}
 		}

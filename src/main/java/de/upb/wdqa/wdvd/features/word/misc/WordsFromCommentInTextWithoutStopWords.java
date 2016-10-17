@@ -37,12 +37,12 @@ import de.upb.wdqa.wdvd.features.FeatureImpl;
 import de.upb.wdqa.wdvd.features.FeatureIntegerValue;
 
 public class WordsFromCommentInTextWithoutStopWords extends FeatureImpl {
-	private final static Pattern splitPattern;
+	private static final Pattern splitPattern;
 
 	// Stop Word List
 	// https://meta.wikimedia.org/wiki/MySQL_4.0.20_stop_word_list
 	// last updated on November 7, 2015
-	private final static String[] stopWords = { "a's", "able", "about",
+	private static final String[] stopWords = { "a's", "able", "about",
 			"above", "according", "accordingly", "across", "actually", "after",
 			"afterwards", "again", "against", "ain't", "all", "allow",
 			"allows", "almost", "alone", "along", "already", "also",
@@ -125,18 +125,19 @@ public class WordsFromCommentInTextWithoutStopWords extends FeatureImpl {
 			"you", "you'd", "you'll", "you're", "you've", "your", "yours",
 			"yourself", "yourselves", "zero",
 			
-			"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"
+			"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+			"n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
 	};
 
 	
-	private final static Pattern stopWordPattern;
+	private static final Pattern stopWordPattern;
 
-	static{
+	static {
 		List<String> tokens = new ArrayList<String>(Arrays.asList(stopWords));
 
 		String stopWordPatternString = ".*\\b(" + StringUtils.join(tokens, "|") + ")\\b.*";
-		stopWordPattern = Pattern.compile(stopWordPatternString, Pattern.CASE_INSENSITIVE |
-				Pattern.UNICODE_CASE | Pattern.DOTALL | Pattern.CANON_EQ);	
+		stopWordPattern = Pattern.compile(stopWordPatternString, Pattern.CASE_INSENSITIVE
+				| Pattern.UNICODE_CASE | Pattern.DOTALL | Pattern.CANON_EQ);	
 	}
 	private final Matcher stopWordMatcher = stopWordPattern.matcher("");
 	
@@ -165,8 +166,8 @@ public class WordsFromCommentInTextWithoutStopWords extends FeatureImpl {
 				for (String word : words) {
 					word = word.trim();
 					if (!word.equals("")
-							&& prevRevision.getText().contains(word) &&
-							!stopWordMatcher.reset(word).matches()) {
+							&& prevRevision.getText().contains(word)
+							&& !stopWordMatcher.reset(word).matches()) {
 						result++;
 					}
 				}

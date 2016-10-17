@@ -45,7 +45,7 @@ public class NumberOfIdentifiersChanged extends FeatureImpl {
 		
 		ItemDiff itemDiff = ItemDiff.getItemDiffFromRevision(revision);
 		
-		if (itemDiff != null){					
+		if (itemDiff != null) {
 			result = getNumberOfIdentifiersChanged(itemDiff);
 //			System.out.println(result);
 		}
@@ -54,23 +54,24 @@ public class NumberOfIdentifiersChanged extends FeatureImpl {
 	}
 	
 	// Returns the number of changed claims whose target/object is of type 'string'
-	private int getNumberOfIdentifiersChanged(ItemDiff itemDiff){
+	private int getNumberOfIdentifiersChanged(ItemDiff itemDiff) {
 	
 		List<Pair<Statement, Statement>>  changedClaims = itemDiff.getChangedClaims();
 		
 		int counter = 0;
-	    for (Pair<Statement, Statement> changedClaim: changedClaims){
-	    	Statement oldClaim = changedClaim.getLeft();
-	    	
-	    	Snak snak = oldClaim.getClaim().getMainSnak();
-	    	if (snak instanceof ValueSnak){
-	    		if (((ValueSnak)snak).getValue() instanceof StringValue){
-		    		counter++;
-		    	}	    		
-	    	}
-	    	
-	    	
-	    }
-	    return counter;
+		for (Pair<Statement, Statement> changedClaim: changedClaims) {
+			Statement oldClaim = changedClaim.getLeft();
+			
+			Snak snak = oldClaim.getClaim().getMainSnak();
+			if (snak instanceof ValueSnak) {
+				if (((ValueSnak) snak).getValue() instanceof StringValue) {
+					counter++;
+				}				
+			}
+			
+			
+		}
+		return counter;
 	}
+
 }

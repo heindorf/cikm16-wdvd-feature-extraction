@@ -40,10 +40,10 @@ public class NumberOfBadges extends FeatureImpl {
 		int result = 0;
 		ItemDocument itemDocument = revision.getItemDocument();
 		
-		if(itemDocument != null){
+		if (itemDocument != null) {
 			Map<String, SiteLink> sitelinks = itemDocument.getSiteLinks();
 			
-			for (Map.Entry<String, SiteLink> entry: sitelinks.entrySet()){
+			for (Map.Entry<String, SiteLink> entry: sitelinks.entrySet()) {
 				SiteLink siteLink = entry.getValue();
 				
 				result += siteLink.getBadges().size();
@@ -52,5 +52,5 @@ public class NumberOfBadges extends FeatureImpl {
 
 		return new FeatureIntegerValue(result);
 	}
-	
+
 }

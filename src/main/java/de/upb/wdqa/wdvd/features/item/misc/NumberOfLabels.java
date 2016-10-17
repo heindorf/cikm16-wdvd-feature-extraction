@@ -40,10 +40,10 @@ public class NumberOfLabels extends FeatureImpl {
 		int result = 0;
 		ItemDocument itemDocument = revision.getItemDocument();
 		
-		if(itemDocument != null){
+		if (itemDocument != null) {
 			Map<String, MonolingualTextValue> labels = itemDocument.getLabels();
 			
-			if (labels != null){
+			if (labels != null) {
 				result = labels.size();
 			}
 		}

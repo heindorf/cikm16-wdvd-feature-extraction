@@ -50,43 +50,43 @@ public class TagDownloaderMemoryDataStoreTest {
 			new TagDownloaderMemoryDataStore(tagFactory, 1000000);
 	
 	@BeforeClass
-	public static void SetUp(){
+	public static void SetUp() {
 		TestUtils.initializeLogger();
 	}
 	
-    @Before
-    public void before() throws Exception {    	
+	@Before
+	public void before() throws Exception {
 		dataStore.connect();
 		dataStore.clear();
-    }
+	}
  
-    @After
-    public void after() throws Exception {
-    	dataStore.disconnect();
-    }
+	@After
+	public void after() throws Exception {
+		dataStore.disconnect();
+	}
 
 	
 	@Test
-	public void testInsertRevision() throws Exception{
+	public void testInsertRevision() throws Exception {
 		DbRevision revision =
 				new DbRevisionImpl(123456, "1234567890123456789012345678901", null);
 		
 		dataStore.putRevision(revision);
 		
-		dataStore.flush();		
+		dataStore.flush();
 		
 		DbRevision resultRevision = dataStore.getRevision(123456);
 		
 		Assert.assertEquals(revision, resultRevision);
-	}	
+	}
 	
 	@Test
-	public void testClear() throws Exception{
+	public void testClear() throws Exception {
 		dataStore.clear();
 	}
 	
 	@Test
-	public void testMultipleRead() throws Exception{
+	public void testMultipleRead() throws Exception {
 		dataStore.putRevision(new DbRevisionImpl(1, "1", null));
 		dataStore.putRevision(new DbRevisionImpl(2, "2", null));
 		dataStore.putRevision(new DbRevisionImpl(3, "3", null));
@@ -112,33 +112,33 @@ public class TagDownloaderMemoryDataStoreTest {
 	public void writePerformanceTest() throws Exception {
 		long startTime = System.currentTimeMillis();
 		
-		for (long i = 0; i < 100000; i++){
+		for (long i = 0; i < 100000; i++) {
 			Set<DbTag> tags = new HashSet<DbTag>();
 			tags.add(tagFactory.getTag("TestName" + (i % 50)));
 			
-			dataStore.putRevision(new DbRevisionImpl(i,"" + i, tags));
+			dataStore.putRevision(new DbRevisionImpl(i, "" + i, tags));
 		}
 		
 		dataStore.flush();
 		
 		long endTime = System.currentTimeMillis();
 		
-		System.out.println("Write time (in seconds): " +
-				(endTime - startTime)/1000.0);
+		System.out.println("Write time (in seconds): "
+				+ (endTime - startTime) / 1000.0);
 	}
 	
 	@Test
-	public void multipleReadPerformanceTest() throws Exception{
+	public void multipleReadPerformanceTest() throws Exception {
 		writePerformanceTest();		
 		
 		long startTime = System.currentTimeMillis();
 		
 		List<Long> list = new ArrayList<Long>();
 		
-		for (long i = 0; i < 100000; i++){
+		for (long i = 0; i < 100000; i++) {
 			list.add((i));
 			
-			if( i % 1000 == 999){
+			if (i % 1000 == 999) {
 				dataStore.getRevisions(list);
 				list = new ArrayList<Long>();
 			}
@@ -146,12 +146,12 @@ public class TagDownloaderMemoryDataStoreTest {
 		
 		long endTime = System.currentTimeMillis();
 		
-		System.out.println("multiple read time (in seconds): " +
-				(endTime - startTime) / 1000.0);
+		System.out.println("multiple read time (in seconds): "
+				+ (endTime - startTime) / 1000.0);
 	}
 	
 	@Test
-	public void testTags() throws Exception{
+	public void testTags() throws Exception {
 		DbRevisionImpl revision = new DbRevisionImpl(42, "42", null);
 		revision.addTag(tagFactory.getTag("Tag1"));
 		revision.addTag(tagFactory.getTag("Tag2"));
@@ -168,9 +168,10 @@ public class TagDownloaderMemoryDataStoreTest {
 	}
 	
 	@Test
-	public void testGetEmptyRevisionList() throws Exception{
+	public void testGetEmptyRevisionList() throws Exception {
 		List<Long> revisionIds = new ArrayList<Long>();
 
 		dataStore.getRevisions(revisionIds);
 	}
+
 }

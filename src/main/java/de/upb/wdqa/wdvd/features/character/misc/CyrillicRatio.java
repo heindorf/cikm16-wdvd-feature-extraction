@@ -42,4 +42,5 @@ public class CyrillicRatio extends FeatureImpl {
 		
 		return new FeatureFloatValue(result);
 	}
+
 }

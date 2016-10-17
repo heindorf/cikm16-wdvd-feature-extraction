@@ -38,7 +38,7 @@ public class NumberOfDescriptionsChanged extends FeatureImpl {
 		
 		ItemDiff itemDiff = ItemDiff.getItemDiffFromRevision(revision);
 		
-		if (itemDiff != null){					
+		if (itemDiff != null) {
 			MapDiff mapDiff = itemDiff.getDescriptionDiff();
 			
 			result = mapDiff.getChangedKeys().size();
@@ -47,4 +47,5 @@ public class NumberOfDescriptionsChanged extends FeatureImpl {
 		
 		return new FeatureIntegerValue(result);
 	}
+
 }

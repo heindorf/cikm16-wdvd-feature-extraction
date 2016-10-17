@@ -39,7 +39,7 @@ public class ProportionOfQidAdded extends FeatureImpl {
 	public FeatureFloatValue calculate(Revision revision) {
 		double oldCount = 0.0;		
 		Revision prevRevision = revision.getPreviousRevision();
-		if (prevRevision != null){
+		if (prevRevision != null) {
 			oldCount = prevRevision.getTextRegex().getNumberOfQids();
 		}
 		

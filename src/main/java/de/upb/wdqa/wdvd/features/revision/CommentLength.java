@@ -34,7 +34,7 @@ public class CommentLength extends FeatureImpl {
 	public FeatureIntegerValue calculate(Revision revision) {
 		Integer result = null;
 		
-		if (revision.getComment() != null){
+		if (revision.getComment() != null) {
 			result = revision.getComment().length();
 		}
 

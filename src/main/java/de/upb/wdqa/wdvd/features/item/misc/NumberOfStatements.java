@@ -40,10 +40,10 @@ public class NumberOfStatements extends FeatureImpl {
 		int result = 0;
 		ItemDocument itemDocument = revision.getItemDocument();
 		
-		if(itemDocument != null){		
+		if (itemDocument != null) {
 			Iterator<Statement> statements = itemDocument.getAllStatements();
 			
-			while(statements.hasNext()){
+			while (statements.hasNext()) {
 				statements.next();	
 				result += 1;			
 			}

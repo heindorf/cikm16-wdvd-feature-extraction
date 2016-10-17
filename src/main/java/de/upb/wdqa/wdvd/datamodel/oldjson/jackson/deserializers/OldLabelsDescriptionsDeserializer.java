@@ -38,7 +38,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
 public class OldLabelsDescriptionsDeserializer extends
-	JsonDeserializer<LinkedHashMap<String, String>>{
+	JsonDeserializer<LinkedHashMap<String, String>> {
 	
 	private static final Logger logger =
 			Logger.getLogger(OldLabelsDescriptionsDeserializer.class);
@@ -52,19 +52,19 @@ public class OldLabelsDescriptionsDeserializer extends
 		LinkedHashMap<String, String> result = null;
 
 		// Is the alias broken, i.e., it starts with '['
-		if (jp.getCurrentToken().equals(JsonToken.START_ARRAY)){
+		if (jp.getCurrentToken().equals(JsonToken.START_ARRAY)) {
 			result = new LinkedHashMap<String, String>();
 			jp.nextToken();
-			if(!jp.getCurrentToken().equals(JsonToken.END_ARRAY)){
+			if (!jp.getCurrentToken().equals(JsonToken.END_ARRAY)) {
 				logger.warn("Token " + JsonToken.END_ARRAY + " expected");
 			}			
-		}
-		else{
+		} else {
 			ObjectCodec mapper = jp.getCodec();
 			result = mapper.readValue(jp,
-					new TypeReference<LinkedHashMap<String, String>>() {});
+					new TypeReference<LinkedHashMap<String, String>>() { });
 		}
 
 		return result;
 	}
+
 }

@@ -38,7 +38,7 @@ public class NumberOfLabelsAdded extends FeatureImpl {
 		
 		ItemDiff itemDiff = ItemDiff.getItemDiffFromRevision(revision);
 		
-		if (itemDiff != null){					
+		if (itemDiff != null) {
 			MapDiff mapDiff = itemDiff.getLabelDiff();
 			
 			result = mapDiff.getAddedKeys().size();
@@ -47,4 +47,5 @@ public class NumberOfLabelsAdded extends FeatureImpl {
 		
 		return new FeatureIntegerValue(result);
 	}
+
 }

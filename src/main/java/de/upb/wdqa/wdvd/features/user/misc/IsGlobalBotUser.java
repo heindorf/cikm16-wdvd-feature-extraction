@@ -30,7 +30,7 @@ import de.upb.wdqa.wdvd.features.FeatureImpl;
 
 public class IsGlobalBotUser extends FeatureImpl {
 
-	final static UserSet userSet;
+	static final UserSet userSet;
 	static {
 		
 		// Taken from
@@ -62,12 +62,12 @@ public class IsGlobalBotUser extends FeatureImpl {
 	}
 
 	@Override
-	public FeatureBooleanValue calculate(Revision revision) {		
+	public FeatureBooleanValue calculate(Revision revision) {
 		return new FeatureBooleanValue(
 				userSet.strContains(revision.getContributor()));
 	}
 	
-	public static boolean isGlobalBot(String contributor){
+	public static boolean isGlobalBot(String contributor) {
 		return userSet.contains(contributor);		
 	}
 

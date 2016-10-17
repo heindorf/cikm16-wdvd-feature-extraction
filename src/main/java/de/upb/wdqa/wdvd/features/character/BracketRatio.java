@@ -43,5 +43,5 @@ public class BracketRatio extends FeatureImpl {
 		
 		return new FeatureFloatValue(result);
 	}
-	
+
 }

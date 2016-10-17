@@ -68,7 +68,7 @@ public class IsAdminUser extends FeatureImpl {
 				userSet.strContains(revision.getContributor()));
 	}
 	
-	public static boolean isAdmin(String contributor){
+	public static boolean isAdmin(String contributor) {
 		return userSet.contains(contributor);
 	}
 

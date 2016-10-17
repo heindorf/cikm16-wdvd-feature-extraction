@@ -42,4 +42,5 @@ public class TeluguRatio extends FeatureImpl {
 		
 		return new FeatureFloatValue(result);
 	}
+
 }

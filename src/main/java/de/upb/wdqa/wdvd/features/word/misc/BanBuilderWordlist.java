@@ -41,7 +41,7 @@ public class BanBuilderWordlist extends FeatureImpl {
 	// Ban builder list
 	// https://github.com/MicheleBertoli/banbuilder/blob/master/deprecated-word-dbs/wordlist.csv
 	// last updated on December 13, 2014	
-	private final static String[] banBuilderWords = { "$#!+", "$1ut", "$h1t",
+	private static final String[] banBuilderWords = { "$#!+", "$1ut", "$h1t",
 			"$hit", "$lut", "'ho", "'hobag", "a$$", "anal", "anus", "ass",
 			"assmunch", "b1tch", "ballsack", "bastard", "beaner",
 			"beastiality", "biatch", "beeyotch", "bitch", "bitchy", "blow job",
@@ -174,14 +174,14 @@ public class BanBuilderWordlist extends FeatureImpl {
 			"fuk", "fucknugget", "cuntlick", "g@y", "@ss", "beotch" };
 	
 	
-	private final static Pattern pattern;
+	private static final Pattern pattern;
 	
-	static{
+	static {
 		List<String> tokens = new ArrayList<String>(Arrays.asList(banBuilderWords));
 
 		String patternString = ".*\\b(" + StringUtils.join(tokens, "|") + ")\\b.*";
-		pattern = Pattern.compile(patternString, Pattern.CASE_INSENSITIVE |
-				Pattern.UNICODE_CASE | Pattern.DOTALL | Pattern.CANON_EQ);	
+		pattern = Pattern.compile(patternString, Pattern.CASE_INSENSITIVE
+				| Pattern.UNICODE_CASE | Pattern.DOTALL | Pattern.CANON_EQ);	
 	}
 	
 	private final Matcher matcher = pattern.matcher("");
@@ -191,7 +191,7 @@ public class BanBuilderWordlist extends FeatureImpl {
 		String text = revision.getParsedComment().getSuffixComment();
 		
 		boolean result = false;
-		if (text != null){			
+		if (text != null) {
 			result = matcher.reset(text).matches();
 		}
 		

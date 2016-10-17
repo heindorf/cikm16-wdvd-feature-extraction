@@ -38,14 +38,14 @@ public abstract class FeatureImpl implements Feature {
 	}
 	
 	@Override
-	public boolean equals(Object obj){
-		   if (obj == null) { return false; }
-		   if (obj == this) { return true; }
+	public boolean equals(Object obj) {
+			if (obj == null) { return false; }
+			if (obj == this) { return true; }
 
-		   Feature rhs = (Feature) obj;
-		   return new EqualsBuilder()
-		                 .append(getName(), rhs.getName())
-		                 .isEquals();
+			Feature rhs = (Feature) obj;
+			return new EqualsBuilder()
+						.append(getName(), rhs.getName())
+						.isEquals();
 	}
 	
 	@Override

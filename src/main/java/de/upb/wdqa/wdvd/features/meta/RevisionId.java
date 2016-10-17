@@ -32,7 +32,7 @@ public class RevisionId extends FeatureImpl {
 
 	@Override
 	public FeatureIntegerValue calculate(Revision revision) {
-		return new FeatureIntegerValue((int)revision.getRevisionId());
+		return new FeatureIntegerValue((int) revision.getRevisionId());
 	}
 
 }

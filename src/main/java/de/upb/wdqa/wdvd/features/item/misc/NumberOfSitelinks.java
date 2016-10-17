@@ -40,10 +40,10 @@ public class NumberOfSitelinks extends FeatureImpl {
 		int result = 0;
 		ItemDocument itemDocument = revision.getItemDocument();
 		
-		if(itemDocument != null){
+		if (itemDocument != null) {
 			Map<String, SiteLink> sitelinks = itemDocument.getSiteLinks();
 			
-			if (sitelinks != null){
+			if (sitelinks != null) {
 				result = sitelinks.size();
 			}
 		}

@@ -44,5 +44,5 @@ public class AsciiRatio extends FeatureImpl  {
 		
 		return new FeatureFloatValue(result);
 	}
-	
+
 }

@@ -42,4 +42,5 @@ public class ArabicRatio extends FeatureImpl {
 		
 		return new FeatureFloatValue(result);
 	}
+
 }

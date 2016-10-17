@@ -32,7 +32,7 @@ import de.upb.wdqa.wdvd.features.FeatureBooleanValue;
 import de.upb.wdqa.wdvd.features.FeatureImpl;
 
 public class ContainsURL extends FeatureImpl {
-	private final static Pattern pattern;
+	private static final Pattern pattern;
 	
 	static {
 		pattern = Pattern.compile("\\b(https?:\\/\\/|www\\.)\\S{10}.*", Pattern.CASE_INSENSITIVE

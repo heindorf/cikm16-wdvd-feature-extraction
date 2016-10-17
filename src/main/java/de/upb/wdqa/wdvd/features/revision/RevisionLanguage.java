@@ -33,11 +33,11 @@ public class RevisionLanguage extends FeatureImpl {
 
 	@Override
 	public FeatureStringValue calculate(Revision revision) {
-		ParsedComment comment = revision.getParsedComment();		
+		ParsedComment comment = revision.getParsedComment();
 		String[] params = comment.getParameters();
 		
 		String result = null;
-		if (params.length >= 2){
+		if (params.length >= 2) {
 			result = params[1];
 			
 		}

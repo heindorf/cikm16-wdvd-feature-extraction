@@ -35,8 +35,8 @@ import de.upb.wdqa.wdvd.datamodel.oldjson.jackson.deserializers.OldLabelsDescrip
 import de.upb.wdqa.wdvd.datamodel.oldjson.jackson.deserializers.OldSitelinksDeserializer;
 
 public class OldJacksonItemDocument {
-	private LinkedHashMap<String,String> labels;
-	private LinkedHashMap<String,String> descriptions;
+	private LinkedHashMap<String, String> labels;
+	private LinkedHashMap<String, String> descriptions;
 	private LinkedHashMap<String, List<String>> aliases;
 	private List<OldJacksonStatement> claims;
 	private LinkedHashMap<String, OldJacksonSiteLink> sitelinks;
@@ -100,4 +100,4 @@ public class OldJacksonItemDocument {
 		return sitelinks;
 	}
 
-}	
+}

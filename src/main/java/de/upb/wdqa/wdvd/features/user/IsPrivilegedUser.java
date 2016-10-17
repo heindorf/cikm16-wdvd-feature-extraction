@@ -40,9 +40,9 @@ import de.upb.wdqa.wdvd.features.user.misc.IsRollbackerUser;
 public class IsPrivilegedUser extends FeatureImpl {
 
 	@Override
-	public FeatureBooleanValue calculate(Revision revision) {		
+	public FeatureBooleanValue calculate(Revision revision) {
 		String contributor = revision.getContributor();
-		if (contributor == null){
+		if (contributor == null) {
 			return new FeatureBooleanValue(null);
 		}		
 
@@ -52,11 +52,12 @@ public class IsPrivilegedUser extends FeatureImpl {
 	}
 	
 
-	public static boolean isPrivilegedUser(String contributor){
-		if (contributor == null)
+	public static boolean isPrivilegedUser(String contributor) {
+		if (contributor == null) {
 			return false;
+		}
 		
-		boolean result = IsGlobalSysopUser.isGlobalSysop(contributor)	
+		boolean result = IsGlobalSysopUser.isGlobalSysop(contributor)
 				|| IsGlobalRollbackerUser.isGlobalRollbacker(contributor)
 				|| IsGlobalStewardUser.isGlobalSteward(contributor)
 				|| IsAdminUser.isAdmin(contributor)

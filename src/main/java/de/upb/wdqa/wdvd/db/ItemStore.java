@@ -26,7 +26,7 @@ package de.upb.wdqa.wdvd.db;
 
 import de.upb.wdqa.wdvd.db.interfaces.DbItem;
 
-public interface ItemStore {	
+public interface ItemStore {
 	void connect();
 	void deleteItems();
 
@@ -35,5 +35,6 @@ public interface ItemStore {
 
 	DbItem getItem(int itemId);	
 	
-	void close();	
+	void close();
+
 }

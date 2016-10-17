@@ -94,7 +94,7 @@ public class CorpusStatisticsProcessor implements RevisionProcessor {
 	@Override
 	public void startRevisionProcessing() {
 		logger.debug("Starting...");
-		if (processor != null){
+		if (processor != null) {
 			processor.startRevisionProcessing();
 		}
 		
@@ -104,7 +104,7 @@ public class CorpusStatisticsProcessor implements RevisionProcessor {
 
 	@Override
 	public void processRevision(Revision revision) {
-		if(processor != null){
+		if (processor != null) {
 			processor.processRevision(revision);
 		}
 		
@@ -112,28 +112,25 @@ public class CorpusStatisticsProcessor implements RevisionProcessor {
 		
 		numberOfRevisions++;
 		
-		if(revision.wasRollbackReverted()){
+		if (revision.wasRollbackReverted()) {
 			numberOfRollbackRevertedRevisions++;
 			contentTypeOfRollbackRevertedRevisions.inc(contentType);
-			if(revision.hasRegisteredContributor()){
+			if (revision.hasRegisteredContributor()) {
 				revertedRegisteredRevisions++;
 				contentTypeOfRegisteredRollbackRevertedRevisions.inc(contentType);
-			}
-			else{
+			} else {
 				revertedUnregisteredRevisions++;
 				contentTypeOfUnregisteredRollbackRevertedRevisions.inc(contentType);
 			}
-		}
-		else{
+		} else {
 			contentTypeOfNonRollbackRevertedRevisions.inc(contentType);
 			
-			if (revision.hasRegisteredContributor()){
+			if (revision.hasRegisteredContributor()) {
 				nonRevertedRegisteredRevisions++;
+			} else {
+				nonRevertedUnregisteredRevisions++;
 			}
-			else{
-				nonRevertedUnregisteredRevisions++;				
-			}
-		}		
+		}
 		
 		
 		processRevisionGroup(revision);
@@ -144,7 +141,7 @@ public class CorpusStatisticsProcessor implements RevisionProcessor {
 
 	@Override
 	public void finishRevisionProcessing() {
-		if(processor != null){
+		if (processor != null) {
 			processor.finishRevisionProcessing();
 		}
 		
@@ -192,8 +189,8 @@ public class CorpusStatisticsProcessor implements RevisionProcessor {
 		logger.info("non-rollback reverted revisions:" + contentTypeOfNonRollbackRevertedRevisions);
 	}
 	
-	private void processRevisionGroup(Revision revision){
-		if (lastRevisionGroupId != revision.getRevisionGroupId()){
+	private void processRevisionGroup(Revision revision) {
+		if (lastRevisionGroupId != revision.getRevisionGroupId()) {
 			processRevisionGroup2();
 			currentRevisionGroup.clear();
 		}
@@ -202,38 +199,35 @@ public class CorpusStatisticsProcessor implements RevisionProcessor {
 	}
 
 	private void processRevisionGroup2() {
-		if(currentRevisionGroup.size() > 0){
+		if (currentRevisionGroup.size() > 0) {
 			Revision firstRevision = currentRevisionGroup.get(0);
 			CONTENT_TYPE contentType = getContentTypeOfRevisionGroup();
 			
 			// If any revision of a revision group was reverted,
 			// then the first revision of this group was reverted as well.
-			if(firstRevision.wasRollbackReverted()){
-				revertedRevisionGroupLengthDistribution.addValue(currentRevisionGroup.size());			
+			if (firstRevision.wasRollbackReverted()) {
+				revertedRevisionGroupLengthDistribution.addValue(currentRevisionGroup.size());
 
 				topVandalizedItems.addValue(firstRevision.getItemId());
 				contentTypeOfRollbackRevertedRevisionGroups.inc(contentType);
 				
-				if(firstRevision.hasRegisteredContributor()){
+				if (firstRevision.hasRegisteredContributor()) {
 					revertedRegisteredRevisionGroups++;
 					topRevertedRegisteredUsers.addValue(firstRevision.getContributor());
 					contentTypeOfRegisteredRollbackRevertedRevisionGroups.inc(contentType);
-				}
-				else{
+				} else {
 					revertedUnregisteredRevisionGroups++;
 					topRevertedUnregisteredUsers.addValue(firstRevision.getContributor());
 				}
 				revertedRevisionGroupLengthDistribution.addValue(currentRevisionGroup.size());
 				contentTypeOfUnregisteredRollbackRevertedRevisionGroups.inc(contentType);
-			}
-			else{
+			} else {
 				topNonVandalizedItems.addValue(firstRevision.getItemId());
 				contentTypeOfNonRollbackRevertedRevisionGroups.inc(contentType);
 				
-				if(firstRevision.hasRegisteredContributor()){
+				if (firstRevision.hasRegisteredContributor()) {
 					nonRevertedRegisteredRevisionGroups++;
-				}
-				else{
+				} else {
 					nonRevertedUnregisteredRevisionGroups++;
 				}
 				nonRevertedRevisionGroupLengthDistribution.addValue(currentRevisionGroup.size());
@@ -242,56 +236,56 @@ public class CorpusStatisticsProcessor implements RevisionProcessor {
 	}
 	
 	
-	public CONTENT_TYPE getContentTypeOfRevisionGroup(){
+	public CONTENT_TYPE getContentTypeOfRevisionGroup() {
 		Revision revision0 = currentRevisionGroup.get(0);
 		CONTENT_TYPE result = revision0.getContentType();
 		
-		for(int i=1; i < currentRevisionGroup.size(); i++){
-			Revision revision= currentRevisionGroup.get(i);
+		for (int i = 1; i < currentRevisionGroup.size(); i++) {
+			Revision revision = currentRevisionGroup.get(i);
 			result = result.combine(revision.getContentType());
-		}			
+		}
 		
 		return result;
 	}
 	
-	private int numberOfItemsVandalizedExactlyOnce(){
+	private int numberOfItemsVandalizedExactlyOnce() {
 		int result = 0;
 		
 		Iterator<Entry<Comparable<?>, Long>> iterator = topVandalizedItems.entrySetIterator();
 			
-		while(iterator.hasNext()){
+		while (iterator.hasNext()) {
 			Entry<Comparable<?>, Long> entry = iterator.next();
 			
-			if (entry.getValue() == 1){
+			if (entry.getValue() == 1) {
 				result++;
 			}
 		}
 		return result;
 	}
 	
-	public String formatTopItems(Frequency frequency, int maxCount){
+	public String formatTopItems(Frequency frequency, int maxCount) {
 		itemStore.flushItems();
 		
-		List<Map.Entry<Comparable<?>, Long>> list = FrequencyUtils.sortByFrequency(frequency);		
+		List<Map.Entry<Comparable<?>, Long>> list = FrequencyUtils.sortByFrequency(frequency);
 		String result = "";
 		
-		for(int i = 0; i < maxCount && i < list.size(); i++){
+		for (int i = 0; i < maxCount && i < list.size(); i++) {
 //			String percent = String.format(Locale.US, "%.0f", frequency.getPct(list.get(i).getKey()) * 100) + "%";
 			
-			int itemId = (int)(long)((Long) list.get(i).getKey());
-			int count = (int)(long)((Long) list.get(i).getValue());
+			int itemId = (int) (long) ((Long) list.get(i).getKey());
+			int count = (int) (long) ((Long) list.get(i).getValue());
 			String label = null;
 			Integer instanceOfId = null;
 			String instanceOfLabel = null;
 
 			DbItem item = itemStore.getItem(itemId);
 			
-			if(item != null){
+			if (item != null) {
 				label = item.getLabel();
 				instanceOfId = item.getInstanceOfId();
-				if (instanceOfId != null){
+				if (instanceOfId != null) {
 					DbItem instanceOfItem = itemStore.getItem(instanceOfId);
-					if (instanceOfItem != null){
+					if (instanceOfItem != null) {
 						instanceOfLabel = instanceOfItem.getLabel();
 					}
 				}
@@ -300,7 +294,7 @@ public class CorpusStatisticsProcessor implements RevisionProcessor {
 			result += itemId + "," + count + "," + label + "," + instanceOfId + "," + instanceOfLabel + "\n";
 		}		
 		
-		return result;		
+		return result;
 	}
 }
 
@@ -308,15 +302,16 @@ public class CorpusStatisticsProcessor implements RevisionProcessor {
 class ContentTypeFrequency extends EnumMap<CONTENT_TYPE, Integer> {
 	private static final long serialVersionUID = 1L;
 
-	public ContentTypeFrequency() {
+	ContentTypeFrequency() {
 		super(CONTENT_TYPE.class);
 		
-		for (CONTENT_TYPE ct: CONTENT_TYPE.values()){
+		for (CONTENT_TYPE ct: CONTENT_TYPE.values()) {
 			put(ct, 0);
-		}		
+		}
 	}
 	
-	public void inc(CONTENT_TYPE contentType){
-		put(contentType, get(contentType) + 1);		
+	public void inc(CONTENT_TYPE contentType) {
+		put(contentType, get(contentType) + 1);
 	}
+
 }

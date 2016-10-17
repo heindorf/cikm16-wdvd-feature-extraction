@@ -28,7 +28,7 @@ import de.upb.wdqa.wdvd.Revision;
 import de.upb.wdqa.wdvd.features.FeatureImpl;
 import de.upb.wdqa.wdvd.features.FeatureIntegerValue;
 
-public class LongestCharacterSequence extends FeatureImpl{
+public class LongestCharacterSequence extends FeatureImpl {
 	
 //	private final static Pattern pattern;
 	
@@ -46,17 +46,17 @@ public class LongestCharacterSequence extends FeatureImpl{
 		Integer maxLength = null;
 		if (text != null) {
 			maxLength = 0;
-			char prevCharacter ='a';
+			char prevCharacter = 'a';
 			int prevPosition = 0;
 			text = text.trim();
 			
 			int i = 0;
-			for (; i < text.length(); i++){
+			for (; i < text.length(); i++) {
 				char curCharacter = text.charAt(i);
 				
-				if (i > 0 && prevCharacter != curCharacter){
-					if (i-prevPosition > maxLength){
-						maxLength = i-prevPosition;
+				if (i > 0 && prevCharacter != curCharacter) {
+					if (i - prevPosition > maxLength) {
+						maxLength = i - prevPosition;
 					}
 					
 					prevPosition = i;
@@ -65,9 +65,9 @@ public class LongestCharacterSequence extends FeatureImpl{
 				prevCharacter = curCharacter;
 			}
 			
-			if (i > 0){
-				if (i-prevPosition > maxLength){
-					maxLength = i-prevPosition;
+			if (i > 0) {
+				if (i - prevPosition > maxLength) {
+					maxLength = i - prevPosition;
 				}
 			}
 
@@ -84,5 +84,5 @@ public class LongestCharacterSequence extends FeatureImpl{
 		return new FeatureIntegerValue(maxLength);
 	
 	}
-	
+
 }

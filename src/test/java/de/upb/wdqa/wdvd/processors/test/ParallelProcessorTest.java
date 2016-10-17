@@ -37,16 +37,16 @@ import de.upb.wdqa.wdvd.processors.controlflow.ParallelProcessor;
 import de.upb.wdqa.wdvd.test.TestProcessor;
 import de.upb.wdqa.wdvd.test.TestUtils;
 
-public class ParallelProcessorTest{
+public class ParallelProcessorTest {
 	
 	@BeforeClass
-	public static void SetUp(){
+	public static void SetUp() {
 		TestUtils.initializeLogger();
 	}	
 	
 	@Test
-	public void testParallelProcessor(){
-		List<Revision> revisionsBefore= new ArrayList<Revision>();
+	public void testParallelProcessor() {
+		List<Revision> revisionsBefore = new ArrayList<Revision>();
 		
 		TestProcessor workProcessor1 = new TestProcessor();
 		TestProcessor workProcessor2 = new TestProcessor();
@@ -63,13 +63,13 @@ public class ParallelProcessorTest{
 		
 		final int REVISION_NUMBER = 10 * parallelProcessor.MAX_QUEUE_SIZE;
 		
-		for (int i = 0; i < REVISION_NUMBER; i++){
+		for (int i = 0; i < REVISION_NUMBER; i++) {
 			revisionsBefore.add(new Revision());
 		}
 		
 		parallelProcessor.startRevisionProcessing();
 		
-		for(Revision revision: revisionsBefore){
+		for (Revision revision: revisionsBefore) {
 			parallelProcessor.processRevision(revision);
 		}
 		
@@ -89,11 +89,11 @@ public class ParallelProcessorTest{
 	}
 	
 	@Test
-	public void testParallelProcessor2(){
+	public void testParallelProcessor2() {
 		// try to find non-deterministic errors that only occur sometimes
-		for (int i = 0; i < 10; i++){
+		for (int i = 0; i < 10; i++) {
 			testParallelProcessor();
 		}
 	}
-}
 
+}

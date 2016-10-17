@@ -42,4 +42,5 @@ public class TamilRatio extends FeatureImpl {
 		
 		return new FeatureFloatValue(result);
 	}
+
 }

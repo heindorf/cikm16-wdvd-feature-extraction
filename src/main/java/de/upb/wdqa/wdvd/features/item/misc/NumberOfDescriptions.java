@@ -40,11 +40,11 @@ public class NumberOfDescriptions extends FeatureImpl {
 		int result = 0;
 		ItemDocument itemDocument = revision.getItemDocument();
 		
-		if(itemDocument != null){		
+		if (itemDocument != null) {
 			Map<String, MonolingualTextValue> descriptions =
 					itemDocument.getDescriptions();
 			
-			if (descriptions != null){
+			if (descriptions != null) {
 				result = descriptions.size();
 			}
 		}

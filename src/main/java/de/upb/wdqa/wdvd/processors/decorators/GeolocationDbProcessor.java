@@ -43,7 +43,7 @@ public class GeolocationDbProcessor implements RevisionProcessor {
 	File geolocationFile;
 	
 	public GeolocationDbProcessor(
-			RevisionProcessor processor, File geolocationFile){
+			RevisionProcessor processor, File geolocationFile) {
 		this.processor = processor;
 		this.geolocationFile = geolocationFile;
 	}
@@ -59,7 +59,7 @@ public class GeolocationDbProcessor implements RevisionProcessor {
 
 	@Override
 	public void processRevision(Revision revision) {
-		if (!revision.hasRegisteredContributor()){
+		if (!revision.hasRegisteredContributor()) {
 			String userName = revision.getContributor();
 			
 			GeoInformation geoInformation =
@@ -77,5 +77,5 @@ public class GeolocationDbProcessor implements RevisionProcessor {
 		
 		logger.debug("Finished.");		
 	}
-	
+
 }

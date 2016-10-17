@@ -35,7 +35,7 @@ public class ParentRevisionInCorpus extends FeatureImpl {
 		Boolean result = null;
 		Revision prevRevision = revision.getPreviousRevision();
 		
-		if (revision.getParentId() != null && prevRevision != null){
+		if (revision.getParentId() != null && prevRevision != null) {
 			
 			long parentId = Long.parseLong(revision.getParentId());
 			long prevRevisionId = prevRevision.getRevisionId();

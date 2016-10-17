@@ -1,4 +1,5 @@
 /*
+
  * Wikidata Vandalism Detector 2016 (WDVD-2016)
  * 
  * Copyright (c) 2016 Stefan Heindorf, Martin Potthast, Benno Stein, Gregor Engels
@@ -34,7 +35,7 @@ import de.upb.wdqa.wdvd.processors.RevisionProcessor;
 
 public class UserStatisticsProcessor implements RevisionProcessor {
 
-	final static Logger logger =
+	static final Logger logger =
 			LoggerFactory.getLogger(UserStatisticsProcessor.class);
 	
 	private Frequency botDistribution = new Frequency();
@@ -65,34 +66,31 @@ public class UserStatisticsProcessor implements RevisionProcessor {
 	public void processRevision(Revision revision) {
 		processor.processRevision(revision);
 		
-		if(revision.hasBotContributor()){
+		if (revision.hasBotContributor()) {
 			botDistribution.addValue(revision.getContributor());
-		}
-		else{
+		} else {
 			userDistribution.addValue(revision.getContributor());
 		}
 		
 		
-		if(revision.hasRegisteredContributor()){
+		if (revision.hasRegisteredContributor()) {
 			numberOfRegistered += 1;
-		}
-		else{
+		} else {
 			numberOfUnregistered += 1;
 		}
 		
 		//If the revision is minor the function isMinor returns "", otherwise null
-		if(revision.isMinor()){
+		if (revision.isMinor()) {
 			numberOfMinor += 1;
 		}
 		
 		
-		if(revision.wasReverted(RevertMethod.ROLLBACK)){
+		if (revision.wasReverted(RevertMethod.ROLLBACK)) {
 			rollbackedUserDistribution.addValue(revision.getContributor());			
 			
-			if(revision.hasRegisteredContributor()){
+			if (revision.hasRegisteredContributor()) {
 				registeredRollbackedUserDistribution.addValue(revision.getContributor());
-			}
-			else{
+			} else {
 				unregisteredRollbackedUserDistribution.addValue(revision.getContributor());
 			}
 		}
@@ -132,6 +130,7 @@ public class UserStatisticsProcessor implements RevisionProcessor {
 		
 		
 		logger.info("Bot frequency distribution:\n" + FrequencyUtils.formatFrequency(botDistribution));
-		logger.info("Most frequent users:\n" + FrequencyUtils.formatFrequency(userDistribution, 100));		
+		logger.info("Most frequent users:\n" + FrequencyUtils.formatFrequency(userDistribution, 100));
 	}
+
 }

@@ -33,7 +33,7 @@ import de.upb.wdqa.wdvd.features.FeatureIntegerValue;
 
 public class LongestWord extends FeatureImpl {
 
-	private final static Pattern pattern;
+	private static final Pattern pattern;
 	
 	static {
 		pattern = Pattern.compile("\\p{IsAlphabetic}+", Pattern.CASE_INSENSITIVE
@@ -53,11 +53,11 @@ public class LongestWord extends FeatureImpl {
 
 			matcher.reset(text);
 
-			while(matcher.find()){
+			while (matcher.find()) {
 //				String match = text.substring(matcher.start(), matcher.end());
 				int length = matcher.end() - matcher.start();
 				
-				if (length > max){
+				if (length > max) {
 					max = length;
 				}
 			}

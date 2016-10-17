@@ -43,7 +43,7 @@ public class SuperItemId extends FeatureImpl {
 		Integer result = null;
 
 		ItemDocument itemDocument = revision.getItemDocument();
-		if(itemDocument != null){
+		if (itemDocument != null) {
 			ItemDocumentDbItem item = new ItemDocumentDbItem(itemDocument);
 				
 			result = item.getInstanceOfId();

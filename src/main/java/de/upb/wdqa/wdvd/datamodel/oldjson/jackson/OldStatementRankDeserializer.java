@@ -42,11 +42,11 @@ public class OldStatementRankDeserializer extends JsonDeserializer<StatementRank
 		StatementRank result;
 		String text = jp.getText();
 		
-		if(text!=null){
+		if (text != null) {
 			text = text.trim();
 		}
 		
-		switch(text){
+		switch (text) {
 			case "0":
 				result = StatementRank.DEPRECATED;
 				break;
@@ -62,6 +62,5 @@ public class OldStatementRankDeserializer extends JsonDeserializer<StatementRank
 		
 		return result;
 	}
-
 
 }

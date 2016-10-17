@@ -39,11 +39,11 @@ public class LatestInstanceOfItemId extends FeatureImpl {
 			LoggerFactory.getLogger(LatestInstanceOfItemId.class);
 
 	@Override
-	public FeatureIntegerValue calculate(Revision revision) {		
+	public FeatureIntegerValue calculate(Revision revision) {
 		Integer result = null;
 
 		ItemDocument latestItemDocument = revision.getLatestItemDocument();
-		if(latestItemDocument != null){
+		if (latestItemDocument != null) {
 			ItemDocumentDbItem item = new ItemDocumentDbItem(latestItemDocument);
 				
 			result = item.getInstanceOfId();

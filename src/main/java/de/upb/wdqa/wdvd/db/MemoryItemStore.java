@@ -52,8 +52,8 @@ public class MemoryItemStore implements ItemStore {
 		DbItemImpl itemImpl = new DbItemImpl(item);
 		
 		// serialization saves memory (strings are represented as UTF-8)
-		//byte[] bytes = SerializationUtils.serialize(itemImpl);		
-		//items.put(item.getItemId(), bytes);		
+		// byte[] bytes = SerializationUtils.serialize(itemImpl);
+		// items.put(item.getItemId(), bytes);		
 		
 		items.put(item.getItemId(), itemImpl); 
 	}
@@ -64,8 +64,8 @@ public class MemoryItemStore implements ItemStore {
 	}
 
 	@Override
-	public DbItem getItem(int itemId) {		
-//		byte[] bytes = items.get(itemId);		
+	public DbItem getItem(int itemId) {
+//		byte[] bytes = items.get(itemId);
 //		DbItem item = SerializationUtils.deserialize(bytes);
 		
 		DbItem item = items.get(itemId);
@@ -75,7 +75,7 @@ public class MemoryItemStore implements ItemStore {
 
 	@Override
 	public void close() {
-		// Do nothing		
+		// Do nothing
 	}
 
 }

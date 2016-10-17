@@ -52,7 +52,7 @@ public class ParallelProcessor implements RevisionProcessor {
 			LoggerFactory.getLogger(ParallelProcessor.class);
 	
 	public final int MAX_QUEUE_SIZE = 100;
-	final static int SLEEP_TIME = 50;
+	static final int SLEEP_TIME = 50;
 	
 	final AtomicLong seq = new AtomicLong(0);
 	
@@ -87,10 +87,10 @@ public class ParallelProcessor implements RevisionProcessor {
 		collector = new Collector(
 				outgoingQueue, nextProcessor, workProcessors.size());
 		
-		for (int i = 0; i < workProcessors.size(); i++){
+		for (int i = 0; i < workProcessors.size(); i++) {
 			workProcessors.get(i).startRevisionProcessing();
 			
-			Runnable runnable = new Worker(incomingQueue,outgoingQueue, collector, workProcessors.get(i));
+			Runnable runnable = new Worker(incomingQueue, outgoingQueue, collector, workProcessors.get(i));
 			Thread thread = new Thread(runnable, "Parallel Revision Processor " + name + " " + i);
 			workerThreads.add(thread);
 			thread.start();
@@ -108,8 +108,8 @@ public class ParallelProcessor implements RevisionProcessor {
 		// outgoing queue. If we waited in front of the outgoing queue, it can
 		// happen that the queue never gets the next element n + 1 because it
 		// cannot be inserted in the queue.
-		synchronized(collector.synchronizerNonFull){
-			while (outgoingQueue.size() >= MAX_QUEUE_SIZE){
+		synchronized (collector.synchronizerNonFull) {
+			while (outgoingQueue.size() >= MAX_QUEUE_SIZE) {
 				try {					
 					collector.synchronizerNonFull.wait();
 				} catch (InterruptedException e) {
@@ -134,7 +134,7 @@ public class ParallelProcessor implements RevisionProcessor {
 		
 		logger.debug("Notifying workers to stop ...");
 		// Make the worker threads finish their work
-		for (int i = 0; i < workProcessors.size(); i++){
+		for (int i = 0; i < workProcessors.size(); i++) {
 			try {
 				incomingQueue.put(FIFOEntry.DONE);
 			} catch (InterruptedException e) {
@@ -144,7 +144,7 @@ public class ParallelProcessor implements RevisionProcessor {
 		
 		logger.debug("Waiting for the workers to stop ...");
 		// wait for all worker threads to finish 
-		for (int i = 0; i < workProcessors.size(); i++){
+		for (int i = 0; i < workProcessors.size(); i++) {
 			try {
 				workerThreads.get(i).join();
 			} catch (InterruptedException e) {
@@ -162,11 +162,11 @@ public class ParallelProcessor implements RevisionProcessor {
 		}
 
 		logger.debug("Log the finishing of all workers ...");
-		for (int i = 0; i < workProcessors.size(); i++){
+		for (int i = 0; i < workProcessors.size(); i++) {
 				workProcessors.get(i).finishRevisionProcessing();
 		}
 		
-		if (reducer != null){
+		if (reducer != null) {
 			reducer.reduce(workProcessors);
 		}
 		
@@ -179,7 +179,7 @@ public class ParallelProcessor implements RevisionProcessor {
  * process it, and put it in the outgoing queue.
  *
  */
-class Worker implements Runnable{
+class Worker implements Runnable {
 	static final Logger logger = LoggerFactory.getLogger(Worker.class);
 	
 	private LinkedBlockingQueue<FIFOEntry<Revision>> incomingQueue;
@@ -188,7 +188,7 @@ class Worker implements Runnable{
 	private Collector collector;
 	
 
-	public Worker(LinkedBlockingQueue<FIFOEntry<Revision>> incomingQueue,
+	Worker(LinkedBlockingQueue<FIFOEntry<Revision>> incomingQueue,
 			PriorityBlockingQueue<FIFOEntry<Revision>> outgoingQueue,
 			Collector collector,
 			RevisionProcessor workProcessor) {
@@ -210,11 +210,11 @@ class Worker implements Runnable{
 
 			entry = incomingQueue.take();	
 		
-			while(entry != FIFOEntry.DONE){
+			while (entry != FIFOEntry.DONE) {
 				workProcessor.processRevision(entry.getEntry());
 				
 				outgoingQueue.put(entry);				
-				synchronized(collector.synchronizerNonEmpty){
+				synchronized (collector.synchronizerNonEmpty) {
 					collector.synchronizerNonEmpty.notifyAll(); // 
 				}
 				
@@ -226,7 +226,7 @@ class Worker implements Runnable{
 			}
 			
 			outgoingQueue.put(FIFOEntry.DONE);
-			synchronized(collector.synchronizerNonEmpty){
+			synchronized (collector.synchronizerNonEmpty) {
 				collector.synchronizerNonEmpty.notifyAll();
 			}
 			
@@ -242,7 +242,7 @@ class Worker implements Runnable{
  * the elements.
  *
  */
-class Collector implements Runnable{
+class Collector implements Runnable {
 	static final Logger logger = LoggerFactory.getLogger(Collector.class);
 	private RevisionProcessor nextProcessor;
 	private AbstractQueue<FIFOEntry<Revision>> outgoingQueue;
@@ -253,8 +253,8 @@ class Collector implements Runnable{
 	final Object synchronizerNonFull = new Object();
 	
 	
-	public Collector(AbstractQueue<FIFOEntry<Revision>> outgoingQueue,
-			RevisionProcessor nextProcessor, int runningWorkerThreads){
+	Collector(AbstractQueue<FIFOEntry<Revision>> outgoingQueue,
+			RevisionProcessor nextProcessor, int runningWorkerThreads) {
 		this.outgoingQueue = outgoingQueue;
 		this.nextProcessor = nextProcessor;
 		this.runningWorkerThreads = runningWorkerThreads;
@@ -262,35 +262,34 @@ class Collector implements Runnable{
 
 	@Override
 	public void run() {
-		try{
+		try {
 			nextProcessor.startRevisionProcessing();
 			
 
 	
 			long lastSeqNum = -1;
 			
-			while(runningWorkerThreads > 0){
+			while (runningWorkerThreads > 0) {
 				FIFOEntry<Revision> peek = null; 
 				// We have to wait for the outgoingQueue to contain at least one
 				// element
-				synchronized(synchronizerNonEmpty){					
+				synchronized (synchronizerNonEmpty) {
 					peek = outgoingQueue.peek();
-					while (peek == null){							
-						try { synchronizerNonEmpty.wait(); } catch (InterruptedException e) {logger.error("",e);}
+					while (peek == null) {
+						try { synchronizerNonEmpty.wait(); } catch (InterruptedException e) { logger.error("", e); }
 						peek = outgoingQueue.peek();
 					}
 				}
-				if(peek == FIFOEntry.DONE){
+				if (peek == FIFOEntry.DONE) {
 					outgoingQueue.remove(FIFOEntry.DONE);
-					synchronized(synchronizerNonFull){
+					synchronized (synchronizerNonFull) {
 						synchronizerNonFull.notifyAll();
 					}
 					
 					runningWorkerThreads--;
-				}
-				else if (peek.getSeqNum() == lastSeqNum + 1){
+				} else if (peek.getSeqNum() == lastSeqNum + 1) {
 					outgoingQueue.remove(peek);
-					synchronized(synchronizerNonFull){
+					synchronized (synchronizerNonFull) {
 						synchronizerNonFull.notifyAll();
 					}
 					
@@ -301,7 +300,7 @@ class Collector implements Runnable{
 			}
 				
 			nextProcessor.finishRevisionProcessing();		
-		} catch (Throwable t){
+		} catch (Throwable t) {
 			logger.error("", t);
 		}
 	}
@@ -313,12 +312,12 @@ class FIFOEntry<E> implements Comparable<FIFOEntry<E>> {
 	static final FIFOEntry<Revision> DONE = new FIFOEntry<Revision>();
 	static final FIFOEntry<MwRevision> MwDONE = new FIFOEntry<MwRevision>();
 	
-	public FIFOEntry(E entry, long seqNum) {
+	FIFOEntry(E entry, long seqNum) {
 		this.entry = entry;
 		this.seqNum = seqNum;
 	}
 	
-	private FIFOEntry(){
+	private FIFOEntry() {
 		seqNum = Long.MAX_VALUE;
 		entry = null;
 	}
@@ -327,11 +326,12 @@ class FIFOEntry<E> implements Comparable<FIFOEntry<E>> {
 		return entry;
 	}
 	
-	public long getSeqNum(){
+	public long getSeqNum() {
 		return seqNum;
 	}
 	
 	public int compareTo(FIFOEntry<E> other) {
 		return (seqNum < other.seqNum ? -1 : 1);
 	}
+
 }

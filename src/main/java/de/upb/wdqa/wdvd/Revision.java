@@ -55,14 +55,16 @@ public class Revision extends ExtendedMwRevisionImpl {
 	private Revision prevRevision; // must be thread-safe
 	private Revision latestRevision; // must be thread-safe
 	private int positionWithinGroup;
-	private long revisionGroupId;	
+	private long revisionGroupId;
 
-	// revision attributes which are computationally demanding and which are cached
+	// revision attributes which are computationally demanding and which are
+	// cached
 	private ParsedComment parsedComment;
 	private TextRegex textRegex = new TextRegex();
 	private ItemDocument itemDocument;
 	
-	// Denotes the latest parsable item document. This might be different from the latestRevision.	
+	// Denotes the latest parsable item document. This might be different from
+	// the latestRevision.
 	private ItemDocument latestItemDocument; // must be thread-safe
 	private HashMap<Feature, FeatureValue> featureValues =
 			new HashMap<Feature, FeatureValue>();
@@ -78,7 +80,7 @@ public class Revision extends ExtendedMwRevisionImpl {
 		super();
 	}
 	
-	public Revision(MwRevision revision){
+	public Revision(MwRevision revision) {
 		super(revision);
 	}
 	
@@ -92,7 +94,7 @@ public class Revision extends ExtendedMwRevisionImpl {
 		this.latestRevision = revision.latestRevision;
 		this.positionWithinGroup = revision.positionWithinGroup;
 		this.revisionGroupId = revision.revisionGroupId;
-		this.wasReverted = revision.wasReverted.clone();// shallow copy of the reverting revisions
+		this.wasReverted = revision.wasReverted.clone(); // shallow copy of the reverting revisions
 		this.downloadedTags = revision.downloadedTags;
 		this.downloadedSha1 = revision.downloadedSha1;
 		this.geoInformation = revision.geoInformation;
@@ -100,31 +102,31 @@ public class Revision extends ExtendedMwRevisionImpl {
 		this.itemDocument = revision.itemDocument;
 		this.latestItemDocument = revision.latestItemDocument;
 		
-		this.featureValues = (HashMap<Feature, FeatureValue>)revision.featureValues.clone(); //shallow copy
+		this.featureValues = (HashMap<Feature, FeatureValue>) revision.featureValues.clone(); //shallow copy
 	}
 	
-	public ParsedComment getParsedComment() {		
+	public ParsedComment getParsedComment() {
 		// Lazy Generation
-		if (parsedComment == null){
+		if (parsedComment == null) {
 			parsedComment = new ParsedComment(getComment());
 		}		
 		
 		return parsedComment;
 	}
 	
-	public TextRegex getTextRegex(){
+	public TextRegex getTextRegex() {
 		return textRegex;
 	}
 	
-	public void setTextRegex(TextRegex textRegex){
+	public void setTextRegex(TextRegex textRegex) {
 		this.textRegex = textRegex;
 	}
 	
-	public Revision getPreviousRevision(){
+	public Revision getPreviousRevision() {
 		return prevRevision;
 	}
 	
-	public long getRevisionGroupId(){
+	public long getRevisionGroupId() {
 		return revisionGroupId;
 	}
 	
@@ -136,7 +138,7 @@ public class Revision extends ExtendedMwRevisionImpl {
 		this.setReverted(RevertMethod.UNDO_RESTORE, wasUndoRestoreReverted);
 	}
 	
-	public void setReverted(RevertMethod method, Boolean wasReverted){
+	public void setReverted(RevertMethod method, Boolean wasReverted) {
 		this.wasReverted.put(method, wasReverted);
 	}
 	
@@ -156,7 +158,7 @@ public class Revision extends ExtendedMwRevisionImpl {
 		this.positionWithinGroup = positionInRevisionGroup;
 	}
 	
-	public void setRevisionGroupId(long revisionGroupId){
+	public void setRevisionGroupId(long revisionGroupId) {
 		this.revisionGroupId = revisionGroupId;
 	}
 	
@@ -173,25 +175,25 @@ public class Revision extends ExtendedMwRevisionImpl {
 		return wasReverted(RevertMethod.UNDO_RESTORE);
 	}
 	
-	public boolean wasReverted(RevertMethod method){
+	public boolean wasReverted(RevertMethod method) {
 		boolean result = false;
 		
-		if(wasReverted != null && wasReverted.get(method) != null){
+		if (wasReverted != null && wasReverted.get(method) != null) {
 			result = wasReverted.get(method);
 		}
 
 		return result;
 	}
 	
-	public void setDownloadedSha1(String downloadedSha1){
+	public void setDownloadedSha1(String downloadedSha1) {
 		this.downloadedSha1 = downloadedSha1;
 	}
 	
-	public String getDownloadedSHA1() {		
+	public String getDownloadedSHA1() {
 		return downloadedSha1;
 	}	
 
-	public void setDownloadedTags(List<String> downloadedTags){
+	public void setDownloadedTags(List<String> downloadedTags) {
 		this.downloadedTags = downloadedTags;
 	}
 
@@ -199,46 +201,45 @@ public class Revision extends ExtendedMwRevisionImpl {
 		return downloadedTags;
 	}
 	
-	public void setGeoInformation(GeoInformation geoInformation){
+	public void setGeoInformation(GeoInformation geoInformation) {
 		this.geoInformation = geoInformation;
 	}
 	
-	public GeoInformation getGeoInformation(){
+	public GeoInformation getGeoInformation() {
 		return geoInformation;
 	}
 	
-	public int getItemId(){
-		return getItemIdFromString(getPrefixedTitle());	
+	public int getItemId() {
+		return getItemIdFromString(getPrefixedTitle());
 	}
 	
-	public Date getDate(){
+	public Date getDate() {
 		Date result = null;
 		
-		try{
+		try {
 			String timestamp = getTimeStamp();
 			
 			result = formatter.parse(timestamp);
-		}
-		catch (ParseException e){
+		} catch (ParseException e) {
 			logger.warn("Invalid time stamp: " + getTimeStamp());
 		}
 		
 		return result;		
 	}
 	
-	public CONTENT_TYPE getContentType(){
+	public CONTENT_TYPE getContentType() {
 		return CONTENT_TYPE.getContentType(getParsedComment().getAction1());
 	}
 	
-	public void setLatestRevision(Revision revision){
+	public void setLatestRevision(Revision revision) {
 		this.latestRevision = revision;
 	}
 	
-	public Revision getLatestRevision(){
+	public Revision getLatestRevision() {
 		return latestRevision;
 	}
 	
-	public ItemDocument getLatestItemDocument(){
+	public ItemDocument getLatestItemDocument() {
 		return latestItemDocument;
 	}
 	
@@ -267,35 +268,33 @@ public class Revision extends ExtendedMwRevisionImpl {
 		this.itemDocument = itemDocument;
 	}
 	
-	public void setFeatureValue (Feature f, FeatureValue v){
+	public void setFeatureValue(Feature f, FeatureValue v) {
 		featureValues.put(f, v);
 	}
 	
-	public HashMap<Feature, FeatureValue> getFeatureValues(){
+	public HashMap<Feature, FeatureValue> getFeatureValues() {
 		return featureValues;
 	}
 	
 
 	
-	public boolean contributorEquals(Revision revision){
-		boolean notNull = this.getContributor() != null &&
-				revision != null;
+	public boolean contributorEquals(Revision revision) {
+		boolean notNull = this.getContributor() != null
+									&& revision != null;
 		
 		return notNull && this.getContributor().equals(revision.getContributor());
 	}
 	
-	public static int getItemIdFromString(String str){
+	public static int getItemIdFromString(String str) {
 		int result = -1;
-		if(str != null && str.startsWith("Q")){
+		if (str != null && str.startsWith("Q")) {
 			str = str.substring(1);
-		}
-		else{
+		} else {
 			logger.warn("Title: " + str + ": non-well-formed item string: " + str);
 		}
-		try{
+		try {
 			result = Integer.parseInt(str);
-		}
-		catch(NumberFormatException e){
+		} catch (NumberFormatException e) {
 			logger.warn("Title: " + str + ": non-well-formed item string: " + str);
 		}
 		
@@ -303,4 +302,3 @@ public class Revision extends ExtendedMwRevisionImpl {
 	}
 
 }
-

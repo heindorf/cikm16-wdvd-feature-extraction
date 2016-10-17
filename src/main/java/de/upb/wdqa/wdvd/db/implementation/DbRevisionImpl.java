@@ -63,7 +63,7 @@ public class DbRevisionImpl implements DbRevision {
 
 	@Override
 	public Set<DbTag> getTags() {
-		if (tags == null){
+		if (tags == null) {
 			tags = new HashSet<DbTag>();
 		}
 		
@@ -74,8 +74,8 @@ public class DbRevisionImpl implements DbRevision {
 	public List<String> getTagNames() {
 		List<String> result = new ArrayList<String>();
 		
-		if(tags != null){
-			for(DbTag tag: tags){
+		if (tags != null) {
+			for (DbTag tag: tags) {
 				result.add(tag.getTagName());
 			}
 		}
@@ -84,26 +84,28 @@ public class DbRevisionImpl implements DbRevision {
 	
 	@Override
 	public boolean equals(Object obj) {
-	    if (obj == this)
-	        return true;
-	    if (!(obj instanceof DbRevisionImpl))
-	        return false;
+		if (obj == this) {
+			return true;
+		}
+		if (!(obj instanceof DbRevisionImpl)) {
+			return false;
+		}
 
-	    DbRevisionImpl rhs = (DbRevisionImpl) obj;
-	    return new EqualsBuilder().
-	        append(getRevisionId(), rhs.getRevisionId()).
-	        append(getSha1(), rhs.getSha1()).
-	        append(getTags(), rhs.getTags()).
-	        isEquals();
+		DbRevisionImpl rhs = (DbRevisionImpl) obj;
+		return new EqualsBuilder().
+			append(getRevisionId(), rhs.getRevisionId()).
+			append(getSha1(), rhs.getSha1()).
+			append(getTags(), rhs.getTags()).
+			isEquals();
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		return "Revision " + revisionId + " Tags: " + getTagNames();
 	}
 	
-	public void addTag(DbTag tag){
-		if(tags == null){
+	public void addTag(DbTag tag) {
+		if (tags == null) {
 			tags = new HashSet<DbTag>();
 		}
 		tags.add(tag);

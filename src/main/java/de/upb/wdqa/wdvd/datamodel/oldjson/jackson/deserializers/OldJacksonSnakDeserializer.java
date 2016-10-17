@@ -66,7 +66,7 @@ public class OldJacksonSnakDeserializer extends StdDeserializer<OldJacksonSnak> 
 			JsonProcessingException {	
 		OldJacksonSnak result = null;
 		
-		if(!p.getCurrentToken().equals(JsonToken.START_ARRAY)){
+		if (!p.getCurrentToken().equals(JsonToken.START_ARRAY)) {
 			logger.warn("Token " + JsonToken.START_ARRAY + " expected");
 		}
 		
@@ -75,7 +75,7 @@ public class OldJacksonSnakDeserializer extends StdDeserializer<OldJacksonSnak> 
 		p.nextToken();
 		
 		// determine type
-		if (type.equals("value")){
+		if (type.equals("value")) {
 			OldJacksonValueSnak valuesnak = new OldJacksonValueSnak();
 			valuesnak.setProperty("P" + p.getIntValue());
 			p.nextToken();
@@ -86,29 +86,26 @@ public class OldJacksonSnakDeserializer extends StdDeserializer<OldJacksonSnak> 
 			JsonNode root = mapper.readTree(p);
 			Class<? extends OldJacksonValue> valueClass =
 					getValueClass(valuesnak.getDatatype());
-			if (valueClass != null){
+			if (valueClass != null) {
 				valuesnak.setDatavalue(mapper.treeToValue(root, valueClass));
 			}
 			
 			p.nextToken();
 			
 			result = valuesnak;				
-		}
-		else if (type.equals("novalue")){
+		} else if (type.equals("novalue")) {
 			result = new OldJacksonNoValueSnak();
 			result.setProperty("P" + p.getIntValue());
 			p.nextToken();
-		}
-		else if(type.equals("somevalue")){
+		} else if (type.equals("somevalue")) {
 			result = new OldJacksonSomeValueSnak();
 			result.setProperty("P" + p.getIntValue());
 			p.nextToken();
-		}
-		else{
+		} else {
 			logger.warn("Unknown value type: " + type);
 		}			
 
-		if(!p.getCurrentToken().equals(JsonToken.END_ARRAY)){
+		if (!p.getCurrentToken().equals(JsonToken.END_ARRAY)) {
 			logger.warn("Token " + JsonToken.END_ARRAY + " expected");
 		}
 
@@ -146,6 +143,6 @@ public class OldJacksonSnakDeserializer extends StdDeserializer<OldJacksonSnak> 
 			
 			return null;
 		}
-	}
-	
+	}	
+
 }

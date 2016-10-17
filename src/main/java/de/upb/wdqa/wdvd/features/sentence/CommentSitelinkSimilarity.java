@@ -36,15 +36,15 @@ import de.upb.wdqa.wdvd.features.FeatureImpl;
 
 public class CommentSitelinkSimilarity extends FeatureImpl {
 	
-	private static String getEnglishSitelink(ItemDocument itemDocument){
+	private static String getEnglishSitelink(ItemDocument itemDocument) {
 		String result = null;
 		
-		if (itemDocument != null){
+		if (itemDocument != null) {
 			Map<String, SiteLink> map = itemDocument.getSiteLinks();
 			
 			SiteLink sitelink = map.get("enwiki");
 			
-			if (sitelink != null){
+			if (sitelink != null) {
 				result = sitelink.getPageTitle();
 			}
 		}
@@ -58,7 +58,7 @@ public class CommentSitelinkSimilarity extends FeatureImpl {
 		
 		String suffixComment = revision.getParsedComment().getSuffixComment();
 		
-		if(suffixComment != null){
+		if (suffixComment != null) {
 
 		
 			ItemDocument itemDocument = revision.getItemDocument();
@@ -66,7 +66,7 @@ public class CommentSitelinkSimilarity extends FeatureImpl {
 			String englishSitelink = getEnglishSitelink(itemDocument);
 
 	
-			if(englishSitelink != null){
+			if (englishSitelink != null) {
 				englishSitelink = englishSitelink.trim();
 				suffixComment = suffixComment.trim();
 				

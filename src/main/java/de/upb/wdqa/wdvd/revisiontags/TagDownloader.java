@@ -65,6 +65,10 @@ public class TagDownloader {
 	
 	static Frequency tagDistribution = new Frequency();
 	
+	private TagDownloader() {
+		
+	}
+	
 	
 	/**
 	 * Reads the csv file of the TagDownloader
@@ -86,15 +90,15 @@ public class TagDownloader {
 			
 			for (CSVRecord csvRecord: parser) {
 				parseRecord(csvRecord);
-				if(csvRecord.getRecordNumber() % 1000000 == 0){
+				if (csvRecord.getRecordNumber() % 1000000 == 0) {
 					logger.info("Current Record: " + csvRecord.getRecordNumber());
 				}
 			}
 			
 			dataStore.disconnect();
 			parser.close();
-			logger.info("Tag Distribution:\n" +
-					FrequencyUtils.formatFrequency(tagDistribution));
+			logger.info("Tag Distribution:\n"
+					+ FrequencyUtils.formatFrequency(tagDistribution));
 			logger.info("Finished");
 		} catch (Exception e) {
 			logger.error("", e);
@@ -104,53 +108,49 @@ public class TagDownloader {
 	/**
 	 * Reads one line of the csv file of the TagDownloader
 	 */
-	private static void parseRecord(CSVRecord record){
+	private static void parseRecord(CSVRecord record) {
 		long revisionId = Long.parseLong(record.get(0)); // revision id
 		String sha1Base16 = record.get(1); // sha1
 		
 		//record.get(2); // size
 		
 		Set<DbTag> tags = new HashSet<DbTag>();
-		for (int i = 3; i < record.size(); i++){
+		for (int i = 3; i < record.size(); i++) {
 			String tagName = record.get(i);
 			tags.add(tagFactory.getTag(tagName));
 			tagDistribution.addValue(tagName);
 		}
 		
-		try{
+		try {
 			dataStore.putRevision(
 					new DbRevisionImpl(revisionId, SHA1Converter.base16to36(sha1Base16), tags));
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			logger.error("", e);
 		}
 	}
 	
-	public static DbRevision getRevision(long revisionId){		
+	public static DbRevision getRevision(long revisionId) {		
 		DbRevision result = null;
 		
-		try{
+		try  {
 			result = dataStore.getRevision(revisionId);
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			logger.error("", e);
 		}
 		
 		return result;
 	}
 	
-	public static List<DbRevision> getRevisions(List<Long> revisionIds){
+	public static List<DbRevision> getRevisions(List<Long> revisionIds) {
 		List<DbRevision> result = null;
 		
-		try{
+		try {
 			result = dataStore.getRevisions(revisionIds);
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			logger.error("", e);
 		}
 		
 		return result;
 	}
+
 }
-
-

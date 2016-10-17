@@ -32,7 +32,7 @@ import de.upb.wdqa.wdvd.features.FeatureImpl;
 import de.upb.wdqa.wdvd.features.Utils;
 
 public class LowerCaseWordRatio extends FeatureImpl {
-	private final static Pattern pattern;
+	private static final Pattern pattern;
 	
 	static {
 		pattern = Pattern.compile("[\\p{L}&&[^\\p{Lu}]].*");
@@ -44,7 +44,7 @@ public class LowerCaseWordRatio extends FeatureImpl {
 		
 		String suffixComment = revision.getParsedComment().getSuffixComment();	
 
-		if(suffixComment != null){
+		if (suffixComment != null) {
 			result = Utils.wordRatio(suffixComment, pattern);	
 		}		
 

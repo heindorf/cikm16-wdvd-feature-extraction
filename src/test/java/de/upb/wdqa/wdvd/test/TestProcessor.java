@@ -29,7 +29,7 @@ import java.util.List;
 import de.upb.wdqa.wdvd.Revision;
 import de.upb.wdqa.wdvd.processors.RevisionProcessor;
 
-public class TestProcessor implements RevisionProcessor{
+public class TestProcessor implements RevisionProcessor {
 
 	private int startRevisionProcessingCount = 0;
 	private int processRevisionProcessingCount = 0;
@@ -49,7 +49,7 @@ public class TestProcessor implements RevisionProcessor{
 
 	@Override
 	public void finishRevisionProcessing() {
-		finishRevisionProcessingCount++;		
+		finishRevisionProcessingCount++;
 	}
 	 
 	
@@ -70,13 +70,14 @@ public class TestProcessor implements RevisionProcessor{
 	}
 	
 	public static void executeProcessor(
-			RevisionProcessor processor, List<Revision> revisions){
+			RevisionProcessor processor, List<Revision> revisions) {
 		processor.startRevisionProcessing();
 		
-		for(Revision revision: revisions){
+		for (Revision revision: revisions) {
 			processor.processRevision(revision);
 		}
 		
-		processor.finishRevisionProcessing();		
+		processor.finishRevisionProcessing();
 	}
-};
+
+}

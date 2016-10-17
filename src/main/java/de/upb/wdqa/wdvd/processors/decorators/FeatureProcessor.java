@@ -36,14 +36,14 @@ public class FeatureProcessor implements RevisionProcessor {
 	RevisionProcessor processor;
 	List<Feature> features;
 	
-	public FeatureProcessor(RevisionProcessor processor, List<Feature> features){
+	public FeatureProcessor(RevisionProcessor processor, List<Feature> features) {
 		this.processor = processor;
 		this.features = features;
 	}
 	
 	@Override
 	public void startRevisionProcessing() {
-		if (processor != null){
+		if (processor != null) {
 			processor.startRevisionProcessing();
 		}
 		
@@ -51,12 +51,12 @@ public class FeatureProcessor implements RevisionProcessor {
 	
 	@Override
 	public void processRevision(Revision revision) {
-		for(Feature feature: features){
+		for (Feature feature: features) {
 			FeatureValue value = feature.calculate(revision);
 			revision.setFeatureValue(feature, value);
 		}
 		
-		if(processor != null){
+		if (processor != null) {
 			processor.processRevision(revision);
 		}
 		
@@ -64,10 +64,9 @@ public class FeatureProcessor implements RevisionProcessor {
 	
 	@Override
 	public void finishRevisionProcessing() {
-		if(processor != null){
+		if (processor != null) {
 			processor.finishRevisionProcessing();
 		}
 	}
+
 }
-
-

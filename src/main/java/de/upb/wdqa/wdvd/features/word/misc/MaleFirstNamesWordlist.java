@@ -41,7 +41,7 @@ public class MaleFirstNamesWordlist extends FeatureImpl {
 	// List of Top 300 male English first names
 	// http://names.mongabay.com/male_names_alpha.htm
 	// last updated on November 4, 2015
-	public final static String[] maleFirstNames = { "AARON", "ADAM", "ADRIAN",
+	public static final String[] maleFirstNames = { "AARON", "ADAM", "ADRIAN",
 			"ALAN", "ALBERT", "ALBERTO", "ALEX", "ALEXANDER", "ALFRED",
 			"ALFREDO", "ALLAN", "ALLEN", "ALVIN", "ANDRE", "ANDREW", "ANDY",
 			"ANGEL", "ANTHONY", "ANTONIO", "ARMANDO", "ARNOLD", "ARTHUR",
@@ -88,7 +88,7 @@ public class MaleFirstNamesWordlist extends FeatureImpl {
 			"WALLACE", "WALTER", "WARREN", "WAYNE", "WESLEY", "WILLARD",
 			"WILLIAM", "WILLIE", "ZACHARY" };
 
-	private final static Pattern pattern;
+	private static final Pattern pattern;
 
 	static {
 		List<String> tokens = new ArrayList<String>(

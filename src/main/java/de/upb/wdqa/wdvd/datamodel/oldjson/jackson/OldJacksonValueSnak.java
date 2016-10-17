@@ -45,6 +45,5 @@ public class OldJacksonValueSnak extends OldJacksonSnak {
 	public void setDatavalue(OldJacksonValue datavalue) {
 		this.datavalue = datavalue;
 	}
-	
-	
+
 }

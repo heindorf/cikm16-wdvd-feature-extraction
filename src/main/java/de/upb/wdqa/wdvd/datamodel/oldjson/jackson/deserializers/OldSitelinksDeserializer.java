@@ -40,7 +40,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import de.upb.wdqa.wdvd.datamodel.oldjson.jackson.OldJacksonSiteLink;
 
 public class OldSitelinksDeserializer extends
-	JsonDeserializer<LinkedHashMap<String, OldJacksonSiteLink>>{
+	JsonDeserializer<LinkedHashMap<String, OldJacksonSiteLink>> {
 	
 	private static final Logger logger =
 			Logger.getLogger(OldSitelinksDeserializer.class);
@@ -53,17 +53,16 @@ public class OldSitelinksDeserializer extends
 		LinkedHashMap<String, OldJacksonSiteLink> result = null;
 
 		// Is the alias broken, i.e., it starts with '['
-		if (jp.getCurrentToken().equals(JsonToken.START_ARRAY)){
+		if (jp.getCurrentToken().equals(JsonToken.START_ARRAY)) {
 			result = new LinkedHashMap<String, OldJacksonSiteLink>();
 			jp.nextToken();
-			if(!jp.getCurrentToken().equals(JsonToken.END_ARRAY)){
+			if (!jp.getCurrentToken().equals(JsonToken.END_ARRAY)) {
 				logger.warn("Token " + JsonToken.END_ARRAY + " expected");
 			}			
-		}
-		else{
+		} else {
 			ObjectCodec mapper = jp.getCodec();
 			result = mapper.readValue(jp,
-					new TypeReference<LinkedHashMap<String, OldJacksonSiteLink>>() {});
+					new TypeReference<LinkedHashMap<String, OldJacksonSiteLink>>() { });
 		}
 
 		return result;

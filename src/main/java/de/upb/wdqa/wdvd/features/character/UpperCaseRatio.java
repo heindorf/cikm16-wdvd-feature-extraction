@@ -43,5 +43,5 @@ public class UpperCaseRatio extends FeatureImpl {
 		
 		return new FeatureFloatValue(result);
 	}
-	
+
 }

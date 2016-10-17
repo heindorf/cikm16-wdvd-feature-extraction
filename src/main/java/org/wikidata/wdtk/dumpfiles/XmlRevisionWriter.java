@@ -21,7 +21,6 @@ import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream
 import org.apache.commons.compress.utils.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.wikidata.wdtk.dumpfiles.MwRevisionDumpFileProcessor;
 
 import de.upb.wdqa.wdvd.Revision;
 import de.upb.wdqa.wdvd.processors.RevisionProcessor;
@@ -39,7 +38,7 @@ public class XmlRevisionWriter implements RevisionProcessor {
 	static final String V_CASE_FIRST_LETTER = "first-letter";
 	static final String V_SITENAME = "Wikidata";
 	static final String V_DBNAME = "wikidatawiki";
-	static final String V_BASEURL= "http://www.wikidata.org/wiki/Wikidata:Main_Page";
+	static final String V_BASEURL = "http://www.wikidata.org/wiki/Wikidata:Main_Page";
 	
 	static final String URI_NS_MEDIAWIKI = "http://www.mediawiki.org/xml/export-0.9/";
 	static final String URI_XSI = "http://www.w3.org/2001/XMLSchema-instance";
@@ -57,7 +56,8 @@ public class XmlRevisionWriter implements RevisionProcessor {
 	Thread transformerThread;
 	Thread compressorThread;
 	
-	// Closing the xml output stream (closing XMLStreamWriter does NOT close the underlying stream).
+	// Closing the xml output stream (closing XMLStreamWriter does NOT close the
+	// underlying stream).
 	PipedOutputStream pipedXMLOutputStream;
 	
 	int prevPageId = -1;
@@ -75,7 +75,7 @@ public class XmlRevisionWriter implements RevisionProcessor {
 			this.xmlFactory = XMLOutputFactory.newInstance();
 			
 			// first, generate XML
-			pipedXMLOutputStream =new PipedOutputStream();
+			pipedXMLOutputStream = new PipedOutputStream();
 			this.xmlWriter = this.xmlFactory.createXMLStreamWriter(pipedXMLOutputStream, "utf-8");
 			PipedInputStream pipedXMLInputStream = new PipedInputStream(pipedXMLOutputStream);
 			
@@ -118,15 +118,15 @@ public class XmlRevisionWriter implements RevisionProcessor {
 	@Override
 	public void processRevision(Revision revision) {
 		try {
-			if(prevPageId != revision.getPageId()){
+			if (prevPageId != revision.getPageId()) {
 				// Is this not the very first revision processed?
-				if (prevPageId != -1){	
+				if (prevPageId != -1) {
 					endPage();	
 				}
 				startPage(revision);				
 			}
 			
-			xmlWriter.writeStartElement(MwRevisionDumpFileProcessor.E_PAGE_REVISION);			
+			xmlWriter.writeStartElement(MwRevisionDumpFileProcessor.E_PAGE_REVISION);
 			writeRevision(revision);			
 			xmlWriter.writeEndElement();
 		
@@ -171,7 +171,7 @@ public class XmlRevisionWriter implements RevisionProcessor {
 //		validateXML();
 	}
 	
-	void writeXMLSiteInfo() throws XMLStreamException {		
+	void writeXMLSiteInfo() throws XMLStreamException {
 		xmlWriter.writeStartElement(MwRevisionDumpFileProcessor.E_SITEINFO);
 		
 		xmlWriter.writeStartElement(MwRevisionDumpFileProcessor.E_SITENAME);
@@ -201,11 +201,11 @@ public class XmlRevisionWriter implements RevisionProcessor {
 		xmlWriter.writeAttribute(A_CASE, V_CASE_FIRST_LETTER);
 		xmlWriter.writeEndElement();
 		
-		xmlWriter.writeEndElement();		
-		xmlWriter.writeEndElement();		
+		xmlWriter.writeEndElement();
+		xmlWriter.writeEndElement();
 	}
 	
-	void startPage(Revision revision) throws XMLStreamException{
+	void startPage(Revision revision) throws XMLStreamException {
 		xmlWriter.writeStartElement(MwRevisionDumpFileProcessor.E_PAGE);
 		
 		xmlWriter.writeStartElement(MwRevisionDumpFileProcessor.E_PAGE_TITLE);
@@ -218,10 +218,10 @@ public class XmlRevisionWriter implements RevisionProcessor {
 		
 		xmlWriter.writeStartElement(MwRevisionDumpFileProcessor.E_PAGE_ID);
 		xmlWriter.writeCharacters("" + revision.getPageId());
-		xmlWriter.writeEndElement();		
+		xmlWriter.writeEndElement();
 	}
 	
-	void endPage() throws XMLStreamException{
+	void endPage() throws XMLStreamException {
 		xmlWriter.writeEndElement();
 	}
 	
@@ -230,7 +230,7 @@ public class XmlRevisionWriter implements RevisionProcessor {
 		xmlWriter.writeCharacters("" + revision.getRevisionId());
 		xmlWriter.writeEndElement();
 		
-		if (revision.getParentId() != null){
+		if (revision.getParentId() != null) {
 			xmlWriter.writeStartElement(MwRevisionDumpFileProcessor.E_REV_PARENT_ID);
 			xmlWriter.writeCharacters("" + revision.getParentId());
 			xmlWriter.writeEndElement();
@@ -240,28 +240,31 @@ public class XmlRevisionWriter implements RevisionProcessor {
 		xmlWriter.writeCharacters(revision.getTimeStamp());
 		xmlWriter.writeEndElement();
 		
-		xmlWriter.writeStartElement(MwRevisionDumpFileProcessor.E_REV_CONTRIBUTOR);		
+		xmlWriter.writeStartElement(MwRevisionDumpFileProcessor.E_REV_CONTRIBUTOR);
 		writeContributor(revision);		
 		xmlWriter.writeEndElement();
 		
-		if(revision.isMinor()){
-			xmlWriter.writeEmptyElement(MwRevisionDumpFileProcessor.E_REV_MINOR);			
+		if (revision.isMinor()) {
+			xmlWriter.writeEmptyElement(MwRevisionDumpFileProcessor.E_REV_MINOR);
 		}
 		
-		if(revision.getComment() != null){
+		if (revision.getComment() != null) {
 			xmlWriter.writeStartElement(MwRevisionDumpFileProcessor.E_REV_COMMENT);
-			if(revision.isCommentDeleted()){
-				xmlWriter.writeAttribute(ExtendedMwRevisionDumpFileProcessor.A_DELETED, ExtendedMwRevisionDumpFileProcessor.A_DELETED);
+			if (revision.isCommentDeleted()) {
+				xmlWriter.writeAttribute(
+						ExtendedMwRevisionDumpFileProcessor.A_DELETED,
+						ExtendedMwRevisionDumpFileProcessor.A_DELETED);
 			}		
 			xmlWriter.writeCharacters(revision.getComment());
 			xmlWriter.writeEndElement();
 		}
 		
 		xmlWriter.writeStartElement(MwRevisionDumpFileProcessor.E_REV_TEXT);
-		if(revision.isTextDeleted()){
-			xmlWriter.writeAttribute(ExtendedMwRevisionDumpFileProcessor.A_DELETED, ExtendedMwRevisionDumpFileProcessor.A_DELETED);
-		}
-		else{
+		if (revision.isTextDeleted()) {
+			xmlWriter.writeAttribute(
+					ExtendedMwRevisionDumpFileProcessor.A_DELETED,
+					ExtendedMwRevisionDumpFileProcessor.A_DELETED);
+		} else {
 			xmlWriter.writeAttribute("xml:space", "preserve");
 		}
 		xmlWriter.writeCharacters(revision.getText());
@@ -283,7 +286,7 @@ public class XmlRevisionWriter implements RevisionProcessor {
 	private void writeContributor(Revision revision) throws XMLStreamException {
 		
 		// registered contributor?
-		if (revision.hasRegisteredContributor()){
+		if (revision.hasRegisteredContributor()) {
 			xmlWriter.writeStartElement(MwRevisionDumpFileProcessor.E_CONTRIBUTOR_NAME);
 			xmlWriter.writeCharacters(revision.getContributor());
 			xmlWriter.writeEndElement();
@@ -291,8 +294,7 @@ public class XmlRevisionWriter implements RevisionProcessor {
 			xmlWriter.writeStartElement(MwRevisionDumpFileProcessor.E_CONTRIBUTOR_ID);
 			xmlWriter.writeCharacters("" + revision.getContributorId());
 			xmlWriter.writeEndElement();
-		}
-		else{
+		} else {
 			xmlWriter.writeStartElement(MwRevisionDumpFileProcessor.E_CONTRIBUTOR_IP);
 			xmlWriter.writeCharacters("" + revision.getContributor());
 			xmlWriter.writeEndElement();
@@ -300,24 +302,6 @@ public class XmlRevisionWriter implements RevisionProcessor {
 		
 	}
 	
-	// Does not work because it is too slow.
-//	private void validateXML(){
-//		try{
-//			logger.info("Starting to validate XML...");
-//		
-//			final SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-//			
-//			final Schema schema = schemaFactory.newSchema(new StreamSource(this.getClass().getResourceAsStream("/" + SCHEMA_FILE_NAME)));  
-//			final Validator validator = schema.newValidator();  
-//			validator.validate(new StreamSource(new BZip2CompressorInputStream(new BufferedInputStream(new FileInputStream(path)))));
-//		}
-//		catch(Exception e){
-//			logger.error("Validation exception: ", e);
-//		}
-//		finally{
-//			logger.info("XML validation finished.");
-//		}
-//	}
 }
 
 
@@ -327,20 +311,20 @@ class TransformerThread extends Thread {
 	InputStream in;
 	OutputStream out;
 	
-	public TransformerThread(InputStream in, OutputStream out){
+	TransformerThread(InputStream in, OutputStream out) {
 		super("XML Transformer");
 		this.in = in;
 		this.out = out;
 	}
 	
-    public void run() {
-    	try {
-	        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-	        final Transformer transformer = transformerFactory.newTransformer();
-	        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-	        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION,"yes");
-	        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount","2");
-     		
+	public void run() {
+		try {
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			final Transformer transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+			
 			transformer.transform(new StreamSource(in), new StreamResult(out));
 			
 			in.close();
@@ -348,26 +332,26 @@ class TransformerThread extends Thread {
 		} catch (Throwable t) {
 			logger.error("", t);
 		}
-    }
+	}
 };
 
-class CompressorThread extends Thread{
+class CompressorThread extends Thread {
 	static final Logger logger = LoggerFactory.getLogger(CompressorThread.class);
 	
 	InputStream in;
 	OutputStream out;
 	
-	public CompressorThread(InputStream in, OutputStream out){
+	CompressorThread(InputStream in, OutputStream out) {
 		super("XML Compressor");		
 		this.in = in;
 		this.out = out;
 	}
 	
-    public void run() {
-   		try {
+	public void run() {
+		try {
 			// This compression seems to be really slow and is a major bottleneck of the whole program
 			OutputStream compressedOutStream = new BZip2CompressorOutputStream(out, 1);
-   			
+			
 			IOUtils.copy(in, compressedOutStream);
 			
 			in.close();
@@ -376,6 +360,6 @@ class CompressorThread extends Thread{
 		} catch (IOException e) {
 			logger.error("", e);
 		}
-    }
-}
+	}
 
+}

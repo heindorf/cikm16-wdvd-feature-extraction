@@ -34,22 +34,21 @@ import de.upb.wdqa.wdvd.features.FeatureIntegerValue;
 
 public class Param1 extends FeatureImpl {
 	
-	final static Logger logger = LoggerFactory.getLogger(Param1.class);
+	static final Logger logger = LoggerFactory.getLogger(Param1.class);
 
 	@Override
 	public FeatureIntegerValue calculate(Revision revision) {
-		ParsedComment comment = revision.getParsedComment();		
+		ParsedComment comment = revision.getParsedComment();
 		String[] params = comment.getParameters();
 		
 		Integer result = null;
-		if (params.length >= 1){
-			try{
+		if (params.length >= 1) {
+			try {
 				result = Integer.parseInt(params[0]);
-			}
-			catch(NumberFormatException e){
-				logger.debug("Revision " + revision.getRevisionId() +
-						": param1 is not numeric: " + result +
-						" (comment: " + comment.getText() + ")", e);
+			} catch (NumberFormatException e) {
+				logger.debug("Revision " + revision.getRevisionId()
+					+ ": param1 is not numeric: " + result
+					+ " (comment: " + comment.getText() + ")", e);
 			}
 		}	
 		

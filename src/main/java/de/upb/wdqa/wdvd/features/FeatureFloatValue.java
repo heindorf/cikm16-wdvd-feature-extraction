@@ -37,7 +37,7 @@ public class FeatureFloatValue implements FeatureValue {
 
 	@Override
 	public String toString() {
-		if (value == null){
+		if (value == null) {
 			return FeatureValue.MISSING_VALUE_STRING;
 		}
 		

@@ -43,7 +43,7 @@ public class OldJacksonEntity {
 	 * Used for entities of the form {"entity": "q183"}
 	 */
 	@JsonCreator
-	public OldJacksonEntity(String id){
+	public OldJacksonEntity(String id) {
 		setId(id);
 	}
 	
@@ -52,11 +52,10 @@ public class OldJacksonEntity {
 	 * Used for entities of the form {"entity":["item",183]}
 	 */
 	@JsonCreator
-	public OldJacksonEntity(List<String> list){
-		if(list.size() != 2){
+	public OldJacksonEntity(List<String> list) {
+		if (list.size() != 2) {
 			logger.warn("List has size " + list.size());
-		}
-		else{
+		} else {
 			setType(list.get(0));
 			setId(list.get(1));
 		}		
@@ -82,14 +81,15 @@ public class OldJacksonEntity {
 		// Normalize id
 		String number = id;
 		
-		if(id != null && id.length() > 0){
+		if (id != null && id.length() > 0) {
 			char prefix = id.charAt(0);
 
-			if(prefix == 'q' || prefix == 'Q'){
+			if (prefix == 'q' || prefix == 'Q') {
 				number = id.substring(1);
 			}		
 		}
 		
 		this.id = "Q" + Integer.valueOf(number);
 	}
+
 }

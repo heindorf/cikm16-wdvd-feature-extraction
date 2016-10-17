@@ -33,7 +33,7 @@ import de.upb.wdqa.wdvd.db.interfaces.DbItem;
 
 // Stores labels and basic membership properties,
 // cf., http://www.wikidata.org/wiki/Help:Basic_membership_properties
-public class DbItemImpl implements DbItem, Serializable{
+public class DbItemImpl implements DbItem, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private static int NULL_SENTINEL = -1;
@@ -54,7 +54,7 @@ public class DbItemImpl implements DbItem, Serializable{
 		this.partOfId = integerToInt(partOfId);
 	}
 	
-	public DbItemImpl(DbItem item){
+	public DbItemImpl(DbItem item) {
 		this.itemId = item.getItemId();
 		this.label = item.getLabel();
 		this.instanceOfId = integerToInt(item.getInstanceOfId());
@@ -78,63 +78,64 @@ public class DbItemImpl implements DbItem, Serializable{
 	}
 	
 	@Override
-	public Integer getSubclassOfId(){
+	public Integer getSubclassOfId() {
 		return intToInteger(subclassOfId);
 	}
 	
 	@Override
-	public Integer getPartOfId(){
+	public Integer getPartOfId() {
 		return intToInteger(partOfId);
 	}
 	
-	private static Integer intToInteger(int value){
-		if (value == NULL_SENTINEL){
+	private static Integer intToInteger(int value) {
+		if (value == NULL_SENTINEL) {
 			return null;
-		}
-		else{
+		} else {
 			return Integer.valueOf(value);
 		}
 	}
 	
-	private static int integerToInt(Integer value){
-		if (value == null){
+	private static int integerToInt(Integer value) {
+		if (value == null) {
 			return NULL_SENTINEL;
-		}
-		else if (value == NULL_SENTINEL) {
-			throw new RuntimeException("" + value + 
-					" is a special value to represent null and " +
-					"should not be used otherwise");
-		}		
-		else{
+		} else if (value == NULL_SENTINEL) {
+			throw new RuntimeException("" + value
+					+ " is a special value to represent null and "
+					+ "should not be used otherwise");
+		} else {
 			return value;
 		}		
 	}
 
 	@Override
 	public int hashCode() {
-		   return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
-			        append(itemId).
-			        append(label).
-			        append(instanceOfId).
-			        append(subclassOfId).
-			        append(partOfId).
-			        toHashCode();
+			// two randomly chosen prime numbers
+		   return new HashCodeBuilder(17, 31)
+					.append(itemId)
+					.append(label)
+					.append(instanceOfId)
+					.append(subclassOfId)
+					.append(partOfId)
+					.toHashCode();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-	    if (obj == this)
-	        return true;
-	    if (!(obj instanceof DbItemImpl))
-	        return false;
+		if (obj == this) {
+			return true;
+		}
+		if (!(obj instanceof DbItemImpl)) {
+			return false;
+		}
 
-	    DbItemImpl rhs = (DbItemImpl) obj;
-	    return new EqualsBuilder().
-	        append(itemId, rhs.itemId).
-	        append(label, rhs.label).
-	        append(instanceOfId, rhs.instanceOfId).
-	        append(subclassOfId, rhs.subclassOfId).
-	        append(partOfId, rhs.partOfId).
-	        isEquals();
+		DbItemImpl rhs = (DbItemImpl) obj;
+		return new EqualsBuilder().
+			append(itemId, rhs.itemId).
+			append(label, rhs.label).
+			append(instanceOfId, rhs.instanceOfId).
+			append(subclassOfId, rhs.subclassOfId).
+			append(partOfId, rhs.partOfId).
+			isEquals();
 	}	
+
 }

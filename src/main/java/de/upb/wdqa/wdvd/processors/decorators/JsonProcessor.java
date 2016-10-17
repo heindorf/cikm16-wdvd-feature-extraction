@@ -49,7 +49,7 @@ public class JsonProcessor implements RevisionProcessor {
 	final Logger logger;
 	
 	static ObjectMapper newFormatMapper = new ObjectMapper();
-	static{
+	static {
 		// Initialize ObjectMapper only once to improve performance
 		// see http://wiki.fasterxml.com/JacksonBestPracticesPerformance
 		
@@ -86,7 +86,7 @@ public class JsonProcessor implements RevisionProcessor {
 	public void startRevisionProcessing() {
 		logger.debug("Starting...");
 		
-		if(processor!=null){
+		if (processor != null) {
 			processor.startRevisionProcessing();
 		}
 	}
@@ -97,55 +97,51 @@ public class JsonProcessor implements RevisionProcessor {
 		
 		// Issue in the database dump: sometimes the text element is empty.
 		// Those itemDocuments are discarded.
-		if(revision.getText().equals("")){
+		if (revision.getText().equals("")) {
 			emptyJsonStatistics.addValue(revision.getRevisionId());
 			logger.debug("Empty text element: Revision" + revision.getRevisionId());
-		}
-		else{
+		} else {
 			ParsingResult parsingResult;
 			
-			try{
+			try {
 				// Might throw a JSONException or NullPointerException (see below)
 				parsingResult = parseJson(revision.getText());
 				
 				// Does the item document represent a redirect?
 				// Those itemDocuments are discarded.
-				if (parsingResult.jsonVersion == JsonVersion.REDIRECT){
+				if (parsingResult.jsonVersion == JsonVersion.REDIRECT) {
 					redirectStatistics.addValue(revision.getRevisionId());
-				}
-				else {
+				} else {
 					// Issue in the database dump: sometimes the item id in the
 					// JSON contradicts the item id in the XML.
 					// Those itemDocuments are discarded.
 					int jsonItemId = Revision.getItemIdFromString(
 							parsingResult.itemDocument.getItemId().getId());
 					
-					if (jsonItemId != revision.getItemId()){
+					if (jsonItemId != revision.getItemId()) {
 						inconsistentJsonXMLStatistics.addValue(
 								revision.getRevisionId());
-						logger.debug("Inconsistent JSON: Revision " +
-								revision.getRevisionId() + 
-								": XML item id Q" + revision.getItemId() +
-								" <-> JSON item id Q" + jsonItemId );
+						logger.debug("Inconsistent JSON: Revision "
+								+ revision.getRevisionId()
+								+ ": XML item id Q" + revision.getItemId()
+								+ " <-> JSON item id Q" + jsonItemId);
 					}
 					// Everything is fine: set this item document
-					else{
-						if (parsingResult.jsonVersion == JsonVersion.NEW){
+					else {
+						if (parsingResult.jsonVersion == JsonVersion.NEW) {
 							newJsonStatistics.addValue(revision.getRevisionId());
-						}
-						else if (parsingResult.jsonVersion == JsonVersion.OLD){
+						} else if (parsingResult.jsonVersion == JsonVersion.OLD) {
 							oldJsonStatistics.addValue(revision.getRevisionId());
 						}
 						
 						revision.setItemDocument(parsingResult.itemDocument);		
 					}
-				}
-				
+				}				
 				
 			}
 			// Issue in the database dump: sometimes the JSON contains an
 			// invalid globe coordinate. Those itemDocuments are discarded.
-			catch(NullPointerException e){
+			catch (NullPointerException e) {
 				nullPointerExceptionStatistics.addValue(revision.getRevisionId());
 				logger.debug("NullPointerException: Revision "
 						+ revision.getRevisionId() + ": "
@@ -155,7 +151,7 @@ public class JsonProcessor implements RevisionProcessor {
 			}
 			// Issue in the database dump: sometimes the JSON in the text
 			// element cannot be parsed. Those itemDocuments are discarded.		
-			catch(JSONException e){
+			catch (JSONException e) {
 				jsonExceptionStatistics.addValue(revision.getRevisionId());
 				logger.debug("JSON Exception: Revision "
 						+ revision.getRevisionId() + ": "
@@ -166,7 +162,7 @@ public class JsonProcessor implements RevisionProcessor {
 
 		}		
 		
-		if(processor != null){
+		if (processor != null) {
 			processor.processRevision(revision);
 		}
 		
@@ -176,7 +172,7 @@ public class JsonProcessor implements RevisionProcessor {
 	public void finishRevisionProcessing() {
 		logger.debug("Starting to finish...");
 		
-		if(processor != null){
+		if (processor != null) {
 			processor.finishRevisionProcessing();
 		}
 		
@@ -192,18 +188,17 @@ public class JsonProcessor implements RevisionProcessor {
 	 * If the 'text' element cannot be parsed, a JSONException is thrown.
 	 * 
 	 */
-	public static ParsingResult parseJson(String text) throws JSONException{
+	public static ParsingResult parseJson(String text) throws JSONException {
 		ParsingResult result;
 
 		// try to read the new Json format
-		try{
+		try {
 			JacksonItemDocument jacksonItemDocument =
 					newFormatMapper.readValue(text, JacksonItemDocument.class);
 			jacksonItemDocument.setSiteIri(Datamodel.SITE_WIKIDATA);
 			
 			result = new ParsingResult(JsonVersion.NEW, jacksonItemDocument);
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			// This exception is raised very often
 			// See the following bug reports:
 			// https://github.com/Wikidata/Wikidata-Toolkit/issues/105
@@ -211,7 +206,7 @@ public class JsonProcessor implements RevisionProcessor {
 			
 			// Workaround, to read the old format
 			// (It is only partially supported yet and does not extract all information)
-			try{
+			try {
 				OldJacksonItemDocument oldDoc =
 						oldFormatMapper.readValue(text, OldJacksonItemDocument.class);
 				JacksonItemDocument jacksonItemDocument =
@@ -225,21 +220,21 @@ public class JsonProcessor implements RevisionProcessor {
 						oldFormatMapper.treeAsTokens(node), JacksonItemDocument.class);
 				
 				result = new ParsingResult(JsonVersion.OLD, jacksonItemDocument);
-			}
-			catch(Exception e2){				
+			} catch (Exception e2) {
 				// Is it a redirect? Then do not log the exception
-				try{
+				try {
 					redirectMapper.readValue(text, OldJacksonRedirectDocument.class);
 					
 					result = new ParsingResult(JsonVersion.REDIRECT, null);
+				} catch (Exception e3) {
+					throw new JSONException(
+							"Format could neither be parsed as "
+						  + "new JSON, old JSON nor as a redirect.", e2);
 				}
-				catch (Exception e3){
-					throw new JSONException("Format could neither be parsed as new JSON, old JSON nor as a redirect.", e2);
-				}
-			}			
-		}		
+			}
+		}
 
-		if (result.itemDocument != null){
+		if (result.itemDocument != null) {
 			// Convert from Jackson to Object representation which consumes less
 			// memory and is easier to work with.
 			 DatamodelConverter converter =
@@ -281,25 +276,26 @@ public class JsonProcessor implements RevisionProcessor {
 	}
 }
 
-enum JsonVersion {NEW, OLD, REDIRECT};
+enum JsonVersion { NEW, OLD, REDIRECT };
 
-class ParsingResult{
+class ParsingResult {
 	ItemDocument itemDocument;
 	JsonVersion jsonVersion;
 	
-	public ParsingResult(JsonVersion jsonVersion, ItemDocument itemDocument){
+	ParsingResult(JsonVersion jsonVersion, ItemDocument itemDocument) {
 		this.jsonVersion = jsonVersion;
 		this.itemDocument = itemDocument;
 	}
 }
 
-class JSONException extends Exception{
+class JSONException extends Exception {
 	private static final long serialVersionUID = 1L;
-	JSONException(String str){
+	JSONException(String str) {
 		super(str);
 	}
 	
-	JSONException(String str, Exception e){
+	JSONException(String str, Exception e) {
 		super(str, e);
 	}
+
 }

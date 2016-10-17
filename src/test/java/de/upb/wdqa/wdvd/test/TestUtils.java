@@ -31,7 +31,11 @@ import org.apache.log4j.PatternLayout;
 
 public class TestUtils {
 	
-	public static void initializeLogger(){
+	private TestUtils() {
+		
+	}
+	
+	public static void initializeLogger() {
 		ConsoleAppender console = new ConsoleAppender();
 		console.setLayout(new PatternLayout("[%d{yyyy-MM-dd HH:mm:ss}] [%-5p] [%c{1}] %m%n"));
 		console.setThreshold(Level.ALL);
@@ -40,7 +44,7 @@ public class TestUtils {
 		org.apache.log4j.Logger.getRootLogger().addAppender(console);
 		
 		Logger logger = Logger.getLogger(TestUtils.class);
-		logger.info("test logger");		
+		logger.info("test logger");
 	}
 
 }

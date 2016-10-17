@@ -30,7 +30,7 @@ import de.upb.wdqa.wdvd.features.FeatureImpl;
 
 public class IsPropertyCreatorUser extends FeatureImpl {
 	
-	final static UserSet userSet;
+	static final UserSet userSet;
 	static {
 
 		// source:

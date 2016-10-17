@@ -43,5 +43,5 @@ public class NonLatinRatio extends FeatureImpl {
 		
 		return new FeatureFloatValue(result);
 	}
-	
+
 }

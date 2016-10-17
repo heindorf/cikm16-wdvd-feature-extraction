@@ -39,7 +39,7 @@ public class AdapterProcessor implements MwRevisionProcessor {
 	
 	RevisionProcessor processor;
 	
-	public AdapterProcessor(RevisionProcessor processor){
+	public AdapterProcessor(RevisionProcessor processor) {
 		logger.debug("Starting...");
 		this.processor = processor;
 	}
@@ -52,11 +52,12 @@ public class AdapterProcessor implements MwRevisionProcessor {
 
 	@Override
 	public void processRevision(MwRevision mwRevision) {
-		processor.processRevision(new Revision(mwRevision));		
+		processor.processRevision(new Revision(mwRevision));
 	}
 
 	@Override
 	public void finishRevisionProcessing() {
-		processor.finishRevisionProcessing();		
+		processor.finishRevisionProcessing();
 	}
+
 }

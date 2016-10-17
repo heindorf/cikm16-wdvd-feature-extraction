@@ -43,5 +43,5 @@ public class PunctuationRatio extends FeatureImpl {
 		
 		return new FeatureFloatValue(result);
 	}
-	
+
 }

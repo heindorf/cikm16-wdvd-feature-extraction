@@ -42,16 +42,16 @@ public class IsLivingPerson extends FeatureImpl {
 		boolean hasDateOfBirth = false;
 		boolean hasDateOfDeath = false;
 		
-		if(itemDocument != null){		
+		if (itemDocument != null) {
 			List<StatementGroup> statementGroups =
 					itemDocument.getStatementGroups();
 			
-			for (StatementGroup statementGroup: statementGroups){
+			for (StatementGroup statementGroup: statementGroups) {
 				String property = statementGroup.getProperty().getId();
-				if(property.equals("P569")){
+				if (property.equals("P569")) {
 					hasDateOfBirth = true;
 				}
-				if(property.equals("P570")){
+				if (property.equals("P570")) {
 					hasDateOfDeath = true;
 				}
 			}

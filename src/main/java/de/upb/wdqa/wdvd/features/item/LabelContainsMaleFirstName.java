@@ -46,7 +46,7 @@ public class LabelContainsMaleFirstName extends FeatureImpl {
 	static final Logger logger =
 			LoggerFactory.getLogger(LabelContainsMaleFirstName.class);
 	
-	private final static Pattern pattern;
+	private static final Pattern pattern;
 	static {
 		List<String> tokens = new ArrayList<String>(
 				Arrays.asList(MaleFirstNamesWordlist.maleFirstNames));
@@ -64,9 +64,9 @@ public class LabelContainsMaleFirstName extends FeatureImpl {
 	public FeatureBooleanValue calculate(Revision revision) {
 		Boolean result = null;
 		
-		ItemDocument itemDocument = revision.getItemDocument();			
+		ItemDocument itemDocument = revision.getItemDocument();
 
-		if(itemDocument != null){
+		if (itemDocument != null) {
 			ItemDocumentDbItem item = new ItemDocumentDbItem(itemDocument);
 			
 			String label = item.getLabel();
@@ -78,5 +78,5 @@ public class LabelContainsMaleFirstName extends FeatureImpl {
 
 		return new FeatureBooleanValue(result);
 	}
-	
+
 }

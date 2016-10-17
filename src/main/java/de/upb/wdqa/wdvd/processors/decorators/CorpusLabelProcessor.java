@@ -60,7 +60,7 @@ public class CorpusLabelProcessor implements RevisionProcessor {
 	File labelFile;
 	CorpusLabelReader labelReader;
 
-	public CorpusLabelProcessor( RevisionProcessor processor, File labelFile) {
+	public CorpusLabelProcessor(RevisionProcessor processor, File labelFile) {
 		this.processor = processor;
 		this.labelFile = labelFile;
 	}
@@ -142,4 +142,5 @@ public class CorpusLabelProcessor implements RevisionProcessor {
 		logger.info("   Number of registered revisions: "
 				+ numberOfRegisteredRevisions);
 	}
+
 }

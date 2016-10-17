@@ -86,32 +86,36 @@ import de.upb.wdqa.wdvd.processors.statistics.UserStatisticsProcessor;
 public class FeatureExtractor {
 	static final Logger logger = LoggerFactory.getLogger(FeatureExtractor.class);
 	
-	final static boolean PROCESSOR_GEOLOCATION_ENABLED = true;
-	final static boolean PROCESSOR_REVISION_TAGS_ENABLED = true;	
-	final static boolean PROCESSOR_FEATURE_LANGUAGE_PROPORTION_ENABLED = true;
+	static final boolean PROCESSOR_GEOLOCATION_ENABLED = true;
+	static final boolean PROCESSOR_REVISION_TAGS_ENABLED = true;
+	static final boolean PROCESSOR_FEATURE_LANGUAGE_PROPORTION_ENABLED = true;
 	
-	final static boolean ALL_FEATURES_ENABLED = true;
+	static final boolean ALL_FEATURES_ENABLED = true;
 	
-	final static int PROCESSOR_FEATURE_LANGUAGE_PROPORTION_THREADS = 12;
-	final static int PROCESSOR_JSON_THREADS = 4;
+	static final int PROCESSOR_FEATURE_LANGUAGE_PROPORTION_THREADS = 12;
+	static final int PROCESSOR_JSON_THREADS = 4;
 	
-	final static double LOW_QUALITY_SAMPLING_RATE = 1.0;
-	final static double HIGH_QUALITY_SAMPLING_RATE = 1.0;
-
-	final static Level LOG_LEVEL = Level.ALL;
+	static final double LOW_QUALITY_SAMPLING_RATE = 1.0;
+	static final double HIGH_QUALITY_SAMPLING_RATE = 1.0;
 	
-	final static int BUFFER_SIZE = 256 * 1024 * 1024;	
+	static final Level LOG_LEVEL = Level.ALL;
+	
+	static final int BUFFER_SIZE = 256 * 1024 * 1024;
 	
 	static String runTime;
 	
-	public static void main(String[] args) throws IOException{
+	private FeatureExtractor() {
+		
+	}
+	
+	public static void main(String[] args) throws IOException {
 		System.exit(main2(args));
 	}
 	
-	public static int main2(String[] args){
+	public static int main2(String[] args) {
 		int result = 0;
 		
-		try{
+		try {
 			FeatureExtractorConfiguration config =
 					new FeatureExtractorConfiguration(args);
 			
@@ -123,7 +127,7 @@ public class FeatureExtractor {
 			
 			logger.info("Feature Extraction finished!");
 			
-			if (ErrorFlagAppender.hasErrorOccured()){
+			if (ErrorFlagAppender.hasErrorOccured()) {
 				result = 1;
 				
 				logger.error("##################################################");
@@ -132,15 +136,13 @@ public class FeatureExtractor {
 			}
 			
 			
-		} catch (Throwable t){
+		} catch (Throwable t) {
 			logger.error("", t);
 			result = 1;
-		}
-		finally{
-			try{
+		} finally {
+			try {
 				closeLogger();
-			}
-			catch (Throwable t){
+			} catch (Throwable t) {
 				System.err.println(t);
 			}
 		}
@@ -148,16 +150,8 @@ public class FeatureExtractor {
 		return result;
 	}
 		
-	public static void executePipeline(FeatureExtractorConfiguration config){
+	public static void executePipeline(FeatureExtractorConfiguration config) {
 		try {
-	//		dumpFile.prepareDumpFile();
-			
-	//		RevisionProcessor csvSHA1Processor = new CsvFeatureWriter(outputFilename + "_sha1.csv");
-	//		RevisionProcessor samplingSHA1Processor = new SamplingFilterProcessor(csvSHA1Processor, LOW_QUALITY_SAMPLING_RATE, HIGH_QUALITY_SAMPLING_RATE, RevertMethod.SHA1);
-			
-	//		RevisionProcessor csvDownloadedSHA1Processor = new CsvFeatureWriter(outputFilename + "_downloaded_sha1.csv");
-	//		RevisionProcessor samplingDownloadedSHA1Processor = new SamplingFilterProcessor(csvDownloadedSHA1Processor, LOW_QUALITY_SAMPLING_RATE, HIGH_QUALITY_SAMPLING_RATE, RevertMethod.DOWNLOADED_SHA1);
-			
 			//ItemStore itemStore = new SQLItemStore();
 			ItemStore itemStore = new MemoryItemStore();
 			
@@ -166,7 +160,7 @@ public class FeatureExtractor {
 			RevisionProcessor nextProcessor = new CsvFeatureWriter(config.getFeatureFile(), features);
 			
 			
-			for (Feature feature: features){
+			for (Feature feature: features) {
 				List<Feature> featureList = new ArrayList<Feature>();
 	
 				featureList.add(feature);
@@ -196,10 +190,9 @@ public class FeatureExtractor {
 			
 			nextProcessor = new GroupProcessor(nextProcessor);
 			
-			if (config.getLabelFile() != null){
+			if (config.getLabelFile() != null) {
 				nextProcessor = new CorpusLabelProcessor(nextProcessor, config.getLabelFile());
-			}
-			else{
+			} else {
 				logger.info("Labels are disabled.");
 			}
 			
@@ -207,7 +200,7 @@ public class FeatureExtractor {
 			
 			
 			List<RevisionProcessor> parallelProcessorList = new ArrayList<RevisionProcessor>();
-			for (int i=0; i < PROCESSOR_FEATURE_LANGUAGE_PROPORTION_THREADS; i++){
+			for (int i = 0; i < PROCESSOR_FEATURE_LANGUAGE_PROPORTION_THREADS; i++) {
 				RevisionProcessor textRegexProcessor = new TextRegexProcessor(PROCESSOR_FEATURE_LANGUAGE_PROPORTION_ENABLED);
 				parallelProcessorList.add(textRegexProcessor);
 			}
@@ -215,28 +208,25 @@ public class FeatureExtractor {
 			
 			
 			parallelProcessorList = new ArrayList<RevisionProcessor>();
-			for (int i = 0; i < PROCESSOR_JSON_THREADS; i++){
+			for (int i = 0; i < PROCESSOR_JSON_THREADS; i++) {
 				RevisionProcessor jsonProcessor = new JsonProcessor(null, i);
 				parallelProcessorList.add(jsonProcessor);
 			}			
 			nextProcessor = new ParallelProcessor(parallelProcessorList, new JsonProcessorReducer(), nextProcessor, "json");
 			
-			if(PROCESSOR_REVISION_TAGS_ENABLED && (config.getRevisionTagFile() != null)){
+			if (PROCESSOR_REVISION_TAGS_ENABLED && (config.getRevisionTagFile() != null)) {
 				nextProcessor = new TagDownloaderProcessor(nextProcessor, config.getRevisionTagFile());
-			}
-			else{
+			} else {
 				logger.info("Revision tags are disabled.");
 			}
 			
-			if(PROCESSOR_GEOLOCATION_ENABLED){
-				if (config.getGeolocationDbFile() != null){
+			if (PROCESSOR_GEOLOCATION_ENABLED) {
+				if (config.getGeolocationDbFile() != null) {
 					nextProcessor = new GeolocationDbProcessor(nextProcessor, config.getGeolocationDbFile());
-				}
-				else if (config.getGeolocationFeatureFile() != null){
+				} else if (config.getGeolocationFeatureFile() != null) {
 					nextProcessor = new GeolocationFeatureProcessor(nextProcessor, config.getGeolocationFeatureFile());
 				}
-			}
-			else{
+			} else {
 				logger.info("Geolocation database is disabled.");
 			}
 			
@@ -255,7 +245,7 @@ public class FeatureExtractor {
 			
 			dumpFileProcessor.processDumpFileContents(uncompressedStream);
 			
-			uncompressedStream.close();			
+			uncompressedStream.close();
 			
 
 		} catch (IOException e) {
@@ -263,7 +253,7 @@ public class FeatureExtractor {
 		}
 	}
 	
-	private static InputStream getCompressedDumpFileStream(File file) throws IOException{		
+	private static InputStream getCompressedDumpFileStream(File file) throws IOException {		
 		InputStream fileInputStream = new FileInputStream(file);
 		
 		InputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
@@ -271,13 +261,13 @@ public class FeatureExtractor {
 		return bufferedInputStream;
 	}
 	
-	private static InputStream getPipedDumpFileStream(final InputStream inputStream) throws IOException{
+	private static InputStream getPipedDumpFileStream(final InputStream inputStream) throws IOException {
 		final PipedOutputStream pipedOutputStream = new PipedOutputStream();
 		final PipedInputStream pipedInputStream = new PipedInputStream(pipedOutputStream, BUFFER_SIZE);
 		
-		new Thread("Dump File Reader"){
+		new Thread("Dump File Reader") {
 			@Override
-			public void run(){
+			public void run() {
 				try {
 					IOUtils.copy(inputStream, pipedOutputStream);
 					
@@ -293,21 +283,24 @@ public class FeatureExtractor {
 	}
 	
 	// Decompresses the input stream in a new thread
-	private static InputStream getUncompressedStream(final InputStream inputStream) throws IOException{
-		// the decompression is a major bottleneck, make sure that it does not have to wait for the buffer to empty
+	private static InputStream getUncompressedStream(
+			final InputStream inputStream) throws IOException {
+		// the decompression is a major bottleneck, make sure that it does not
+		// have to wait for the buffer to empty
 		final PipedOutputStream pipedOutputStream = new PipedOutputStream();
 		final PipedInputStream pipedInputStream = new PipedInputStream(pipedOutputStream, BUFFER_SIZE);
 		
-		new Thread("Dump File Decompressor"){
+		new Thread("Dump File Decompressor") {
 			@Override
-			public void run(){
+			public void run() {
 				try {
-					InputStream compressorInputStream = new BZip2CompressorInputStream(inputStream);
+					InputStream compressorInputStream =
+							new BZip2CompressorInputStream(inputStream);
 					
 					IOUtils.copy(compressorInputStream, pipedOutputStream);
 					
 					compressorInputStream.close();
-					pipedOutputStream.close();					
+					pipedOutputStream.close();
 				} catch (IOException e) {
 					logger.error("", e);
 				}
@@ -317,7 +310,7 @@ public class FeatureExtractor {
 		return pipedInputStream;
 	}
 	
-	private static void initLogger(String filename){
+	private static void initLogger(String filename) {
 		final String PATTERN = "[%d{yyyy-MM-dd HH:mm:ss}] [%-5p] [%c{1}] %m%n";
 		
 		// Stores whether an error has occured
@@ -343,7 +336,7 @@ public class FeatureExtractor {
 		fileAppender.setLayout(new PatternLayout(PATTERN));
 		fileAppender.setThreshold(LOG_LEVEL);
 		fileAppender.setAppend(false);
-		fileAppender.activateOptions();		
+		fileAppender.activateOptions();
 		AsyncAppender asyncFileAppender = new AsyncAppender();
 		asyncFileAppender.addAppender(fileAppender);
 		asyncFileAppender.setBufferSize(1024);
@@ -352,14 +345,13 @@ public class FeatureExtractor {
 		
 	}
 	
-   static class ErrorFlagAppender extends AppenderSkeleton
-    {
-	   static boolean hasErrorOccured = false;
-	   
-	   public static boolean hasErrorOccured(){
-		   return hasErrorOccured;
-	   }
-  
+   static class ErrorFlagAppender extends AppenderSkeleton {
+		static boolean hasErrorOccured = false;
+		
+		public static boolean hasErrorOccured() {
+			return hasErrorOccured;
+		}
+		
 		@Override
 		public void close() {
 		}
@@ -373,69 +365,68 @@ public class FeatureExtractor {
 		protected void append(LoggingEvent arg0) {
 			hasErrorOccured = true;
 		}
-    }
+	}
 	
-	private static void logConfiguration(FeatureExtractorConfiguration config){
+	private static void logConfiguration(FeatureExtractorConfiguration config) {
 //		System.getProperties().list(System.out);
 		
 //		for(Package p: Package.getPackages()){
 //			System.out.println(p);
 //		}
 		
-	    if (logger.isInfoEnabled()){
-	    	// Host and operating system
-	    	logger.info("Host name: " + getHostName());
-	    	logger.info("Operating system: " + System.getProperty("os.name"));
-	    	
-	    	// Java
-	    	logger.info("java.home: " + System.getProperty("java.home") );
-	    	logger.info("java.version: " + System.getProperty("java.version"));
-	    	logger.info("java.runtime.name: " + System.getProperty("java.runtime.name"));
-	    	logger.info("java.runtime.version: " + System.getProperty("java.runtime.version"));
-	    	logger.info("java.vm.name: " + System.getProperty("java.vm.name"));
-	    	logger.info("java.vm.version: " + System.getProperty("java.vm.version"));
-	    	logger.info("java.vm.vendor: " + System.getProperty("java.vm.vendor"));
-	    	
-	    	// Feature Extraction
-		    logger.info("Filename of JAR: " + getJarFile());
-		    logger.info("Implementation version: " + FeatureExtractor.class.getPackage().getImplementationVersion());
-		    logger.info("Build time: " + getBuildTime());
-		    logger.info("Run time: " + getRunTime());
-		    
-		    // Configuration
-		    logger.info("Revision file: " + config.getRevisionFile());
-		    logger.info("Label file: " + config.getLabelFile());
-		    logger.info("Feature file: " + config.getFeatureFile());
-		    logger.info("Revision tag file: " + config.getRevisionTagFile());
-		    logger.info("Geolocation database file: " + config.getGeolocationDbFile());
-		    logger.info("Geolocation feature file: " + config.getGeolocationFeatureFile());
-		    logger.info("Geolocation enabled: " + PROCESSOR_GEOLOCATION_ENABLED);
-		    logger.info("TagDownloader enabled: " + PROCESSOR_REVISION_TAGS_ENABLED);
-		    logger.info("Feature languageProportion enabled: " + PROCESSOR_FEATURE_LANGUAGE_PROPORTION_ENABLED);
-	    }
+		if (logger.isInfoEnabled()) {
+			// Host and operating system
+			logger.info("Host name: " + getHostName());
+			logger.info("Operating system: " + System.getProperty("os.name"));
+			
+			// Java
+			logger.info("java.home: " + System.getProperty("java.home"));
+			logger.info("java.version: " + System.getProperty("java.version"));
+			logger.info("java.runtime.name: " + System.getProperty("java.runtime.name"));
+			logger.info("java.runtime.version: " + System.getProperty("java.runtime.version"));
+			logger.info("java.vm.name: " + System.getProperty("java.vm.name"));
+			logger.info("java.vm.version: " + System.getProperty("java.vm.version"));
+			logger.info("java.vm.vendor: " + System.getProperty("java.vm.vendor"));
+			
+			// Feature Extraction
+			logger.info("Filename of JAR: " + getJarFile());
+			logger.info("Implementation version: " + FeatureExtractor.class.getPackage().getImplementationVersion());
+			logger.info("Build time: " + getBuildTime());
+			logger.info("Run time: " + getRunTime());
+			
+			// Configuration
+			logger.info("Revision file: " + config.getRevisionFile());
+			logger.info("Label file: " + config.getLabelFile());
+			logger.info("Feature file: " + config.getFeatureFile());
+			logger.info("Revision tag file: " + config.getRevisionTagFile());
+			logger.info("Geolocation database file: " + config.getGeolocationDbFile());
+			logger.info("Geolocation feature file: " + config.getGeolocationFeatureFile());
+			logger.info("Geolocation enabled: " + PROCESSOR_GEOLOCATION_ENABLED);
+			logger.info("TagDownloader enabled: " + PROCESSOR_REVISION_TAGS_ENABLED);
+			logger.info("Feature languageProportion enabled: " + PROCESSOR_FEATURE_LANGUAGE_PROPORTION_ENABLED);
+		}
 	}
 	
-	private static void closeLogger(){
-		org.apache.log4j.LogManager.shutdown();	
+	private static void closeLogger() {
+		org.apache.log4j.LogManager.shutdown();
 		Enumeration<?> e = org.apache.log4j.Logger.getRootLogger().getAllAppenders();
-		while ( e.hasMoreElements() ){
-			Appender appender = (Appender)e.nextElement();
+		while (e.hasMoreElements()) {
+			Appender appender = (Appender) e.nextElement();
 			appender.close();
 		}
 	}
 	
-	private static String getHostName(){
+	private static String getHostName() {
 		String result = null;
-		try{
+		try {
 			result = InetAddress.getLocalHost().getHostName();
-		}
-		catch(UnknownHostException e){
+		} catch (UnknownHostException e) {
 		}
 		
 		return result;
 	}
 	
-	static private String getBuildTime(){
+	private static String getBuildTime() {
 		String result = null;
 		try {
 			Enumeration<URL> resources;
@@ -443,29 +434,29 @@ public class FeatureExtractor {
 					  .getResources("META-INF/MANIFEST.MF");
 
 	//		while (resources.hasMoreElements()) {
-		    Manifest manifest = new Manifest(resources.nextElement().openStream());
-		      // check that this is your manifest and do what you need or get the next one
-		    
-		    result = manifest.getMainAttributes().getValue("Build-Time");
-		    
+			Manifest manifest = new Manifest(resources.nextElement().openStream());
+			// check that this is your manifest and do what you need or get the next one
+			
+			result = manifest.getMainAttributes().getValue("Build-Time");
+			
 			} catch (IOException e) {
 			}
 
-	    return result;
+		return result;
 	}
 	
-	static private String getRunTime(){
+	private static String getRunTime() {
 		
-		if (runTime == null){
-		    Calendar cal = Calendar.getInstance();
-		    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
-		    runTime = sdf.format(cal.getTime());
+		if (runTime == null) {
+			Calendar cal = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
+			runTime = sdf.format(cal.getTime());
 		}
-	    
-	    return runTime;
+		
+		return runTime;
 	}
 	
-	static private File getJarFile(){
+	private static File getJarFile() {
 		File result = new java.io.File(FeatureExtractor.class.getProtectionDomain()
 					.getCodeSource()
 					.getLocation()
@@ -474,9 +465,9 @@ public class FeatureExtractor {
 		return result;
 	}
 	
-	private static String getFeatureString(List<Feature> features){
+	private static String getFeatureString(List<Feature> features) {
 		StringBuilder featureString = new StringBuilder();
-		for(Feature feature: features){
+		for (Feature feature: features) {
 			featureString.append(feature.getName() + ",");
 		}
 		

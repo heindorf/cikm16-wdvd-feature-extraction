@@ -56,6 +56,10 @@ public class GeolocationDatabase {
 	static TreeMap<Long, GeoInformation> treeMap =
 			new TreeMap<Long, GeoInformation>();
 	
+	private GeolocationDatabase() {
+		
+	}
+	
 	/**
 	 * Reads the csv file of the TagDownloader
 	 */
@@ -74,7 +78,7 @@ public class GeolocationDatabase {
 			
 			for (CSVRecord csvRecord: parser) {
 				parseRecord(csvRecord);
-				if(csvRecord.getRecordNumber() % 1000000 == 0){
+				if (csvRecord.getRecordNumber() % 1000000 == 0) {
 					logger.info("Current Record: " + csvRecord.getRecordNumber());
 				}
 			}
@@ -89,7 +93,7 @@ public class GeolocationDatabase {
 	/**
 	 * Reads one line of the csv file of the Geo Database
 	 */
-	private static void parseRecord(CSVRecord record){
+	private static void parseRecord(CSVRecord record) {
 		long startAdress = Long.parseLong(record.get(0));
 		long endAdress = Long.parseLong(record.get(1));
 		String countryCode = record.get(2);
@@ -112,7 +116,7 @@ public class GeolocationDatabase {
 		treeMap.put(geoInformation.getStartAdress(), geoInformation);
 	}
 	
-	public static GeoInformation getGeoInformation(String str){
+	public static GeoInformation getGeoInformation(String str) {
 		GeoInformation result = null;
 		
 		try {
@@ -124,7 +128,7 @@ public class GeolocationDatabase {
 			
 			long longAdress = bigInt.longValue();
 			
-			result = getGeoInformation(longAdress);			
+			result = getGeoInformation(longAdress);
 			
 		} catch (UnknownHostException e) {
 			logger.error("IP Adress not known: " + str);
@@ -133,22 +137,20 @@ public class GeolocationDatabase {
 		return result;		
 	}
 	
-	private static GeoInformation getGeoInformation(long adress){
+	private static GeoInformation getGeoInformation(long adress) {
 		GeoInformation result = null;
 		
-		Entry<Long,GeoInformation> entry = treeMap.floorEntry(adress);
+		Entry<Long, GeoInformation> entry = treeMap.floorEntry(adress);
 		
-		if (entry != null){
-			GeoInformation geo = entry.getValue();		
+		if (entry != null) {
+			GeoInformation geo = entry.getValue();
 			
-			if (adress >= geo.getStartAdress() && adress <= geo.getEndAdress()){
+			if (adress >= geo.getStartAdress() && adress <= geo.getEndAdress()) {
 				result = geo;
 			}
 		}
 		
 		return result;		
 	}
-	
+
 }
-
-

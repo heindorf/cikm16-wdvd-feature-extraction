@@ -39,6 +39,7 @@ import com.fasterxml.jackson.databind.type.MapType;
 
 //Workaround to cope with empty claims list, i.e. "claims": []
 public class MapDeserializerModifier extends BeanDeserializerModifier {
+	
 		@Override
 		public JsonDeserializer<?> modifyMapDeserializer(
 				DeserializationConfig config, MapType type,
@@ -46,29 +47,29 @@ public class MapDeserializerModifier extends BeanDeserializerModifier {
 				JsonDeserializer<?> deserializer) {
 			
 			// statements
-			if(isMapOfStringAndListOfStatements(type)){
+			if (isMapOfStringAndListOfStatements(type)) {
 				return new ModifiedMapDeserializer<String, List<JacksonStatement>>(deserializer);
 			}
 			// labels and descriptions
-			else if(isMapOfStringAndMonolingualTextValue(type)){
+			else if (isMapOfStringAndMonolingualTextValue(type)) {
 				return new ModifiedMapDeserializer<String, JacksonMonolingualTextValue>(deserializer);
 			}
 			// sitelinks
-			else if(isMapOfStringAndSitelink(type)){
+			else if (isMapOfStringAndSitelink(type)) {
 				return new ModifiedMapDeserializer<String, JacksonSiteLink>(deserializer);
 			}
 			// aliases and miscallaneous that does not need this workaround
-			else{
+			else {
 				return deserializer;
 			}
 		}
 		
-		private boolean isMapOfStringAndSitelink(JavaType type){
-			if(!type.containedType(0).hasRawClass(String.class)){
+		private boolean isMapOfStringAndSitelink(JavaType type) {
+			if (!type.containedType(0).hasRawClass(String.class)) {
 				return false;
 			}
 			
-			if(!type.containedType(1).hasRawClass(JacksonSiteLink.class)){
+			if (!type.containedType(1).hasRawClass(JacksonSiteLink.class)) {
 				return false;
 			}
 			
@@ -76,12 +77,12 @@ public class MapDeserializerModifier extends BeanDeserializerModifier {
 			
 		}
 		
-		private boolean isMapOfStringAndMonolingualTextValue(JavaType type){
-			if(!type.containedType(0).hasRawClass(String.class)){
+		private boolean isMapOfStringAndMonolingualTextValue(JavaType type) {
+			if (!type.containedType(0).hasRawClass(String.class)) {
 				return false;
 			}
 			
-			if(!type.containedType(1).hasRawClass(JacksonMonolingualTextValue.class)){
+			if (!type.containedType(1).hasRawClass(JacksonMonolingualTextValue.class)) {
 				return false;
 			}
 			
@@ -92,22 +93,23 @@ public class MapDeserializerModifier extends BeanDeserializerModifier {
 		
 		
 
-	    private boolean isMapOfStringAndListOfStatements(JavaType type){
-	    	if(!type.containedType(0).hasRawClass(String.class)){
-	    		return false;
-	    	}
-	    	
-	    	JavaType valueType = type.containedType(1);
-	    	
-	    	if(!valueType.hasRawClass(List.class)){
-	    		return false;
-	    	}
-	    	
-	    	JavaType listType = valueType.containedType(0);
-	    	if(!listType.hasRawClass(JacksonStatement.class)){
-	    		return false;
-	    	}
-	    	
-	    	return true;
-	    }
+		private boolean isMapOfStringAndListOfStatements(JavaType type) {
+			if (!type.containedType(0).hasRawClass(String.class)) {
+				return false;
+			}
+			
+			JavaType valueType = type.containedType(1);
+			
+			if (!valueType.hasRawClass(List.class)) {
+				return false;
+			}
+			
+			JavaType listType = valueType.containedType(0);
+			if (!listType.hasRawClass(JacksonStatement.class)) {
+				return false;
+			}
+			
+			return true;
+		}
+
 }

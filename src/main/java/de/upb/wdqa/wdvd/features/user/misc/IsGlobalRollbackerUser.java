@@ -30,7 +30,7 @@ import de.upb.wdqa.wdvd.features.FeatureImpl;
 
 public class IsGlobalRollbackerUser extends FeatureImpl {
 
-	final static UserSet userSet;
+	static final UserSet userSet;
 	static {
 		
 		// Taken from
@@ -57,12 +57,12 @@ public class IsGlobalRollbackerUser extends FeatureImpl {
 	}
 
 	@Override
-	public FeatureBooleanValue calculate(Revision revision) {		
+	public FeatureBooleanValue calculate(Revision revision) {
 		return new FeatureBooleanValue(
 				userSet.strContains(revision.getContributor()));
 	}
 	
-	public static boolean isGlobalRollbacker(String contributor){
+	public static boolean isGlobalRollbacker(String contributor) {
 		return userSet.contains(contributor);
 	}
 

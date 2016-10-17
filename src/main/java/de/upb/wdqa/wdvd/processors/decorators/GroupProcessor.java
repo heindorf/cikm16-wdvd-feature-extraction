@@ -61,14 +61,14 @@ public class GroupProcessor implements RevisionProcessor {
 				(revision.getContributor().equals(prevContributor));
 		
 		// Is this the start of a new group?
-		if (!samePage || !sameContributor  ){
+		if (!samePage || !sameContributor) {
 			processGroup(revisionsOfCurrentGroup);
 			revisionsOfCurrentGroup.clear();
 		}
 			
 		revisionsOfCurrentGroup.add(revision);
 		prevPageId = revision.getPageId();
-		prevContributor = revision.getContributor();		
+		prevContributor = revision.getContributor();
 	}
 
 	@Override
@@ -80,10 +80,10 @@ public class GroupProcessor implements RevisionProcessor {
 	}
 	
 	private void processGroup(List<Revision> revisions) {
-		if (revisions.size() > 0){
+		if (revisions.size() > 0) {
 			long groupId = revisions.get(0).getRevisionId();
 			
-			for (int i = 0; i < revisions.size(); i++){
+			for (int i = 0; i < revisions.size(); i++) {
 				Revision revision = revisions.get(i);
 				
 				revision.setPositionWithinGroup(i + 1);
@@ -91,10 +91,9 @@ public class GroupProcessor implements RevisionProcessor {
 			}
 		}
 			
-		for (Revision revision: revisions){				
+		for (Revision revision: revisions) {
 			processor.processRevision(revision);
-		}				
-	}	
+		}
+	}
+
 }
-
-

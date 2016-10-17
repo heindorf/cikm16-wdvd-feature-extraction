@@ -34,11 +34,11 @@ public class Param4 extends FeatureImpl {
 
 	@Override
 	public FeatureStringValue calculate(Revision revision) {
-		ParsedComment comment = revision.getParsedComment();		
+		ParsedComment comment = revision.getParsedComment();
 		String[] params = comment.getParameters();
 		
 		String param4 = null;
-		if (params.length >= 4){
+		if (params.length >= 4) {
 			param4 = params[3];
 		}
 		

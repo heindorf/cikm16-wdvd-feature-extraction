@@ -41,7 +41,7 @@ public class FemaleFirstNamesWordlist extends FeatureImpl {
 	// List of Top 300 female English first names
 	// http://names.mongabay.com/male_names_alpha.htm
 	// last updated on November 4, 2015
-	public final static String[] femaleFirstNames = { "AGNES", "ALICE",
+	public static final String[] femaleFirstNames = { "AGNES", "ALICE",
 			"ALICIA", "ALLISON", "ALMA", "AMANDA", "AMBER", "AMY", "ANA",
 			"ANDREA", "ANGELA", "ANITA", "ANN", "ANNA", "ANNE", "ANNETTE",
 			"ANNIE", "APRIL", "ARLENE", "ASHLEY", "AUDREY", "BARBARA",
@@ -90,7 +90,7 @@ public class FemaleFirstNamesWordlist extends FeatureImpl {
 			"VIOLA", "VIOLET", "VIRGINIA", "VIVIAN", "WANDA", "WENDY",
 			"WILLIE", "WILMA", "YOLANDA", "YVONNE"};
 
-	private final static Pattern pattern;
+	private static final Pattern pattern;
 
 	static {
 		List<String> tokens = new ArrayList<String>(

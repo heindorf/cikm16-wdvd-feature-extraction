@@ -42,29 +42,28 @@ public class DbTagFactory {
 	
 	
 	// This method is synchronized because it is accessed by multiple threads
-	public synchronized DbTag getTag(String tagName){
+	public synchronized DbTag getTag(String tagName) {
 		DbTag result;
 		
-		if (!tagNameMap.containsKey(tagName)){
+		if (!tagNameMap.containsKey(tagName)) {
 			logger.debug("Adding Tag: " + tagName);
 			
 			int tagId = tagNameMap.size();
 			result = new DbTagImpl(tagId, tagName);
 			tagNameMap.put(tagName, result);
 			tagIdMap.put(tagId, result);
-		}
-		else{
+		} else {
 			result = tagNameMap.get(tagName);
 		}
 		
 		return result;		
 	}
 	
-	public DbTag getTagById(int tagId){
+	public DbTag getTagById(int tagId) {
 		return tagIdMap.get(tagId);
 	}
 	
-	public List<DbTag> getAllDbTags(){
+	public List<DbTag> getAllDbTags() {
 		List<DbTag> list = new ArrayList<DbTag>();
 		
 		list.addAll(tagIdMap.values());		
@@ -72,10 +71,7 @@ public class DbTagFactory {
 		return list;
 	}
 	
-	public String toString(){
+	public String toString() {
 		return "" + getAllDbTags();
 	}
-	
-
-
 }

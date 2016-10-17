@@ -34,12 +34,11 @@ public class Property extends FeatureImpl {
 	public FeatureStringValue calculate(Revision revision) {
 		String result = null;
 		
-		if (revision.getParsedComment() != null){
+		if (revision.getParsedComment() != null) {
 			result = revision.getParsedComment().getProperty();
 		}
 
 		return new FeatureStringValue(result);
 	}
-
 
 }

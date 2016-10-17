@@ -33,7 +33,6 @@ import de.upb.wdqa.wdvd.features.Utils;
 
 public class WhitespaceRatio extends FeatureImpl {
 	
-	
 	private final Pattern pattern = Pattern.compile("\\s");
 	
 	@Override
@@ -44,5 +43,5 @@ public class WhitespaceRatio extends FeatureImpl {
 		
 		return new FeatureFloatValue(result);
 	}
-	
+
 }

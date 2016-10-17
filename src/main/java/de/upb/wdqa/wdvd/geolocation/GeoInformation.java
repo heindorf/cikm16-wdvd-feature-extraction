@@ -49,39 +49,40 @@ public class GeoInformation {
 		this.countyName = countyName;		
 	}
 	
-	public long getStartAdress(){
+	public long getStartAdress() {
 		return startAdress;
 	}
 	
-	public long getEndAdress(){
+	public long getEndAdress() {
 		return endAdress;
 	}
 	
-	public String getCountryCode(){
+	public String getCountryCode() {
 		return countryCode;
 	}
 	
-	public String getContinentCode(){
+	public String getContinentCode() {
 		return continentCode;
 	}
 	
-	public String getTimeZone(){
+	public String getTimeZone() {
 		return timeZone;
 	}
 	
-	public String getRegionCode(){
+	public String getRegionCode() {
 		return regionCode;
 	}
 	
-	public String getCityName(){
+	public String getCityName() {
 		return cityName;
 	}
 	
-	public String getCountyName(){
+	public String getCountyName() {
 		return countyName;
 	}
 	
-	public String toString(){
+	public String toString() {
 		return "" + startAdress + ", " + endAdress + ": " + countryCode;
 	}
+
 }

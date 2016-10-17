@@ -33,9 +33,9 @@ import de.upb.wdqa.wdvd.features.FeatureImpl;
 
 public class IsLocalBotUser extends FeatureImpl {
 	
-	final static Logger logger = LoggerFactory.getLogger(IsLocalBotUser.class);
+	static final Logger logger = LoggerFactory.getLogger(IsLocalBotUser.class);
 	
-	final static UserSet userSet;
+	static final UserSet userSet;
 	static {
 		// Taken from http://www.wikidata.org/wiki/Wikidata:Bots
 		// Last updated on December 11, 2014
@@ -133,7 +133,7 @@ public class IsLocalBotUser extends FeatureImpl {
 		return new FeatureBooleanValue(result);
 	}
 	
-	public static boolean isLocalBot(String contributor){
+	public static boolean isLocalBot(String contributor) {
 		return userSet.contains(contributor);		
 	}
 

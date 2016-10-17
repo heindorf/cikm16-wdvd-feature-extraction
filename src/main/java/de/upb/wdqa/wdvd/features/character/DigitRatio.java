@@ -47,5 +47,5 @@ public class DigitRatio extends FeatureImpl {
 		
 		return new FeatureFloatValue(result);
 	}
-	
+
 }

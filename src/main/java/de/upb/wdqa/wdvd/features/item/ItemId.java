@@ -39,5 +39,5 @@ public class ItemId extends FeatureImpl {
 	public FeatureIntegerValue calculate(Revision revision) {
 		return new FeatureIntegerValue(revision.getItemId());
 	}
-	
+
 }

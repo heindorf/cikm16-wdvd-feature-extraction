@@ -38,7 +38,7 @@ public class NumberOfSourcesAdded extends FeatureImpl {
 		
 		ItemDiff itemDiff = ItemDiff.getItemDiffFromRevision(revision);
 		
-		if (itemDiff != null){					
+		if (itemDiff != null) {
 			MapDiff mapDiff = itemDiff.getSourceDiff();
 			
 			result = mapDiff.getAddedKeys().size();
@@ -47,4 +47,5 @@ public class NumberOfSourcesAdded extends FeatureImpl {
 		
 		return new FeatureIntegerValue(result);
 	}
+
 }

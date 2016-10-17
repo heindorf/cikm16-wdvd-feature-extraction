@@ -43,5 +43,5 @@ public class LatinRatio extends FeatureImpl {
 		
 		return new FeatureFloatValue(result);
 	}
-	
+
 }

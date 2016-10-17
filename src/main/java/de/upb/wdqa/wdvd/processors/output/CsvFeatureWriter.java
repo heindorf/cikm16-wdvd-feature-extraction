@@ -46,7 +46,7 @@ import de.upb.wdqa.wdvd.Revision;
 import de.upb.wdqa.wdvd.features.*;
 import de.upb.wdqa.wdvd.processors.RevisionProcessor;
 
-public class CsvFeatureWriter implements RevisionProcessor{
+public class CsvFeatureWriter implements RevisionProcessor {
 	CSVPrinter csvPrinter;
 	File featureFile;
 	
@@ -79,7 +79,7 @@ public class CsvFeatureWriter implements RevisionProcessor{
 	
 			String[] header = new String[features.size()];
 			
-			for (int i = 0; i < features.size(); i++){
+			for (int i = 0; i < features.size(); i++) {
 				header[i] = features.get(i).getName();
 			}			
 
@@ -95,18 +95,18 @@ public class CsvFeatureWriter implements RevisionProcessor{
 		try {
 			List<String> record = new ArrayList<String>(features.size());
 			
-			for (int i = 0; i < features.size(); i++){
+			for (int i = 0; i < features.size(); i++) {
 				Feature feature = features.get(i);
 				FeatureValue featureValue = revision.getFeatureValues().get(feature);
 				String writeString;
 				
-				if (featureValue == null){
+				if (featureValue == null) {
 					writeString = FeatureValue.MISSING_VALUE_STRING;
-					logger.error("Feature returned null (Revision " +
-							revision.getRevisionId() + ", Feature "	+
-							feature.getName() + ")");
-				}
-				else{
+					logger.error("Feature returned null (Revision "
+							+ revision.getRevisionId()
+							+ ", Feature "
+							+ feature.getName() + ")");
+				} else {
 					writeString = featureValue.toString();
 				}
 				
@@ -131,16 +131,16 @@ public class CsvFeatureWriter implements RevisionProcessor{
 	}
 	
 	private static OutputStream getPipedOutputStreamStream(
-			final OutputStream outputStream) throws IOException{
+			final OutputStream outputStream) throws IOException {
 		final int BUFFER_SIZE = 1 * 1024 * 1024;
 		
 		final PipedOutputStream pipedOutputStream = new PipedOutputStream();
 		final PipedInputStream pipedInputStream =
 				new PipedInputStream(pipedOutputStream, BUFFER_SIZE);
 		
-		new Thread("Label Writer Output Stream"){
+		new Thread("Label Writer Output Stream") {
 			@Override
-			public void run(){
+			public void run() {
 				try {
 					IOUtils.copy(pipedInputStream, outputStream);
 					
@@ -154,4 +154,5 @@ public class CsvFeatureWriter implements RevisionProcessor{
 		
 		return pipedOutputStream;
 	}
+
 }
