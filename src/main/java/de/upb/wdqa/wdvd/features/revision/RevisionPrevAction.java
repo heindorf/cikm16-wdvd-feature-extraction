@@ -35,7 +35,8 @@ public class RevisionPrevAction extends FeatureImpl {
 		String result = null;
 		Revision prevRevision = revision.getPreviousRevision();
 		
-		if (prevRevision != null &&	prevRevision.getParsedComment().getAction1() != null){
+		if (prevRevision != null &&
+				prevRevision.getParsedComment().getAction1() != null){
 			
 			result = prevRevision.getParsedComment().getAction1();
 		}		

@@ -43,7 +43,8 @@ import de.upb.wdqa.wdvd.Revision;
 import de.upb.wdqa.wdvd.db.interfaces.DbItem;
 
 public class ItemDocumentDbItem implements DbItem {	
-	static final Logger logger = LoggerFactory.getLogger(ItemDocumentDbItem.class);
+	static final Logger logger =
+			LoggerFactory.getLogger(ItemDocumentDbItem.class);
 	
 	ItemDocument itemDocument;	
 
@@ -87,7 +88,8 @@ public class ItemDocumentDbItem implements DbItem {
 		return getFirstValueOfPropertyWithHighestRank("P361");
 	}
 
-	// Finds all statements with the given property and returns the value of the first statement with the highest rank
+	// Finds all statements with the given property and returns the value of the
+	// first statement with the highest rank
 	private Integer getFirstValueOfPropertyWithHighestRank(String property){
 		Iterator<Statement> it = itemDocument.getAllStatements();
 		
@@ -98,8 +100,11 @@ public class ItemDocumentDbItem implements DbItem {
 			Statement statement = it.next();
 			StatementRank rank = statement.getRank();
 			
-			// Among the "instance of" statements with the highest rank, take the first one
-			if(highestStatementRank == null || firstIsHigherThanSecond(rank, highestStatementRank)){
+			// Among the "instance of" statements with the highest rank,
+			// take the first one
+			if(highestStatementRank == null ||
+					firstIsHigherThanSecond(rank, highestStatementRank)){
+				
 				if (property.equals(getPropertyOfStatement(statement))){				
 					Integer itemIdValue = getItemIdValueOfStatement(statement);	
 					
@@ -165,7 +170,8 @@ public class ItemDocumentDbItem implements DbItem {
 		return result;
 	}
 	
-	public static boolean firstIsHigherThanSecond(StatementRank first, StatementRank second){
+	public static boolean firstIsHigherThanSecond(
+			StatementRank first, StatementRank second){
 		return first.compareTo(second) < 0;
 	}
 

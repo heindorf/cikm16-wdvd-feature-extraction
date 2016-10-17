@@ -37,8 +37,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
-public class OldLabelsDescriptionsDeserializer extends JsonDeserializer<LinkedHashMap<String, String>>{
-	private static final Logger logger = Logger.getLogger(OldLabelsDescriptionsDeserializer.class);
+public class OldLabelsDescriptionsDeserializer extends
+	JsonDeserializer<LinkedHashMap<String, String>>{
+	
+	private static final Logger logger =
+			Logger.getLogger(OldLabelsDescriptionsDeserializer.class);
 	
 	
 	@Override
@@ -58,7 +61,8 @@ public class OldLabelsDescriptionsDeserializer extends JsonDeserializer<LinkedHa
 		}
 		else{
 			ObjectCodec mapper = jp.getCodec();
-			result = mapper.readValue(jp, new TypeReference<LinkedHashMap<String, String>>() {});
+			result = mapper.readValue(jp,
+					new TypeReference<LinkedHashMap<String, String>>() {});
 		}
 
 		return result;

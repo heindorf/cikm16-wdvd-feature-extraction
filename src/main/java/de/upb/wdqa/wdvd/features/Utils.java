@@ -77,7 +77,8 @@ public class Utils {
 		}
 		
 		if (charRatio > 1.0){
-			logger.warn("Character Ratio (str=" + str + ", " + "pattern= " + pattern + "): " + charRatio);
+			logger.warn("Character Ratio (str=" + str + ", " +
+					"pattern= " + pattern + "): " + charRatio);
 		}
 		
 		return (float)charRatio;

@@ -47,7 +47,9 @@ public class Param1 extends FeatureImpl {
 				result = Integer.parseInt(params[0]);
 			}
 			catch(NumberFormatException e){
-				logger.debug("Revision " + revision.getRevisionId() + ": param1 is not numeric: " + result + " (comment: " + comment.getText() + ")", e);
+				logger.debug("Revision " + revision.getRevisionId() +
+						": param1 is not numeric: " + result +
+						" (comment: " + comment.getText() + ")", e);
 			}
 		}	
 		

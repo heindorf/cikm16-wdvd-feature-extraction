@@ -66,14 +66,21 @@ public class PageProcessor implements RevisionProcessor {
 		processor.startRevisionProcessing();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.upb.wdqa.wdvd.processors.RevisionProcessor#processRevision(de.upb.wdqa.wdvd.Revision)
+	 */
 	@Override
 	public void processRevision(Revision revision) {
 		try{
 //			if(revision.getNamespace() == 0){	
 				
-				// Check whether a new page has been started (and thus the previous page is complete)
-				// In case an exception has been thrown before, check that there is at least one revision to process (otherwise further exceptions will be thrown)
-				if (previousPageId != -1 && revision.getPageId() != previousPageId && revisionsOfCurrentPage.size() > 0){
+			// Check whether a new page has been started (and thus the previous
+			// page is complete).  In case an exception has been thrown before,
+			// check that there is at least one revision to process
+			// (otherwise further exceptions will be thrown)
+				if (previousPageId != -1 &&
+						revision.getPageId() != previousPageId &&
+						revisionsOfCurrentPage.size() > 0){
 						processPage();
 						revisionsOfCurrentPage.clear();
 				}
@@ -129,7 +136,8 @@ public class PageProcessor implements RevisionProcessor {
 		}
 		
 		if(latestItemDocument == null){
-			logger.debug("Could not parse JSON of any revision: " + firstRevision.getPrefixedTitle());
+			logger.debug("Could not parse JSON of any revision: " +
+					firstRevision.getPrefixedTitle());
 		}
 		
 		
@@ -151,7 +159,8 @@ public class PageProcessor implements RevisionProcessor {
 	
 	static private void checkIncreasingRevisionId(Revision prev, Revision cur){
 		if(prev!= null && prev.getRevisionId() >= cur.getRevisionId()){
-			logger.warn("Revision IDs should be increasing, prev revision: " + prev.toString() + ", current Revision: " + cur.toString());
+			logger.warn("Revision IDs should be increasing, prev revision: " +
+					prev.toString() + ", current Revision: " + cur.toString());
 		}		
 	}
 

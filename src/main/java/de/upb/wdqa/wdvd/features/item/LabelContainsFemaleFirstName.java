@@ -43,7 +43,8 @@ import de.upb.wdqa.wdvd.features.word.misc.FemaleFirstNamesWordlist;
 
 public class LabelContainsFemaleFirstName extends FeatureImpl {
 	
-	static final Logger logger = LoggerFactory.getLogger(LabelContainsFemaleFirstName.class);
+	static final Logger logger =
+			LoggerFactory.getLogger(LabelContainsFemaleFirstName.class);
 	
 	private final static Pattern pattern;
 	static {

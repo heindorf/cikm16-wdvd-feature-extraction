@@ -61,7 +61,8 @@ public class IsBotWithoutBotFlagUser extends FeatureImpl {
 
 	@Override
 	public FeatureBooleanValue calculate(Revision revision) {		
-		return new FeatureBooleanValue(userSet.strContains(revision.getContributor()));
+		return new FeatureBooleanValue(
+				userSet.strContains(revision.getContributor()));
 	}
 
 }

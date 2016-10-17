@@ -33,7 +33,8 @@ import de.upb.wdqa.wdvd.features.Utils;
 
 public class ProportionOfLanguageAdded extends FeatureImpl {	
 	// taken from ORES baseline
-	private static final String regexStr = "(a(frikaa?ns|lbanian?|lemanha|ng(lais|ol)|ra?b(e?|" +
+	private static final String regexStr =
+			"(a(frikaa?ns|lbanian?|lemanha|ng(lais|ol)|ra?b(e?|" +
 			"[ei]c|ian?|isc?h)|rmenian?|ssamese|azeri|z[eə]rba" +
 			"(ijani?|ycan(ca)?|yjan)|нглийский)|b(ahasa( (indonesia|" +
 			"jawa|malaysia|melayu))?|angla|as(k|qu)e|[aeo]ng[ao]?li|" +

@@ -46,14 +46,16 @@ public class TagDownloaderRevisionData{
 	
 	public final static int ELEMENT_SIZE = 28;
 	
-	static final Logger logger = LoggerFactory.getLogger(TagDownloaderRevisionData.class);
+	static final Logger logger =
+			LoggerFactory.getLogger(TagDownloaderRevisionData.class);
 	
 	private byte[] sha1;
 	private byte[] tags;
 
 	private DbTagFactory tagFactory;
 	
-	public TagDownloaderRevisionData(DbRevision revision, DbTagFactory tagFactory){
+	public TagDownloaderRevisionData(
+			DbRevision revision, DbTagFactory tagFactory){
 		this.tagFactory = tagFactory;
 		this.sha1 = SHA1Converter.parseByte36(revision.getSha1());
 		this.tags = tagsToBytes(revision.getTags());
@@ -76,7 +78,8 @@ public class TagDownloaderRevisionData{
 	}
 	
 	/**
-	 * Converts a memory efficient byte[] representation to a more user friendly List of Strings
+	 * Converts a memory efficient byte[] representation to a more user friendly
+	 * List of Strings
 	 */
 	private Set<DbTag> bytesToTags(byte[] bytes){
 		Set<DbTag> result = new HashSet<DbTag>();
@@ -103,7 +106,8 @@ public class TagDownloaderRevisionData{
 		int elementSize = 1 + sha1.length + 1 + tags.length;
 				
 		if(elementSize > ELEMENT_SIZE){
-			throw new IllegalStateException("elementSize is larger than ELEMENT_SIZE: " + elementSize);
+			throw new IllegalStateException(
+					"elementSize is larger than ELEMENT_SIZE: " + elementSize);
 		}
 		
 		byte[] result = new byte[elementSize];

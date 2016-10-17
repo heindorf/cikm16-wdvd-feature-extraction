@@ -69,7 +69,8 @@ public class TagDownloaderDbDataStoreTest {
 	
 	@Test
 	public void testInsertRevision() throws Exception{
-		DbRevision revision = new DbRevisionImpl(123456, "1234567890123456789012345678901", null);
+		DbRevision revision =
+				new DbRevisionImpl(123456, "1234567890123456789012345678901", null);
 		
 		dataStore.putRevision(revision);
 		
@@ -123,7 +124,8 @@ public class TagDownloaderDbDataStoreTest {
 		
 		long endTime = System.currentTimeMillis();
 		
-		System.out.println("Write time (in seconds): " + (endTime - startTime)/1000.0);
+		System.out.println("Write time (in seconds): " +
+				(endTime - startTime)/1000.0);
 	}
 	
 	@Test
@@ -145,7 +147,8 @@ public class TagDownloaderDbDataStoreTest {
 		
 		long endTime = System.currentTimeMillis();
 		
-		System.out.println("multiple read time (in seconds): " + (endTime - startTime)/1000.0);
+		System.out.println("multiple read time (in seconds): " +
+				(endTime - startTime)/1000.0);
 	}
 	
 	@Test

@@ -36,12 +36,14 @@ import de.upb.wdqa.wdvd.processors.RevisionProcessor;
 
 public class GeolocationDbProcessor implements RevisionProcessor {
 	
-	static final Logger logger = LoggerFactory.getLogger(GeolocationDbProcessor.class);
+	static final Logger logger =
+			LoggerFactory.getLogger(GeolocationDbProcessor.class);
 	
 	RevisionProcessor processor;
 	File geolocationFile;
 	
-	public GeolocationDbProcessor(RevisionProcessor processor, File geolocationFile){
+	public GeolocationDbProcessor(
+			RevisionProcessor processor, File geolocationFile){
 		this.processor = processor;
 		this.geolocationFile = geolocationFile;
 	}
@@ -60,7 +62,8 @@ public class GeolocationDbProcessor implements RevisionProcessor {
 		if (!revision.hasRegisteredContributor()){
 			String userName = revision.getContributor();
 			
-			GeoInformation geoInformation = GeolocationDatabase.getGeoInformation(userName);
+			GeoInformation geoInformation =
+					GeolocationDatabase.getGeoInformation(userName);
 			
 			revision.setGeoInformation(geoInformation);		
 		}

@@ -51,7 +51,8 @@ public class CommentLabelSimilarity extends FeatureImpl {
 				
 				if (label != null) {
 					label = label.trim();
-					result = (float) StringUtils.getJaroWinklerDistance(suffixComment, label);
+					result = (float) StringUtils.getJaroWinklerDistance(
+							suffixComment, label);
 				}
 			}	
 		}		

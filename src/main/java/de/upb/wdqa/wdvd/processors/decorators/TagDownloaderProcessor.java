@@ -38,7 +38,8 @@ import de.upb.wdqa.wdvd.revisiontags.TagDownloader;
 
 public class TagDownloaderProcessor implements RevisionProcessor {
 	
-	static final Logger logger = LoggerFactory.getLogger(TagDownloaderProcessor.class);
+	static final Logger logger =
+			LoggerFactory.getLogger(TagDownloaderProcessor.class);
 	
 	RevisionProcessor processor;
 	File revisionTagFile;
@@ -46,7 +47,8 @@ public class TagDownloaderProcessor implements RevisionProcessor {
 	static final int BATCH_SIZE = 1000;
 	List<Revision> revisions = new ArrayList<Revision>(BATCH_SIZE);
 	
-	public TagDownloaderProcessor(RevisionProcessor processor, File revisionTagFile){
+	public TagDownloaderProcessor(
+			RevisionProcessor processor, File revisionTagFile){
 		this.processor = processor;
 		this.revisionTagFile = revisionTagFile;
 	}
@@ -70,7 +72,8 @@ public class TagDownloaderProcessor implements RevisionProcessor {
 
 	@Override
 	public void finishRevisionProcessing() {
-		// must be called before finishing because otherwise threads might have been already killed
+		// must be called before finishing because otherwise threads might have
+		// been already killed
 		processAllRevisions(); 
 		
 		processor.finishRevisionProcessing();

@@ -289,7 +289,8 @@ public class BadWordRatio extends FeatureImpl {
 	private final static Pattern pattern;
 	
 	static{
-		List<String> tokens = new ArrayList<String>(Arrays.asList(luisVonAhnWordlist));
+		List<String> tokens =
+				new ArrayList<String>(Arrays.asList(luisVonAhnWordlist));
 
 		String patternString = StringUtils.join(tokens, "|");
 		pattern = Pattern.compile(patternString);

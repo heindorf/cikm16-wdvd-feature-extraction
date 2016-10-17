@@ -58,7 +58,8 @@ public class ParallelProcessorTest{
 		list.add(workProcessor3);
 		
 		TestProcessor nextProcessor = new TestProcessor();
-		ParallelProcessor parallelProcessor = new ParallelProcessor(list, null, nextProcessor, "test");
+		ParallelProcessor parallelProcessor =
+				new ParallelProcessor(list, null, nextProcessor, "test");
 		
 		final int REVISION_NUMBER = 10 * parallelProcessor.MAX_QUEUE_SIZE;
 		

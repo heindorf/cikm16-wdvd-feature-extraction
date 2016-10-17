@@ -63,7 +63,8 @@ public class IsGlobalBotUser extends FeatureImpl {
 
 	@Override
 	public FeatureBooleanValue calculate(Revision revision) {		
-		return new FeatureBooleanValue(userSet.strContains(revision.getContributor()));
+		return new FeatureBooleanValue(
+				userSet.strContains(revision.getContributor()));
 	}
 	
 	public static boolean isGlobalBot(String contributor){

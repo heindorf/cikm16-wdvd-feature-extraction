@@ -59,7 +59,8 @@ public class TagDownloader {
 	
 	static long MAX_REVISION_ID = 180000000L;
 	
-	static TagDownloaderDataStore dataStore = new TagDownloaderMemoryDataStore(tagFactory, MAX_REVISION_ID);
+	static TagDownloaderDataStore dataStore =
+			new TagDownloaderMemoryDataStore(tagFactory, MAX_REVISION_ID);
 
 	
 	static Frequency tagDistribution = new Frequency();
@@ -71,7 +72,12 @@ public class TagDownloader {
 	public static void readFile(File file) {
 		try {
 			logger.info("Starting to read file of TagDownloader ...");
-			BufferedReader reader = new BufferedReader(new InputStreamReader(new BZip2CompressorInputStream(new BufferedInputStream(new FileInputStream(file))), "UTF-8"));
+			BufferedReader reader =
+					new BufferedReader(
+					new InputStreamReader(
+					new BZip2CompressorInputStream(
+					new BufferedInputStream(
+					new FileInputStream(file))), "UTF-8"));
 			
 			CSVParser parser = new CSVParser(reader, CSVFormat.RFC4180);
 			
@@ -87,7 +93,8 @@ public class TagDownloader {
 			
 			dataStore.disconnect();
 			parser.close();
-			logger.info("Tag Distribution:\n" + FrequencyUtils.formatFrequency(tagDistribution));
+			logger.info("Tag Distribution:\n" +
+					FrequencyUtils.formatFrequency(tagDistribution));
 			logger.info("Finished");
 		} catch (Exception e) {
 			logger.error("", e);
@@ -111,7 +118,8 @@ public class TagDownloader {
 		}
 		
 		try{
-			dataStore.putRevision(new DbRevisionImpl(revisionId, SHA1Converter.base16to36(sha1Base16), tags));
+			dataStore.putRevision(
+					new DbRevisionImpl(revisionId, SHA1Converter.base16to36(sha1Base16), tags));
 		}
 		catch(Exception e){
 			logger.error("", e);

@@ -50,9 +50,11 @@ import org.slf4j.LoggerFactory;
  */
 public class GeolocationDatabase {
 	
-	static final Logger logger = LoggerFactory.getLogger(GeolocationDatabase.class);
+	static final Logger logger =
+			LoggerFactory.getLogger(GeolocationDatabase.class);
 	
-	static TreeMap<Long, GeoInformation> treeMap = new TreeMap<Long, GeoInformation>();
+	static TreeMap<Long, GeoInformation> treeMap =
+			new TreeMap<Long, GeoInformation>();
 	
 	/**
 	 * Reads the csv file of the TagDownloader
@@ -60,7 +62,12 @@ public class GeolocationDatabase {
 	public static void readFile(File file) {
 		try {
 			logger.info("Starting to read file of GeolocationDatabase ...");
-			BufferedReader reader = new BufferedReader(new InputStreamReader(new BZip2CompressorInputStream(new BufferedInputStream(new FileInputStream(file))), "UTF-8"));
+			BufferedReader reader =
+					new BufferedReader(
+					new InputStreamReader(
+					new BZip2CompressorInputStream(
+					new BufferedInputStream(
+					new FileInputStream(file))), "UTF-8"));
 			
 			CSVParser parser = new CSVParser(reader, CSVFormat.RFC4180);
 			

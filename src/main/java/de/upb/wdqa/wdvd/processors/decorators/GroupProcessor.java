@@ -57,7 +57,8 @@ public class GroupProcessor implements RevisionProcessor {
 	@Override
 	public void processRevision(Revision revision) {
 		boolean samePage = (revision.getPageId() == prevPageId);
-		boolean sameContributor = (revision.getContributor().equals(prevContributor));
+		boolean sameContributor =
+				(revision.getContributor().equals(prevContributor));
 		
 		// Is this the start of a new group?
 		if (!samePage || !sameContributor  ){

@@ -34,7 +34,9 @@ import it.unimi.dsi.fastutil.bytes.ByteBigArrays;
 
 public class TagDownloaderMemoryDataStore implements TagDownloaderDataStore {
 	
-	// Stores all the data from TagDownloader. The maximal size of an byte array in Java is 2GB. Hence, we use a third party library to circumvent this limitation.
+	// Stores all the data from TagDownloader. The maximal size of an byte array
+	// in Java is 2GB. Hence, we use a third party library to circumvent this
+	// limitation.
 	static byte[][] bigByteArray;
 	
 	DbTagFactory tagFactory;
@@ -57,11 +59,14 @@ public class TagDownloaderMemoryDataStore implements TagDownloaderDataStore {
 
 	@Override
 	public void putRevision(DbRevision dbRevision) {
-		TagDownloaderRevisionData data = new TagDownloaderRevisionData(dbRevision, tagFactory);
+		TagDownloaderRevisionData data =
+				new TagDownloaderRevisionData(dbRevision, tagFactory);
 		
 		
 		byte[] bytes = data.getByteArray();
-		ByteBigArrays.copyToBig(bytes, 0, bigByteArray, dbRevision.getRevisionId() * (long)TagDownloaderRevisionData.ELEMENT_SIZE, bytes.length);
+		ByteBigArrays.copyToBig(bytes, 0, bigByteArray,
+				dbRevision.getRevisionId() * (long)TagDownloaderRevisionData.ELEMENT_SIZE,
+				bytes.length);
 		
 	}
 
@@ -69,10 +74,13 @@ public class TagDownloaderMemoryDataStore implements TagDownloaderDataStore {
 	public DbRevision getRevision(long revisionId) {
 		byte[] bytes = new byte[TagDownloaderRevisionData.ELEMENT_SIZE];
 		if(bigByteArray != null){
-			ByteBigArrays.copyFromBig(bigByteArray, (long)revisionId * (long)TagDownloaderRevisionData.ELEMENT_SIZE, bytes, 0, bytes.length);
+			ByteBigArrays.copyFromBig(bigByteArray,
+					(long)revisionId * (long)TagDownloaderRevisionData.ELEMENT_SIZE,
+					bytes, 0, bytes.length);
 		}
 		
-		TagDownloaderRevisionData data = new TagDownloaderRevisionData(bytes, tagFactory);
+		TagDownloaderRevisionData data =
+				new TagDownloaderRevisionData(bytes, tagFactory);
 		
 		return new DbRevisionImpl(revisionId, data.getSha1(), data.getTags());
 	}
@@ -91,7 +99,8 @@ public class TagDownloaderMemoryDataStore implements TagDownloaderDataStore {
 	@Override
 	public void clear() throws Exception {
 		bigByteArray = null;
-		bigByteArray = ByteBigArrays.ensureCapacity(new byte[0][0], (long)TagDownloaderRevisionData.ELEMENT_SIZE * (long)maxRevisionId);		
+		bigByteArray = ByteBigArrays.ensureCapacity(new byte[0][0],
+				(long)TagDownloaderRevisionData.ELEMENT_SIZE * (long)maxRevisionId);		
 	}
 
 	@Override

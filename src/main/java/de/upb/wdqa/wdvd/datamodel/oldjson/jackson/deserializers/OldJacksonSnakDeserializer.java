@@ -49,7 +49,8 @@ import de.upb.wdqa.wdvd.datamodel.oldjson.jackson.datavalues.OldJacksonValueItem
 
 public class OldJacksonSnakDeserializer extends StdDeserializer<OldJacksonSnak> {
 	
-	static final Logger logger = LoggerFactory.getLogger(OldJacksonSnakDeserializer.class);
+	static final Logger logger =
+			LoggerFactory.getLogger(OldJacksonSnakDeserializer.class);
 	
 	private static final long serialVersionUID = 1L;
 
@@ -83,7 +84,8 @@ public class OldJacksonSnakDeserializer extends StdDeserializer<OldJacksonSnak> 
 			
 			ObjectMapper mapper = (ObjectMapper) p.getCodec();
 			JsonNode root = mapper.readTree(p);
-			Class<? extends OldJacksonValue> valueClass = getValueClass(valuesnak.getDatatype());
+			Class<? extends OldJacksonValue> valueClass =
+					getValueClass(valuesnak.getDatatype());
 			if (valueClass != null){
 				valuesnak.setDatavalue(mapper.treeToValue(root, valueClass));
 			}

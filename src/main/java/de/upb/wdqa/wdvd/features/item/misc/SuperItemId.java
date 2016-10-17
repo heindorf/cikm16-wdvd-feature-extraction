@@ -35,7 +35,8 @@ import de.upb.wdqa.wdvd.features.FeatureIntegerValue;
 
 public class SuperItemId extends FeatureImpl {
 	
-	static final Logger logger = LoggerFactory.getLogger(LatestInstanceOfItemId.class);
+	static final Logger logger =
+			LoggerFactory.getLogger(LatestInstanceOfItemId.class);
 
 	@Override
 	public FeatureIntegerValue calculate(Revision revision) {		

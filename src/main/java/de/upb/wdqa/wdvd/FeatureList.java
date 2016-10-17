@@ -86,7 +86,8 @@ public class FeatureList {
 		List<Feature> l = new ArrayList<Feature>();
 		
 		////////////////////////////////////////////////////////
-		// Meta features (used for computing statistics, character n-grams, bag-of-words model, ...)
+		// Meta features (used for computing statistics,
+		// character n-grams, bag-of-words model, ...)
 		////////////////////////////////////////////////////////
 		l.add(new RevisionId());
 		

@@ -60,8 +60,11 @@ public class ItemDiff {
 	
 	public static ItemDiff getItemDiffFromRevision(Revision revision){
 		ItemDiff result = null;
-		if (revision.getPreviousRevision() != null && revision.getPreviousRevision().getItemDocument()!= null && revision.getItemDocument() !=null){
-			result = new ItemDiff(revision.getPreviousRevision().getItemDocument(), revision.getItemDocument());
+		if (revision.getPreviousRevision() != null &&
+				revision.getPreviousRevision().getItemDocument()!= null &&
+				revision.getItemDocument() !=null){
+			result = new ItemDiff(revision.getPreviousRevision().getItemDocument(),
+					revision.getItemDocument());
 		}
 		return result;
 	}
@@ -75,7 +78,8 @@ public class ItemDiff {
 	
 	// based on Map<Language, MonolingualTextValue> 
 	public MapDiff getDescriptionDiff(){
-		MapDiff result = new MapDiff(oldItem.getDescriptions(), newItem.getDescriptions());
+		MapDiff result = new MapDiff(oldItem.getDescriptions(),
+				newItem.getDescriptions());
 		
 		return result;
 	}
@@ -146,7 +150,8 @@ public class ItemDiff {
 		
 		Set<Object> changedKeys = diff.getChangedKeys();
 		
-		List<Pair<Statement, Statement>> result= new ArrayList<Pair<Statement, Statement>>();
+		List<Pair<Statement, Statement>> result =
+				new ArrayList<Pair<Statement, Statement>>();
 		
 		for (Object key: changedKeys){
 			result.add(Pair.of(oldMap.get(key), newMap.get(key)));
@@ -157,7 +162,8 @@ public class ItemDiff {
 	
 	// Map based on Map<SiteID, SiteLink> 
 	public MapDiff getSitelinkDiff(){
-		MapDiff result = new MapDiff(oldItem.getSiteLinks(), newItem.getSiteLinks());	
+		MapDiff result =
+				new MapDiff(oldItem.getSiteLinks(), newItem.getSiteLinks());	
 		
 		return result;
 	}

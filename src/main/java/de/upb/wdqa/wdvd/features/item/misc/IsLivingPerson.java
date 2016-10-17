@@ -43,7 +43,8 @@ public class IsLivingPerson extends FeatureImpl {
 		boolean hasDateOfDeath = false;
 		
 		if(itemDocument != null){		
-			List<StatementGroup> statementGroups = itemDocument.getStatementGroups();
+			List<StatementGroup> statementGroups =
+					itemDocument.getStatementGroups();
 			
 			for (StatementGroup statementGroup: statementGroups){
 				String property = statementGroup.getProperty().getId();

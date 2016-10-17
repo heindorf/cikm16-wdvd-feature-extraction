@@ -35,7 +35,8 @@ import de.upb.wdqa.wdvd.features.FeatureStringValue;
 
 public class LatestEnglishItemLabel extends FeatureImpl {
 	
-	static final Logger logger = LoggerFactory.getLogger(LatestEnglishItemLabel.class);
+	static final Logger logger =
+			LoggerFactory.getLogger(LatestEnglishItemLabel.class);
 
 	@Override
 	public FeatureStringValue calculate(Revision revision) {

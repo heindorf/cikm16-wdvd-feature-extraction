@@ -42,7 +42,8 @@ public class NumberOfAliases extends FeatureImpl {
 		ItemDocument itemDocument = revision.getItemDocument();
 		
 		if(itemDocument != null){
-			Map<String, List<MonolingualTextValue>> aliases = itemDocument.getAliases();
+			Map<String, List<MonolingualTextValue>> aliases =
+					itemDocument.getAliases();
 		
 			if (aliases != null){
 				for (Map.Entry<String, List<MonolingualTextValue>> entry : aliases.entrySet()){

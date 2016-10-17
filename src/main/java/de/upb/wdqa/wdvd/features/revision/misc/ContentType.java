@@ -32,7 +32,8 @@ public class ContentType extends FeatureImpl {
 
 	@Override
 	public FeatureStringValue calculate(Revision revision) {
-		String result = "" + CONTENT_TYPE.getContentType(revision.getParsedComment().getAction1());
+		String result = "" + CONTENT_TYPE.getContentType(
+				revision.getParsedComment().getAction1());
 		
 		return new FeatureStringValue(result);
 	}

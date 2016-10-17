@@ -102,7 +102,9 @@ public class CsvFeatureWriter implements RevisionProcessor{
 				
 				if (featureValue == null){
 					writeString = FeatureValue.MISSING_VALUE_STRING;
-					logger.error("Feature returned null (Revision " + revision.getRevisionId() + ", Feature " + feature.getName() + ")");
+					logger.error("Feature returned null (Revision " +
+							revision.getRevisionId() + ", Feature "	+
+							feature.getName() + ")");
 				}
 				else{
 					writeString = featureValue.toString();
@@ -128,11 +130,13 @@ public class CsvFeatureWriter implements RevisionProcessor{
 		}	
 	}
 	
-	private static OutputStream getPipedOutputStreamStream(final OutputStream outputStream) throws IOException{
+	private static OutputStream getPipedOutputStreamStream(
+			final OutputStream outputStream) throws IOException{
 		final int BUFFER_SIZE = 1 * 1024 * 1024;
 		
 		final PipedOutputStream pipedOutputStream = new PipedOutputStream();
-		final PipedInputStream pipedInputStream = new PipedInputStream(pipedOutputStream, BUFFER_SIZE);
+		final PipedInputStream pipedInputStream =
+				new PipedInputStream(pipedOutputStream, BUFFER_SIZE);
 		
 		new Thread("Label Writer Output Stream"){
 			@Override

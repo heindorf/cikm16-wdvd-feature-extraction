@@ -107,7 +107,8 @@ public class CorpusLabelReader {
 	}
 
 	/**
-	 * Performs final actions after all labels have been read. For example, it closes open resources.
+	 * Performs final actions after all labels have been read. For example, it
+	 * closes open resources.
 	 */
 	public void finishReading() {
 		try {

@@ -46,7 +46,9 @@ public class NumberOfQualifiers extends FeatureImpl {
 			
 			while(statements.hasNext()){
 				Statement statement = statements.next();
-				Iterator<Snak> qualifiers = statement.getClaim().getAllQualifiers();
+				Iterator<Snak> qualifiers =
+						statement.getClaim().getAllQualifiers();
+				
 				while(qualifiers.hasNext()){
 					qualifiers.next();
 					result += 1;

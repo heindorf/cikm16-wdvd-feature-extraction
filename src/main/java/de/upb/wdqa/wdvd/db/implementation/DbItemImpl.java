@@ -44,7 +44,8 @@ public class DbItemImpl implements DbItem, Serializable{
 	private int subclassOfId; // null is represented by -1 (to save memory)
 	private int partOfId; // null is represented by -1 (to save memory)
 	
-	public DbItemImpl(int itemId, String label, Integer instanceOfId, Integer subclassOfId, Integer partOfId) {
+	public DbItemImpl(int itemId, String label,
+			Integer instanceOfId, Integer subclassOfId, Integer partOfId) {
 		super();
 		this.itemId = itemId;
 		this.label = label;
@@ -100,7 +101,9 @@ public class DbItemImpl implements DbItem, Serializable{
 			return NULL_SENTINEL;
 		}
 		else if (value == NULL_SENTINEL) {
-			throw new RuntimeException("" + value + " is a special value to represent null and should not be used otherwise");
+			throw new RuntimeException("" + value + 
+					" is a special value to represent null and " +
+					"should not be used otherwise");
 		}		
 		else{
 			return value;

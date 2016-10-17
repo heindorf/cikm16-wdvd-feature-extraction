@@ -36,8 +36,9 @@ public class GeoInformation {
 	String latitude;
 	String longitude;
 	
-	public GeoInformation(long startAdress, long endAdress, String countryCode, String continentCode,
-			String timeZone, String regionCode, String cityName, String countyName){
+	public GeoInformation(long startAdress, long endAdress, String countryCode,
+			String continentCode, String timeZone, String regionCode,
+			String cityName, String countyName) {
 		this.startAdress = startAdress;
 		this.endAdress = endAdress;
 		this.countryCode = countryCode;

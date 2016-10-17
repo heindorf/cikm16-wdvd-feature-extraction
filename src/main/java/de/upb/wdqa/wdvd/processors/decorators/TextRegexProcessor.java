@@ -37,7 +37,8 @@ import de.upb.wdqa.wdvd.processors.RevisionProcessor;
 
 public class TextRegexProcessor implements RevisionProcessor {
 	
-	static final Logger logger = LoggerFactory.getLogger(TextRegexProcessor.class);
+	static final Logger logger =
+			LoggerFactory.getLogger(TextRegexProcessor.class);
 	
 	private boolean matchLanguages;
 	
@@ -62,7 +63,8 @@ public class TextRegexProcessor implements RevisionProcessor {
 	public void processRevision(Revision revision) {		
 		int numberOfLanguageWords = 0;
 		if(matchLanguages){
-			numberOfLanguageWords = regexCount(revision.getText(), languageMatcher);
+			numberOfLanguageWords =
+					regexCount(revision.getText(), languageMatcher);
 		}
 		
 		int numberOfLinks = regexCount(revision.getText(), linkMatcher);

@@ -51,14 +51,16 @@ import de.upb.wdqa.wdvd.datamodel.oldjson.jackson.OldAliasList;
 public class OldAliasesDeserializer extends
 		JsonDeserializer<LinkedHashMap<String, List<String>>> {
 	
-	private static final Logger logger = Logger.getLogger(OldAliasesDeserializer.class);
+	private static final Logger logger =
+			Logger.getLogger(OldAliasesDeserializer.class);
 
 	@Override
 	public LinkedHashMap<String, List<String>> deserialize(
 			JsonParser jp, DeserializationContext ctxt) throws IOException,
 			JsonProcessingException {
 		
-		LinkedHashMap<String, List<String>> result = new LinkedHashMap<String, List<String>>();
+		LinkedHashMap<String, List<String>> result =
+				new LinkedHashMap<String, List<String>>();
 
 		// Is the alias broken, i.e., it starts with '['
 		if (jp.getCurrentToken().equals(JsonToken.START_ARRAY)){
@@ -69,7 +71,8 @@ public class OldAliasesDeserializer extends
 		}
 		else{
 				ObjectCodec mapper = jp.getCodec();
-				result = mapper.readValue(jp, new TypeReference<LinkedHashMap<String, OldAliasList>>() {});
+				result = mapper.readValue(jp,
+						new TypeReference<LinkedHashMap<String, OldAliasList>>() {});
 		}
 
 		return result;

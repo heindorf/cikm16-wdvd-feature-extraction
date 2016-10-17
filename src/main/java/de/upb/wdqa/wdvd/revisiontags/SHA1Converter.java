@@ -83,7 +83,8 @@ public class SHA1Converter {
 				BigInteger bi = new BigInteger(1, bytes);
 				String tmp = bi.toString(base);
 				
-				int numberOfDigits = (int) Math.ceil(160.0 / (Math.log(base) / Math.log(2.0)));
+				int numberOfDigits =
+						(int) Math.ceil(160.0 / (Math.log(base) / Math.log(2.0)));
 				
 				result = StringUtils.leftPad(tmp, numberOfDigits, '0');
 			}

@@ -32,7 +32,8 @@ import de.upb.wdqa.wdvd.labels.RevertMethod;
 import de.upb.wdqa.wdvd.processors.RevisionProcessor;
 
 public class SamplingFilterProcessor implements RevisionProcessor {
-	final static Logger logger = LoggerFactory.getLogger(SamplingFilterProcessor.class);
+	final static Logger logger =
+			LoggerFactory.getLogger(SamplingFilterProcessor.class);
 	
 	private final double lowQualitySamplingRate;
 	private final double highQualitySamplingRate;
@@ -44,7 +45,8 @@ public class SamplingFilterProcessor implements RevisionProcessor {
 	private final RevisionProcessor  processor;
 
 	public SamplingFilterProcessor(RevisionProcessor processor,
-			double lowQualitySamplingRate, double highQualitySamplingRate, RevertMethod revertMethod) {
+			double lowQualitySamplingRate, double highQualitySamplingRate,
+			RevertMethod revertMethod) {
 		super();
 		this.processor = processor;
 		this.lowQualitySamplingRate = lowQualitySamplingRate;
@@ -116,7 +118,11 @@ public class SamplingFilterProcessor implements RevisionProcessor {
 
 
 	private void logFilteredRevisions() {
-		logger.info(revertMethod.toString() + ": Number of revisions filtered because of low quality sampling: " + lowQualitySamplingFiltered);
-		logger.info(revertMethod.toString() + ": Number of revisions filtered because of high quality sampling: " + highQualitySamplingFiltered);
+		logger.info(revertMethod.toString() +
+				": Number of revisions filtered because of low quality sampling: " +
+				lowQualitySamplingFiltered);
+		logger.info(revertMethod.toString() +
+				": Number of revisions filtered because of high quality sampling: " +
+				highQualitySamplingFiltered);
 	}
 }

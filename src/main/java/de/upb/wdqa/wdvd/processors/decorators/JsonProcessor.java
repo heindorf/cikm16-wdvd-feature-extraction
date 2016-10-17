@@ -53,8 +53,8 @@ public class JsonProcessor implements RevisionProcessor {
 		// Initialize ObjectMapper only once to improve performance
 		// see http://wiki.fasterxml.com/JacksonBestPracticesPerformance
 		
-		// Workaround to cope with empty objects {} that are wrongly serialized as [],
-		// e.g. for labels, descriptions, claims and sitelinks.
+		// Workaround to cope with empty objects {} that are wrongly serialized
+		// as [], e.g., for labels, descriptions, claims and sitelinks.
 		SimpleModule module = new SimpleModule();
 		module.setDeserializerModifier(new MapDeserializerModifier());
 		newFormatMapper.registerModule(module);		
@@ -114,13 +114,19 @@ public class JsonProcessor implements RevisionProcessor {
 					redirectStatistics.addValue(revision.getRevisionId());
 				}
 				else {
-					// Issue in the database dump: sometimes the item id in the JSON contradicts the item id in the XML.
+					// Issue in the database dump: sometimes the item id in the
+					// JSON contradicts the item id in the XML.
 					// Those itemDocuments are discarded.
-					int jsonItemId = Revision.getItemIdFromString(parsingResult.itemDocument.getItemId().getId());
+					int jsonItemId = Revision.getItemIdFromString(
+							parsingResult.itemDocument.getItemId().getId());
+					
 					if (jsonItemId != revision.getItemId()){
-						inconsistentJsonXMLStatistics.addValue(revision.getRevisionId());
-						logger.debug("Inconsistent JSON: Revision " + revision.getRevisionId() + 
-								": XML item id Q" + revision.getItemId() + " <-> JSON item id Q" + jsonItemId );
+						inconsistentJsonXMLStatistics.addValue(
+								revision.getRevisionId());
+						logger.debug("Inconsistent JSON: Revision " +
+								revision.getRevisionId() + 
+								": XML item id Q" + revision.getItemId() +
+								" <-> JSON item id Q" + jsonItemId );
 					}
 					// Everything is fine: set this item document
 					else{
@@ -137,20 +143,22 @@ public class JsonProcessor implements RevisionProcessor {
 				
 				
 			}
-			// Issue in the database dump: sometimes the JSON contains an invalid globe coordinate.
-			// Those itemDocuments are discarded.
+			// Issue in the database dump: sometimes the JSON contains an
+			// invalid globe coordinate. Those itemDocuments are discarded.
 			catch(NullPointerException e){
 				nullPointerExceptionStatistics.addValue(revision.getRevisionId());
-				logger.debug("NullPointerException: Revision " + revision.getRevisionId() + ": "
+				logger.debug("NullPointerException: Revision "
+						+ revision.getRevisionId() + ": "
 						+ e.getMessage() + ": \n"
 						+ revision.toString() + "\n"
 						+ revision.getText(), e);
 			}
-			// Issue in the database dump: sometimes the JSON in the text element cannot be parsed.
-			// Those itemDocuments are discarded.			
+			// Issue in the database dump: sometimes the JSON in the text
+			// element cannot be parsed. Those itemDocuments are discarded.		
 			catch(JSONException e){
 				jsonExceptionStatistics.addValue(revision.getRevisionId());
-				logger.debug("JSON Exception: Revision " + revision.getRevisionId() + ": "
+				logger.debug("JSON Exception: Revision "
+						+ revision.getRevisionId() + ": "
 						+ e.getMessage() + ": \n"
 						+ revision.toString() + "\n"
 						+ revision.getText(), e);
@@ -189,7 +197,8 @@ public class JsonProcessor implements RevisionProcessor {
 
 		// try to read the new Json format
 		try{
-			JacksonItemDocument jacksonItemDocument = newFormatMapper.readValue(text, JacksonItemDocument.class);
+			JacksonItemDocument jacksonItemDocument =
+					newFormatMapper.readValue(text, JacksonItemDocument.class);
 			jacksonItemDocument.setSiteIri(Datamodel.SITE_WIKIDATA);
 			
 			result = new ParsingResult(JsonVersion.NEW, jacksonItemDocument);
@@ -203,14 +212,17 @@ public class JsonProcessor implements RevisionProcessor {
 			// Workaround, to read the old format
 			// (It is only partially supported yet and does not extract all information)
 			try{
-				OldJacksonItemDocument oldDoc = oldFormatMapper.readValue(text, OldJacksonItemDocument.class);
-				JacksonItemDocument jacksonItemDocument = JsonNormalizer.normalizeFormat(oldDoc);
+				OldJacksonItemDocument oldDoc =
+						oldFormatMapper.readValue(text, OldJacksonItemDocument.class);
+				JacksonItemDocument jacksonItemDocument =
+						JsonNormalizer.normalizeFormat(oldDoc);
 				jacksonItemDocument.setSiteIri(Datamodel.SITE_WIKIDATA);
 				
 				// serialize and deserialize in order to double check that the
 				// JsonNormalizer worked as expected
 				JsonNode node = oldFormatMapper.valueToTree(jacksonItemDocument);
-				oldFormatMapper.readValue(oldFormatMapper.treeAsTokens(node), JacksonItemDocument.class);
+				oldFormatMapper.readValue(
+						oldFormatMapper.treeAsTokens(node), JacksonItemDocument.class);
 				
 				result = new ParsingResult(JsonVersion.OLD, jacksonItemDocument);
 			}
@@ -228,9 +240,12 @@ public class JsonProcessor implements RevisionProcessor {
 		}		
 
 		if (result.itemDocument != null){
-			 // Convert from Jackson to Object representation which consumes less memory and is easier to work with.
-			 DatamodelConverter converter = new DatamodelConverter(new DataObjectFactoryImpl());
-			 // Throws a NullPointerException in some rare circumstances (if the globe coordinate is null)
+			// Convert from Jackson to Object representation which consumes less
+			// memory and is easier to work with.
+			 DatamodelConverter converter =
+					 new DatamodelConverter(new DataObjectFactoryImpl());
+			// Throws a NullPointerException in some rare circumstances (if the
+			// globe coordinate is null)
 			 result.itemDocument = converter.copy(result.itemDocument);
 		}
 

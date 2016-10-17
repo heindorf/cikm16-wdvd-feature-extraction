@@ -32,7 +32,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class OldJacksonEntity {
-	private static final Logger logger = Logger.getLogger(OldJacksonEntity.class);
+	private static final Logger logger =
+			Logger.getLogger(OldJacksonEntity.class);
 	
 	private String type;
 	private String id;	

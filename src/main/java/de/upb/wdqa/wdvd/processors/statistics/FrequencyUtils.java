@@ -44,16 +44,19 @@ public class FrequencyUtils {
 		String result = "";
 		
 		for(int i = 0; i < maxCount && i < list.size(); i++){
-			String percent = String.format(Locale.US, "%.0f", frequency.getPct(list.get(i).getKey()) * 100) + "%";
+			String percent = String.format(Locale.US, "%.0f",
+					frequency.getPct(list.get(i).getKey()) * 100) + "%";
 			
-			result += list.get(i).getKey() + "," + list.get(i).getValue() + "," + percent + "\n";
+			result += list.get(i).getKey() + "," +
+					list.get(i).getValue() + "," +
+					percent + "\n";
 		}		
 		
 		return result;		
 	}	
 	
 	public static List<Map.Entry<Comparable<?>, Long>> sortByFrequency(Frequency frequency){
-		Iterator<Map.Entry<Comparable<?>, Long>>  iterator=  frequency.entrySetIterator();
+		Iterator<Map.Entry<Comparable<?>, Long>>  iterator =  frequency.entrySetIterator();
 		
 		List<Map.Entry<Comparable<?>, Long>> list = new ArrayList<Map.Entry<Comparable<?>,Long>>();
 		
@@ -63,10 +66,12 @@ public class FrequencyUtils {
 			list.add(entry);			
 		}
 		
-		Comparator<Map.Entry<Comparable<?>, Long>> comparator = new Comparator<Map.Entry<Comparable<?>, Long>>(){
+		Comparator<Map.Entry<Comparable<?>, Long>> comparator =
+				new Comparator<Map.Entry<Comparable<?>, Long>>(){
 
 			@Override
-			public int compare(Map.Entry<Comparable<?>, Long> arg0, Map.Entry<Comparable<?>, Long> arg1) {
+			public int compare(Map.Entry<Comparable<?>, Long> arg0,
+					Map.Entry<Comparable<?>, Long> arg1) {
 				if (arg0== null || arg1 == null){
 					throw new NullPointerException();					
 				}					

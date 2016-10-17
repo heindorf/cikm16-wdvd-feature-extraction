@@ -39,8 +39,11 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 
 import de.upb.wdqa.wdvd.datamodel.oldjson.jackson.OldJacksonSiteLink;
 
-public class OldSitelinksDeserializer extends JsonDeserializer<LinkedHashMap<String, OldJacksonSiteLink>>{
-	private static final Logger logger = Logger.getLogger(OldSitelinksDeserializer.class);
+public class OldSitelinksDeserializer extends
+	JsonDeserializer<LinkedHashMap<String, OldJacksonSiteLink>>{
+	
+	private static final Logger logger =
+			Logger.getLogger(OldSitelinksDeserializer.class);
 	
 	@Override
 	public LinkedHashMap<String, OldJacksonSiteLink> deserialize(JsonParser jp,
@@ -59,7 +62,8 @@ public class OldSitelinksDeserializer extends JsonDeserializer<LinkedHashMap<Str
 		}
 		else{
 			ObjectCodec mapper = jp.getCodec();
-			result = mapper.readValue(jp, new TypeReference<LinkedHashMap<String, OldJacksonSiteLink>>() {});
+			result = mapper.readValue(jp,
+					new TypeReference<LinkedHashMap<String, OldJacksonSiteLink>>() {});
 		}
 
 		return result;

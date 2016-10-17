@@ -70,7 +70,8 @@ public class CommentSitelinkSimilarity extends FeatureImpl {
 				englishSitelink = englishSitelink.trim();
 				suffixComment = suffixComment.trim();
 				
-				result = (float) StringUtils.getJaroWinklerDistance(englishSitelink, suffixComment);
+				result = (float) StringUtils.getJaroWinklerDistance(
+						englishSitelink, suffixComment);
 			}	
 		}		
 

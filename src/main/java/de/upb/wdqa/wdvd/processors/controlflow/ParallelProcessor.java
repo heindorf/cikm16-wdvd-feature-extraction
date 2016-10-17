@@ -48,15 +48,18 @@ import de.upb.wdqa.wdvd.processors.RevisionProcessor;
  *
  */
 public class ParallelProcessor implements RevisionProcessor {
-	static final Logger logger = LoggerFactory.getLogger(ParallelProcessor.class);
+	static final Logger logger =
+			LoggerFactory.getLogger(ParallelProcessor.class);
 	
 	public final int MAX_QUEUE_SIZE = 100;
 	final static int SLEEP_TIME = 50;
 	
 	final AtomicLong seq = new AtomicLong(0);
 	
-	private LinkedBlockingQueue<FIFOEntry<Revision>> incomingQueue = new LinkedBlockingQueue<>(MAX_QUEUE_SIZE);
-	private PriorityBlockingQueue<FIFOEntry<Revision>> outgoingQueue = new PriorityBlockingQueue<>();	
+	private LinkedBlockingQueue<FIFOEntry<Revision>> incomingQueue =
+			new LinkedBlockingQueue<>(MAX_QUEUE_SIZE);
+	private PriorityBlockingQueue<FIFOEntry<Revision>> outgoingQueue =
+			new PriorityBlockingQueue<>();	
 
 	private List<RevisionProcessor> workProcessors;
 	private Reducer reducer;
@@ -68,7 +71,9 @@ public class ParallelProcessor implements RevisionProcessor {
 	private Thread collectorThread;
 	private Collector collector;
 	
-	public ParallelProcessor(List<RevisionProcessor> workProcessors, Reducer reducer, RevisionProcessor nextProcessor, String name) {
+	public ParallelProcessor(
+			List<RevisionProcessor> workProcessors, Reducer reducer,
+			RevisionProcessor nextProcessor, String name) {
 		this.workProcessors = workProcessors;
 		this.nextProcessor = nextProcessor;
 		this.reducer = reducer;
@@ -79,12 +84,13 @@ public class ParallelProcessor implements RevisionProcessor {
 	public void startRevisionProcessing() {
 		logger.debug("Starting...");
 		
-		collector = new Collector(outgoingQueue, nextProcessor, workProcessors.size());
+		collector = new Collector(
+				outgoingQueue, nextProcessor, workProcessors.size());
 		
 		for (int i = 0; i < workProcessors.size(); i++){
 			workProcessors.get(i).startRevisionProcessing();
 			
-			Runnable runnable = new Worker(incomingQueue, outgoingQueue, collector, workProcessors.get(i));
+			Runnable runnable = new Worker(incomingQueue,outgoingQueue, collector, workProcessors.get(i));
 			Thread thread = new Thread(runnable, "Parallel Revision Processor " + name + " " + i);
 			workerThreads.add(thread);
 			thread.start();
@@ -113,7 +119,8 @@ public class ParallelProcessor implements RevisionProcessor {
 		}
 
 		// Put revision into incoming queue.
-		// Workers will retrieve revisions from there and put them in the outgoing queue.
+		// Workers will retrieve revisions from there and put them in the
+		// outgoing queue.
 		try {
 			incomingQueue.put(new FIFOEntry<Revision>(revision, seq.getAndIncrement()));
 		} catch (InterruptedException e) {
@@ -146,7 +153,8 @@ public class ParallelProcessor implements RevisionProcessor {
 		}
 		
 		logger.debug("Waiting for collector to stop...");
-		// wait for the collector thread to finish (and call nextWorker.finishRevisionProcessing() method)
+		// wait for the collector thread to finish (and call
+		// nextWorker.finishRevisionProcessing() method)
 		try {
 			collectorThread.join();
 		} catch (InterruptedException e) {
@@ -192,7 +200,8 @@ class Worker implements Runnable{
 
 
 	/**
-	 * Take element from incoming queue, process it, and put it in outgoing queue.	 * 
+	 * Take element from incoming queue, process it, and put it in outgoing
+	 * queue.
 	 */
 	@Override
 	public void run() {
@@ -244,7 +253,8 @@ class Collector implements Runnable{
 	final Object synchronizerNonFull = new Object();
 	
 	
-	public Collector(AbstractQueue<FIFOEntry<Revision>> outgoingQueue, RevisionProcessor nextProcessor, int runningWorkerThreads){
+	public Collector(AbstractQueue<FIFOEntry<Revision>> outgoingQueue,
+			RevisionProcessor nextProcessor, int runningWorkerThreads){
 		this.outgoingQueue = outgoingQueue;
 		this.nextProcessor = nextProcessor;
 		this.runningWorkerThreads = runningWorkerThreads;
@@ -261,7 +271,8 @@ class Collector implements Runnable{
 			
 			while(runningWorkerThreads > 0){
 				FIFOEntry<Revision> peek = null; 
-				// We have to wait for the outgoingQueue to contain at least one element
+				// We have to wait for the outgoingQueue to contain at least one
+				// element
 				synchronized(synchronizerNonEmpty){					
 					peek = outgoingQueue.peek();
 					while (peek == null){							

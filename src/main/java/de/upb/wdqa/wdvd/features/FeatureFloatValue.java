@@ -41,8 +41,9 @@ public class FeatureFloatValue implements FeatureValue {
 			return FeatureValue.MISSING_VALUE_STRING;
 		}
 		
-		//NumberFormat is not thread safe. Hence it is created for every call.
-		// An alternative would be to use a static variable of type ThreadLocal<NumberFormat> 
+		// NumberFormat is not thread safe. Hence it is created for every call.
+		// An alternative would be to use a static variable of type
+		// ThreadLocal<NumberFormat>
 		NumberFormat formatter = NumberFormat.getInstance(Locale.ENGLISH);
 		formatter.setMaximumFractionDigits(2);
 		formatter.setGroupingUsed(false);

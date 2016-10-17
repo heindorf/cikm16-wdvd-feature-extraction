@@ -47,7 +47,8 @@ public class MemoryItemStore implements ItemStore {
 
 	@Override
 	public void insertItem(DbItem item) {
-		// DbItemImpl might need much less memory than DbItem depending on the implementation
+		// DbItemImpl might need much less memory than DbItem depending on the
+		// implementation
 		DbItemImpl itemImpl = new DbItemImpl(item);
 		
 		// serialization saves memory (strings are represented as UTF-8)

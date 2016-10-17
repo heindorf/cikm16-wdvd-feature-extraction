@@ -69,7 +69,8 @@ public class TestProcessor implements RevisionProcessor{
 		return revisions;
 	}
 	
-	public static void executeProcessor(RevisionProcessor processor, List<Revision> revisions){
+	public static void executeProcessor(
+			RevisionProcessor processor, List<Revision> revisions){
 		processor.startRevisionProcessing();
 		
 		for(Revision revision: revisions){

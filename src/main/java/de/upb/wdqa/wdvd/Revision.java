@@ -64,13 +64,15 @@ public class Revision extends ExtendedMwRevisionImpl {
 	
 	// Denotes the latest parsable item document. This might be different from the latestRevision.	
 	private ItemDocument latestItemDocument; // must be thread-safe
-	private HashMap<Feature, FeatureValue> featureValues = new HashMap<Feature, FeatureValue>();
+	private HashMap<Feature, FeatureValue> featureValues =
+			new HashMap<Feature, FeatureValue>();
 
 	// enriching revision with additional (external) data
 	private List<String> downloadedTags;
 	private String downloadedSha1;
 	private GeoInformation geoInformation;	
-	private EnumMap<RevertMethod, Boolean> wasReverted = new EnumMap<RevertMethod, Boolean>(RevertMethod.class);
+	private EnumMap<RevertMethod, Boolean> wasReverted =
+			new EnumMap<RevertMethod, Boolean>(RevertMethod.class);
 
 	public Revision() {
 		super();

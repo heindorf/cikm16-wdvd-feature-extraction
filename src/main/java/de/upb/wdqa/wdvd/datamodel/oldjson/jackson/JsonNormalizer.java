@@ -55,32 +55,37 @@ import de.upb.wdqa.wdvd.datamodel.oldjson.jackson.datavalues.OldJacksonValueItem
 
 
 /**
- *  Converts an item document in the old format (OldJacksonItemDocument) into the new format (JacksonItemDocument).
- *  
- *  The old format has been reverse engineered based on the database dump and
- *  the new format that is described here: http://www.mediawiki.org/wiki/Wikibase/DataModel/JSON   
- *  
+ * Converts an item document in the old format (OldJacksonItemDocument) into the
+ * new format (JacksonItemDocument).
+ * 
+ * The old format has been reverse engineered based on the database dump and the
+ * new format that is described here:
+ * http://www.mediawiki.org/wiki/Wikibase/DataModel/JSON
+ * 
  */
 public class JsonNormalizer {
 	private static final Logger logger = Logger.getLogger(JsonNormalizer.class);
 	
-	public static JacksonItemDocument normalizeFormat(OldJacksonItemDocument oldDocument) throws JsonParseException, JsonMappingException, IOException{
+	public static JacksonItemDocument normalizeFormat(
+			OldJacksonItemDocument oldDocument)
+			throws JsonParseException, JsonMappingException, IOException{
 		
 		JacksonItemDocument newDocument = getNewJacksonItemDocument(oldDocument);
 		
 		return newDocument;
 	}
 	
-	private static JacksonItemDocument getNewJacksonItemDocument(OldJacksonItemDocument oldItemDocument){
+	private static JacksonItemDocument getNewJacksonItemDocument(
+			OldJacksonItemDocument oldItemDocument){
 		JacksonItemDocument result = new JacksonItemDocument();
 		
 		result.setJsonId(oldItemDocument.getEntity().getId());
 		
-		Map<String, JacksonMonolingualTextValue> labels = getNewLabels(oldItemDocument.getLabels());
-		Map<String, JacksonMonolingualTextValue> descriptions = getNewDescriptions(oldItemDocument.getDescriptions());
+		Map<String, JacksonMonolingualTextValue> labels        = getNewLabels(oldItemDocument.getLabels());
+		Map<String, JacksonMonolingualTextValue> descriptions  = getNewDescriptions(oldItemDocument.getDescriptions());
 		Map<String, List<JacksonMonolingualTextValue>> aliases = getNewAliases(oldItemDocument.getAliases());
-		Map<String, List<JacksonStatement>> claims = getNewStatements(oldItemDocument.getClaims());
-		Map<String, JacksonSiteLink> sitelinks = getNewSiteLinks(oldItemDocument.getSiteLinks());
+		Map<String, List<JacksonStatement>> claims             = getNewStatements(oldItemDocument.getClaims());
+		Map<String, JacksonSiteLink> sitelinks                 = getNewSiteLinks(oldItemDocument.getSiteLinks());
 		
 		result.setLabels(labels);
 		result.setDescriptions(descriptions);
@@ -94,7 +99,8 @@ public class JsonNormalizer {
 	
 	private static Map<String, JacksonSiteLink> getNewSiteLinks(
 			LinkedHashMap<String, OldJacksonSiteLink> siteLinks) {
-		Map<String, JacksonSiteLink> result = new LinkedHashMap<String, JacksonSiteLink>();
+		Map<String, JacksonSiteLink> result =
+				new LinkedHashMap<String, JacksonSiteLink>();
 		
 		if(siteLinks != null){
 			for(Entry<String,OldJacksonSiteLink> entry: siteLinks.entrySet()){
@@ -117,7 +123,8 @@ public class JsonNormalizer {
 
 	private static Map<String, List<JacksonStatement>> getNewStatements(
 			List<OldJacksonStatement> claims) {
-		Map<String, List<JacksonStatement>> result = new LinkedHashMap<String, List<JacksonStatement>>();
+		Map<String, List<JacksonStatement>> result =
+				new LinkedHashMap<String, List<JacksonStatement>>();
 		
 		if(claims != null){
 			for(OldJacksonStatement oldStatement: claims){
@@ -148,19 +155,23 @@ public class JsonNormalizer {
 			
 			result.setRank(oldStatement.getRank());			
 						
-			List<JacksonReference> references = getNewReferences(oldStatement.getReferences());
+			List<JacksonReference> references =
+					getNewReferences(oldStatement.getReferences());
 			result.setReferences(references);
 			
 			JacksonSnak mainsnak = getNewSnak(oldStatement.getMainsnak());		
 			result.setMainsnak(mainsnak);
 			
-			Map<String, List<JacksonSnak>> qualifiers = getNewQualifiers(oldStatement.getQualifiers());
+			Map<String, List<JacksonSnak>> qualifiers =
+					getNewQualifiers(oldStatement.getQualifiers());
 			result.setQualifiers(qualifiers);			
-			List<String> qualifierPropertyOrder = getNewPropertyOrder(oldStatement.getQualifiers());
+			List<String> qualifierPropertyOrder =
+					getNewPropertyOrder(oldStatement.getQualifiers());
 			result.setPropertyOrder(qualifierPropertyOrder );
 			
-			// Remark: the subject must not be set here. It is later automatically set
-			// by a call to JacksonTermedStatementDocument.java#setSiteIri			
+			// Remark: the subject must not be set here. It is later
+			// automatically set by a call to
+			// JacksonTermedStatementDocument.java#setSiteIri		
 		}	
 		
 		return result;
@@ -168,7 +179,8 @@ public class JsonNormalizer {
 
 	private static Map<String, List<JacksonSnak>> getNewQualifiers(
 			List<OldJacksonSnak> qualifiers) {
-		Map<String, List<JacksonSnak>> result = new LinkedHashMap<String, List<JacksonSnak>>();
+		Map<String, List<JacksonSnak>> result =
+				new LinkedHashMap<String, List<JacksonSnak>>();
 		
 		if(qualifiers != null){
 			for(OldJacksonSnak oldSnak: qualifiers){
@@ -226,26 +238,29 @@ public class JsonNormalizer {
 	}
 
 	private static JacksonValue getNewDataValue(OldJacksonValue datavalue) {
-		if (datavalue instanceof OldJacksonValueItemId){
+		if (datavalue instanceof OldJacksonValueItemId) {
 			OldJacksonValueItemId datavalue2 = (OldJacksonValueItemId) datavalue;
 			JacksonValueItemId result = new JacksonValueItemId();
 			result.setType(JacksonValue.JSON_VALUE_TYPE_ENTITY_ID);
-			result.setValue(new JacksonInnerEntityId(datavalue2.getEntityType(), datavalue2.getNumericId()));
+			result.setValue(new JacksonInnerEntityId(
+					datavalue2.getEntityType(), datavalue2.getNumericId()));
 			return result;
-		}
-		else{
-			// Implement those other values when they are necessary (up until now they are not necessary)		
+		} else {
+			// Implement those other values when they are necessary (up until
+			// now they are not necessary)
 			return new NotImplementedValue();
 		}
 	}
 
 	private static Map<String, JacksonMonolingualTextValue> getNewLabels(
 			LinkedHashMap<String, String> labels) {
-		LinkedHashMap<String, JacksonMonolingualTextValue> result = new LinkedHashMap<String, JacksonMonolingualTextValue>();
+		LinkedHashMap<String, JacksonMonolingualTextValue> result =
+				new LinkedHashMap<String, JacksonMonolingualTextValue>();
 		
 		if(labels != null){
 			for (Entry<String, String> entry : labels.entrySet()) {
-				JacksonMonolingualTextValue mltv = new JacksonMonolingualTextValue(entry.getKey(), entry.getValue());
+				JacksonMonolingualTextValue mltv =
+						new JacksonMonolingualTextValue(entry.getKey(), entry.getValue());
 				result.put(entry.getKey(), mltv);
 			}
 		}
@@ -262,18 +277,21 @@ public class JsonNormalizer {
 	// similar to method "getNewStatements"
 	private static Map<String, List<JacksonMonolingualTextValue>> getNewAliases(
 			LinkedHashMap<String, List<String>> aliases) {
-		Map<String, List<JacksonMonolingualTextValue>> result = new LinkedHashMap<String, List<JacksonMonolingualTextValue>>();
+		Map<String, List<JacksonMonolingualTextValue>> result =
+				new LinkedHashMap<String, List<JacksonMonolingualTextValue>>();
 		
 		if(aliases != null){
 			for(Entry<String, List<String>> entry: aliases.entrySet()){
 				String languageCode = entry.getKey();
 				List<String> langAliases = entry.getValue();			
 	
-				List<JacksonMonolingualTextValue >list = new ArrayList<JacksonMonolingualTextValue>();
+				List<JacksonMonolingualTextValue >list =
+						new ArrayList<JacksonMonolingualTextValue>();
 				result.put(languageCode, list);
 				
 				for(String langAlias: langAliases){
-					JacksonMonolingualTextValue mltv = new JacksonMonolingualTextValue(languageCode, langAlias);
+					JacksonMonolingualTextValue mltv =
+							new JacksonMonolingualTextValue(languageCode, langAlias);
 					list.add(mltv);
 				}
 			}
@@ -282,14 +300,16 @@ public class JsonNormalizer {
 		return result;
 	}
 	
-	private static List<JacksonReference> getNewReferences(List<List<OldJacksonSnak>> oldReferences){
+	private static List<JacksonReference> getNewReferences(
+			List<List<OldJacksonSnak>> oldReferences){
 		List<JacksonReference> result = new ArrayList<JacksonReference>();
 		
 		// A single reference consists of a list of snaks
 		for (List<OldJacksonSnak> oldReference: oldReferences){
 			JacksonReference newReference = new JacksonReference();
 			
-			Map<String, List<JacksonSnak>> newSnaks = getNewReferenceSnaks(oldReference);
+			Map<String, List<JacksonSnak>> newSnaks =
+					getNewReferenceSnaks(oldReference);
 			newReference.setSnaks(newSnaks);
 			
 			List<String> newPropertyOrder = getNewPropertyOrder(oldReference);
@@ -302,7 +322,8 @@ public class JsonNormalizer {
 		return result;
 	}
 
-	private static List<String> getNewPropertyOrder(List<OldJacksonSnak> oldReference) {
+	private static List<String> getNewPropertyOrder(
+			List<OldJacksonSnak> oldReference) {
 		List<String> result = new ArrayList<String>();
 		
 		for (OldJacksonSnak oldSnak: oldReference){
@@ -313,7 +334,4 @@ public class JsonNormalizer {
 		
 		return result;
 	}
-
-
-
 }

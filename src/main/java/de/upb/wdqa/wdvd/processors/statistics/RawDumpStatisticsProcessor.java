@@ -39,7 +39,8 @@ import de.upb.wdqa.wdvd.Revision;
 public class RawDumpStatisticsProcessor implements MwRevisionProcessor {
 	MwRevisionProcessor processor;
 	
-	static final Logger logger = LoggerFactory.getLogger(RawDumpStatisticsProcessor.class);
+	static final Logger logger =
+			LoggerFactory.getLogger(RawDumpStatisticsProcessor.class);
 	
 	long numberOfRevisions = 0;
 	
@@ -99,7 +100,8 @@ public class RawDumpStatisticsProcessor implements MwRevisionProcessor {
 	}
 	
 	private void logResults(){
-		logger.info("Total number of revisions in the dump including all namespaces: " + numberOfRevisions);
+		logger.info("Total number of revisions in the dump including all namespaces: " +
+				numberOfRevisions);
 		
 		logger.info("Frequency distribution of namespaces:\n" + namespaceDistribution.toString());
 		logger.info("Frequency distribution of formats:\n" + formatDistribution.toString());

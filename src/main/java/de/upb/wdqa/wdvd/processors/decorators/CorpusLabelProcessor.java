@@ -74,7 +74,8 @@ public class CorpusLabelProcessor implements RevisionProcessor {
 		try {
 			compressedLabelsInputStream = new FileInputStream(labelFile);
 
-			InputStream uncompressedLabelsInputStream = new BZip2CompressorInputStream(
+			InputStream uncompressedLabelsInputStream =
+					new BZip2CompressorInputStream(
 					new BufferedInputStream(compressedLabelsInputStream));
 			
 			labelReader = new CorpusLabelReader(uncompressedLabelsInputStream);

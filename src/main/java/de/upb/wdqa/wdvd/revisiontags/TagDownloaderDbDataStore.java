@@ -49,14 +49,16 @@ import de.upb.wdqa.wdvd.db.interfaces.DbTag;
 // data store based on database (uses little memory, but disk access is slow)
 public class TagDownloaderDbDataStore implements TagDownloaderDataStore {
 	
-	static final Logger logger = LoggerFactory.getLogger(TagDownloaderDbDataStore.class);
+	static final Logger logger =
+			LoggerFactory.getLogger(TagDownloaderDbDataStore.class);
 	
 	static int NUMBER_OF_THREADS = 4;
 	static int MAX_SIZE_OF_QUEUE = 100000; // for inserts
 	
 	DbTagFactory tagFactory;
 	
-	BlockingQueue<DbRevision> queue = new ArrayBlockingQueue<>(MAX_SIZE_OF_QUEUE);
+	BlockingQueue<DbRevision> queue =
+			new ArrayBlockingQueue<>(MAX_SIZE_OF_QUEUE);
 	
 	List<ConnectionThread> threads = new ArrayList<ConnectionThread>();
 	
@@ -180,7 +182,8 @@ public class TagDownloaderDbDataStore implements TagDownloaderDataStore {
 				}
 			}
 			
-			PreparedStatement prepStatement = connection.prepareStatement(statementSQL.toString());
+			PreparedStatement prepStatement =
+					connection.prepareStatement(statementSQL.toString());
 			
 			for (int i = 0; i < revisionIds.size(); i++){
 				prepStatement.setLong(i + 1, revisionIds.get(i));
@@ -189,7 +192,8 @@ public class TagDownloaderDbDataStore implements TagDownloaderDataStore {
 			ResultSet resultSet = prepStatement.executeQuery();
 			
 			while(resultSet.next()){
-				DbRevisionImpl revision = new DbRevisionImpl(resultSet.getInt("rev_id"),
+				DbRevisionImpl revision =
+						new DbRevisionImpl(resultSet.getInt("rev_id"),
 						resultSet.getString("rev_sha1"),
 						null);	
 				
@@ -214,7 +218,8 @@ public class TagDownloaderDbDataStore implements TagDownloaderDataStore {
 				}
 			}
 			
-			PreparedStatement prepStatement = connection.prepareStatement(statementSQL.toString());
+			PreparedStatement prepStatement =
+					connection.prepareStatement(statementSQL.toString());
 			
 			int i = 1;
 			for(DbRevision dbRevision: revisions.values()){

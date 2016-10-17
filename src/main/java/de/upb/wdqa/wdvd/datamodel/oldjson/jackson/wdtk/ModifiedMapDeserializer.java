@@ -42,8 +42,12 @@ import com.fasterxml.jackson.databind.deser.ResolvableDeserializer;
 import com.fasterxml.jackson.databind.deser.std.MapDeserializer;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
-public class ModifiedMapDeserializer<K,V> extends StdDeserializer<Map<K,V>> implements ResolvableDeserializer, ContextualDeserializer {
-	private static Logger logger = Logger.getLogger(ModifiedMapDeserializer.class);
+public class ModifiedMapDeserializer<K,V>
+	extends StdDeserializer<Map<K,V>>
+	implements ResolvableDeserializer, ContextualDeserializer {
+	
+	private static Logger logger =
+			Logger.getLogger(ModifiedMapDeserializer.class);
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -66,7 +70,8 @@ public class ModifiedMapDeserializer<K,V> extends StdDeserializer<Map<K,V>> impl
 				result = new HashMap<>();
 				p.nextToken();
 				if(!p.getCurrentToken().equals(JsonToken.END_ARRAY)){
-					logger.warn("Array was not empty. Current token: " + p.getCurrentToken());
+					logger.warn("Array was not empty. Current token: " +
+							p.getCurrentToken());
 				}
 			}
 			else{
@@ -86,7 +91,8 @@ public class ModifiedMapDeserializer<K,V> extends StdDeserializer<Map<K,V>> impl
 	@Override
 	public JsonDeserializer<?> createContextual(DeserializationContext ctxt,
 			BeanProperty property) throws JsonMappingException {
-		defaultDeserializer = (MapDeserializer) defaultDeserializer.createContextual(ctxt, property);
+		defaultDeserializer = 
+				(MapDeserializer) defaultDeserializer.createContextual(ctxt, property);
 		
 		return this;
 	}

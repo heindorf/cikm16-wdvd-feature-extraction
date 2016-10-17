@@ -112,7 +112,8 @@ public class FeatureExtractor {
 		int result = 0;
 		
 		try{
-			FeatureExtractorConfiguration config = new FeatureExtractorConfiguration(args);
+			FeatureExtractorConfiguration config =
+					new FeatureExtractorConfiguration(args);
 			
 			File featureFile = config.getFeatureFile();
 			initLogger(featureFile.getAbsoluteFile() + ".log");

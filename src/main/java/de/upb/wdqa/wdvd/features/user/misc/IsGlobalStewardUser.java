@@ -50,7 +50,8 @@ public class IsGlobalStewardUser extends FeatureImpl {
 
 	@Override
 	public FeatureBooleanValue calculate(Revision revision) {		
-		return new FeatureBooleanValue(userSet.strContains(revision.getContributor()));
+		return new FeatureBooleanValue(
+				userSet.strContains(revision.getContributor()));
 	}
 	
 	public static boolean isGlobalSteward(String contributor){

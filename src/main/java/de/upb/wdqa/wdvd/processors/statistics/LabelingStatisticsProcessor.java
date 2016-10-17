@@ -35,7 +35,8 @@ import de.upb.wdqa.wdvd.labels.RevertMethod;
 import de.upb.wdqa.wdvd.processors.RevisionProcessor;
 
 public class LabelingStatisticsProcessor implements RevisionProcessor {	
-	final static Logger logger = LoggerFactory.getLogger(LabelingStatisticsProcessor.class);	
+	final static Logger logger =
+			LoggerFactory.getLogger(LabelingStatisticsProcessor.class);	
 	
 	private long totalNumberOfRevisions;
 	

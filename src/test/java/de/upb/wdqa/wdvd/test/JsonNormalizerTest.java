@@ -85,7 +85,8 @@ public class JsonNormalizerTest {
 	
 	@Test(expected=NullPointerException.class)
 	public void testWDTKParsingNewJsonGlobeIriNull() throws IOException{
-		// Throws a NullPointerException because the JSON contains an entry "globe":null in a globecoordinate
+		// Throws a NullPointerException because the JSON contains an entry
+		// "globe":null in a globecoordinate
 		testWDTKParsing("src/test/resources/newJsonGlobeIriNull.json");
 	}
 	
@@ -134,7 +135,8 @@ public class JsonNormalizerTest {
 	
 	@Test(expected=com.fasterxml.jackson.databind.JsonMappingException.class)
 	public void testRedirect1() throws IOException{
-		String jsonString = readFile("src/test/resources/oldJson01.json", StandardCharsets.UTF_8);
+		String jsonString =
+				readFile("src/test/resources/oldJson01.json", StandardCharsets.UTF_8);
 		
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.readValue(jsonString, OldJacksonRedirectDocument.class);
@@ -142,7 +144,8 @@ public class JsonNormalizerTest {
 	
 	@Test
 	public void testRedirect2() throws IOException{
-		String jsonString = readFile("src/test/resources/redirect.json", StandardCharsets.UTF_8);
+		String jsonString =
+				readFile("src/test/resources/redirect.json", StandardCharsets.UTF_8);
 		
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.readValue(jsonString, OldJacksonRedirectDocument.class);
@@ -160,10 +163,12 @@ public class JsonNormalizerTest {
 	
 	@Test
 	public void testNormalizedJsonParsing2() throws IOException{
-		String jsonString = readFile("src/test/resources/oldJson02.json", StandardCharsets.UTF_8);
+		String jsonString =
+				readFile("src/test/resources/oldJson02.json", StandardCharsets.UTF_8);
 		
 		ObjectMapper mapper = new ObjectMapper();
-		OldJacksonItemDocument oldDoc = mapper.readValue(jsonString, OldJacksonItemDocument.class);
+		OldJacksonItemDocument oldDoc =
+				mapper.readValue(jsonString, OldJacksonItemDocument.class);
 		
 		Assert.assertNotNull(oldDoc.getLabels());
 		Assert.assertNotNull(oldDoc.getDescriptions());
@@ -200,7 +205,8 @@ public class JsonNormalizerTest {
 		String jsonString = readFile(filename, StandardCharsets.UTF_8);
 		
 		ObjectMapper mapper = new ObjectMapper();
-		OldJacksonItemDocument oldDoc = mapper.readValue(jsonString, OldJacksonItemDocument.class);
+		OldJacksonItemDocument oldDoc =
+				mapper.readValue(jsonString, OldJacksonItemDocument.class);
 		
 		JacksonItemDocument itemDocument = JsonNormalizer.normalizeFormat(oldDoc);		
 				
@@ -222,7 +228,8 @@ public class JsonNormalizerTest {
 //		JsonNode root = mapper.readTree(jsonString);		
 //		mapper.readValue(mapper.treeAsTokens(root), JacksonItemDocument.class);
 		
-		JacksonItemDocument itemDocument = mapper.readValue(jsonString, JacksonItemDocument.class);
+		JacksonItemDocument itemDocument =
+				mapper.readValue(jsonString, JacksonItemDocument.class);
 		
 		itemDocument.setSiteIri(Datamodel.SITE_WIKIDATA);		
 		itemDocument.toString(); // raises an exception if information is missing

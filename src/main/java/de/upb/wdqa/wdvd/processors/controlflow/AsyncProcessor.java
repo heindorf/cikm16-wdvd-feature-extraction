@@ -47,7 +47,9 @@ public class AsyncProcessor implements RevisionProcessor {
 	
 	String name;
 	
-	public AsyncProcessor(RevisionProcessor processor, String name, int bufferSize){
+	public AsyncProcessor(
+			RevisionProcessor processor, String name, int bufferSize){
+		
 		logger = LoggerFactory.getLogger(AsyncProcessor.class + "(" + name +")");
 		
 		this.processor = processor;

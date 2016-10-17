@@ -51,7 +51,9 @@ public class OldAliasListDeserializer extends JsonDeserializer<List<String>>{
 			result = codec.readValue(p, new TypeReference<List<String>>() {}) ;
 		}
 		else{
-			LinkedHashMap<Integer, String> map = codec.readValue(p, new TypeReference<LinkedHashMap<Integer, String>>() {});
+			LinkedHashMap<Integer, String> map = codec.readValue(p,
+					new TypeReference<LinkedHashMap<Integer, String>>() {});
+			
 			result = new ArrayList<String>(map.values());
 		}
 		return result;

@@ -48,9 +48,11 @@ import de.upb.wdqa.wdvd.Revision;
 import de.upb.wdqa.wdvd.processors.RevisionProcessor;
 
 public class ActionStatisticsProcessor implements RevisionProcessor {
-	final static Logger logger = LoggerFactory.getLogger(ActionStatisticsProcessor.class);	
+	final static Logger logger =
+			LoggerFactory.getLogger(ActionStatisticsProcessor.class);	
 	
-	private Frequency actionDistribution = new Frequency(); // Corpus Creation Statistics
+	// Corpus Creation Statistics
+	private Frequency actionDistribution = new Frequency(); 
 	private Frequency rollbackRevertedActionDistribution = new Frequency();
 	private Frequency nonRollbackRevertedActionDistribution = new Frequency();
 	
@@ -60,7 +62,8 @@ public class ActionStatisticsProcessor implements RevisionProcessor {
 	}
 	
 	// Month-Year, action, count
-	HashMap<String, HashMap<String, Integer>> monthlyActionDistribution= new HashMap<String, HashMap<String, Integer>>();
+	HashMap<String, HashMap<String, Integer>> monthlyActionDistribution =
+			new HashMap<String, HashMap<String, Integer>>();
 
 	RevisionProcessor processor;
 	String path;
@@ -110,7 +113,8 @@ public class ActionStatisticsProcessor implements RevisionProcessor {
 			monthlyActionDistribution.get(timeString).put(action1, 0);
 		}
 		
-		monthlyActionDistribution.get(timeString).put(action1, monthlyActionDistribution.get(timeString).get(action1) + 1);
+		monthlyActionDistribution.get(timeString).put(
+				action1, monthlyActionDistribution.get(timeString).get(action1) + 1);
 	}
 
 	@Override
@@ -127,7 +131,8 @@ public class ActionStatisticsProcessor implements RevisionProcessor {
 		
 		try {
 			Writer writer = new PrintWriter(path, "UTF-8");
-			CSVPrinter csvWriter = CSVFormat.RFC4180.withQuoteMode(QuoteMode.ALL).withHeader("month", "action", "count").print(writer);
+			CSVPrinter csvWriter = CSVFormat.RFC4180.withQuoteMode(QuoteMode.ALL)
+					.withHeader("month", "action", "count").print(writer);
 			
 			for(Entry<String, HashMap<String, Integer>> entry: getSortedList(monthlyActionDistribution)){
 				String month = entry.getKey();
@@ -148,7 +153,8 @@ public class ActionStatisticsProcessor implements RevisionProcessor {
 	private static List<Map.Entry<String, HashMap<String, Integer>>> getSortedList(
 			HashMap<String, HashMap<String, Integer>> map) {
 
-		List<Map.Entry<String, HashMap<String, Integer>>> entries = new ArrayList<Map.Entry<String, HashMap<String, Integer>>>(
+		List<Map.Entry<String, HashMap<String, Integer>>> entries =
+				new ArrayList<Map.Entry<String, HashMap<String, Integer>>>(
 				map.entrySet());
 
 		Collections.sort(entries,
@@ -164,8 +170,8 @@ public class ActionStatisticsProcessor implements RevisionProcessor {
 	
 	private static List<Map.Entry<String, Integer>> getSortedList2(
 			HashMap<String, Integer> map) {
-		List<Map.Entry<String, Integer>> entries = new ArrayList<Map.Entry<String, Integer>>(
-				map.entrySet());
+		List<Map.Entry<String, Integer>> entries =
+				new ArrayList<Map.Entry<String, Integer>>(map.entrySet());
 
 		Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
 			public int compare(Map.Entry<String, Integer> a,

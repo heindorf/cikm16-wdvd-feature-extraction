@@ -14,7 +14,8 @@ import org.wikidata.wdtk.dumpfiles.MwRevisionProcessor;
 
 public class ExtendedMwRevisionDumpFileProcessor extends MwRevisionDumpFileProcessor {
 
-	static final Logger logger = LoggerFactory.getLogger(ExtendedMwRevisionDumpFileProcessor.class);
+	static final Logger logger =
+			LoggerFactory.getLogger(ExtendedMwRevisionDumpFileProcessor.class);
 	
 	static final String A_DELETED = "deleted";
 
@@ -74,8 +75,9 @@ public class ExtendedMwRevisionDumpFileProcessor extends MwRevisionDumpFileProce
 	}
 	
 	
-	// The following method was overwritten, because WDTK cannot read all elements in the Wikidata XML dump.
-	// For example, the dump contains elements of the form  
+	// The following method was overwritten, because WDTK cannot read all
+	// elements in the Wikidata XML dump. For example, the dump contains
+	// elements of the form
 	//   <comment deleted="deleted" />
     //   <text deleted="deleted" />	
 	@Override

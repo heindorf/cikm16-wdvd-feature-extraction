@@ -34,7 +34,8 @@ import de.upb.wdqa.wdvd.processors.RevisionProcessor;
 
 public class UserStatisticsProcessor implements RevisionProcessor {
 
-	final static Logger logger = LoggerFactory.getLogger(UserStatisticsProcessor.class);
+	final static Logger logger =
+			LoggerFactory.getLogger(UserStatisticsProcessor.class);
 	
 	private Frequency botDistribution = new Frequency();
 	private Frequency userDistribution = new Frequency();

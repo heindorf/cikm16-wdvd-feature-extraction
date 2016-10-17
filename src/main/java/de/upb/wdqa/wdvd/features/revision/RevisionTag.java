@@ -34,7 +34,8 @@ public class RevisionTag extends FeatureImpl {
 
 	@Override
 	public FeatureStringValue calculate(Revision revision) {
-		return new FeatureStringValue(StringUtils.join(revision.getDownloadedTags(), ","));
+		return new FeatureStringValue(
+				StringUtils.join(revision.getDownloadedTags(), ","));
 	}
 
 }
