@@ -98,7 +98,7 @@ public class FeatureExtractor {
 	static final double LOW_QUALITY_SAMPLING_RATE = 1.0;
 	static final double HIGH_QUALITY_SAMPLING_RATE = 1.0;
 	
-	static final Level LOG_LEVEL = Level.ALL;
+	static final Level LOG_LEVEL = Level.INFO;
 	
 	static final int BUFFER_SIZE = 256 * 1024 * 1024;
 	

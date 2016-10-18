@@ -48,7 +48,10 @@ import de.upb.wdqa.wdvd.processors.RevisionProcessor;
 public class JsonProcessor implements RevisionProcessor {
 	final Logger logger;
 	
+	final static boolean VERBOSE_EXCEPTION_LOGGING = false;
+	
 	static ObjectMapper newFormatMapper = new ObjectMapper();
+	
 	static {
 		// Initialize ObjectMapper only once to improve performance
 		// see http://wiki.fasterxml.com/JacksonBestPracticesPerformance
@@ -93,7 +96,6 @@ public class JsonProcessor implements RevisionProcessor {
 
 	@Override
 	public void processRevision(Revision revision) {
-		
 		
 		// Issue in the database dump: sometimes the text element is empty.
 		// Those itemDocuments are discarded.
@@ -143,22 +145,14 @@ public class JsonProcessor implements RevisionProcessor {
 			// invalid globe coordinate. Those itemDocuments are discarded.
 			catch (NullPointerException e) {
 				nullPointerExceptionStatistics.addValue(revision.getRevisionId());
-				logger.debug("NullPointerException: Revision "
-						+ revision.getRevisionId() + ": "
-						+ e.getMessage() + ": \n"
-						+ revision.toString() + "\n"
-						+ revision.getText(), e);
+				logRevisionException(e, revision);
 			}
 			// Issue in the database dump: sometimes the JSON in the text
-			// element cannot be parsed. Those itemDocuments are discarded.		
+			// element cannot be parsed. Those itemDocuments are discarded.
 			catch (JSONException e) {
 				jsonExceptionStatistics.addValue(revision.getRevisionId());
-				logger.debug("JSON Exception: Revision "
-						+ revision.getRevisionId() + ": "
-						+ e.getMessage() + ": \n"
-						+ revision.toString() + "\n"
-						+ revision.getText(), e);
-			}			
+				logRevisionException(e, revision);
+			}
 
 		}		
 		
@@ -176,11 +170,30 @@ public class JsonProcessor implements RevisionProcessor {
 			processor.finishRevisionProcessing();
 		}
 		
-		logger.debug("Empty JSON values, statistics of revisionIDs: " + emptyJsonStatistics.toString());
-		logger.debug("Inconsistent JSON values, statistics of revision IDs: " + inconsistentJsonXMLStatistics.toString());
-		logger.debug("JSON Exceptions, statistics of revisionIDs: " + jsonExceptionStatistics.toString());
+		logger.info("JSON problem: Revisions with empty text element: " + emptyJsonStatistics.getN());
+		logger.info("JSON problem: Revisions with inconsistency (JSON <-> XML): " + inconsistentJsonXMLStatistics.getN());
+		logger.info("JSON problem: Revisions with JSONException: " + jsonExceptionStatistics.getN());
+		logger.info("JSON problem: Revisions with NullPointerException: " + nullPointerExceptionStatistics.getN());
+		
+		logger.info("JSON success: Revisions with new JSON format: " + newJsonStatistics.getN());
+		logger.info("JSON success: Revisions with old JSON format: " + oldJsonStatistics.getN());
+		logger.info("JSON success: Revisions with redirects: " + redirectStatistics.getN());
+		
 		logger.debug("Finished.");
-	}	
+	}
+	
+	public void logRevisionException(Exception e, Revision revision) {
+		String logMessage = e.getClass().getSimpleName() + ": " + e.getMessage() + "\n"
+				+ revision.toString();
+		
+		if(VERBOSE_EXCEPTION_LOGGING){
+			logMessage += " \n"
+						+ revision.getText() + "\n"
+						+ e.toString();
+		}
+		
+		logger.debug(logMessage);
+	}
 	
 	/**
 	 * Parses the JSON contained in the XML 'text' element and returns an item document.
