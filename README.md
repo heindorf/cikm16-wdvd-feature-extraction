@@ -41,7 +41,7 @@ Example:
 
 Required Data
 ------------
-- [Wikidata Vandalism Corpus 2015](http://www.uni-weimar.de/en/media/chairs/webis/corpora/corpus-wdvc-15/)
+- [Wikidata Vandalism Corpus 2015](https://doi.org/10.5281/zenodo.3250651)
 - [Tags](http://groups.uni-paderborn.de/wdqa/cikm16/wdvc15-tags.csv.bz2) (optional)
 - [Precomputed Geolocation Features](http://groups.uni-paderborn.de/wdqa/cikm16/wdvd16-features.csv.bz2) (optional)
 
